@@ -1,0 +1,29 @@
+.header-root {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-family: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+.header-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.header-nav-list {
+  display: flex;
+  gap: 2rem;
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.header-nav-link {
+  text-decoration: none;
+  color: inherit;
+  transition: text-decoration 0.2s;
+}
+.header-nav-link:hover {
+  text-decoration: underline;
+}
