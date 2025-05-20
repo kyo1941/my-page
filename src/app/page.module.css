@@ -32,7 +32,7 @@
   }
 }
 .welcome-desc {
-  color: var(--gray-foreground);
+  color: var(--gray);
   font-size: 1.125rem;
   margin-bottom: 0.5rem;
 }
