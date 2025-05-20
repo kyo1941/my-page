@@ -13,8 +13,8 @@ export default function BlogListSection() {
             記事がまだありません。
           </div>
         ) : (
-          blogs.map((blog, idx) => (
-            <div className={styles["blog-card"]} key={idx}>
+          blogs.map((blog) => (
+            <div className={styles["blog-card"]} key={blog.id}>
               <h4 className={styles["blog-card-title"]}>{blog.title}</h4>
               <p className={styles["blog-card-date"]}>{blog.date}</p>
               <p className={styles["blog-card-desc"]}>{blog.description}</p>
