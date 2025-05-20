@@ -71,7 +71,7 @@
   margin-bottom: 40px;
 }
 .profile-to-detail {
-  font-size: small;
+  font-size: 0.875rem;
   color: var(--link-color);
 }
 
