@@ -6,7 +6,7 @@
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--border);
   font-family: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--header-background);
+  background-color: var(--light-gray);
 }
 .header-title {
   font-size: 1.5rem;
