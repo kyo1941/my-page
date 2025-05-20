@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "../page.module.css";
 import { getBlogs } from "../data/blogData";
 
@@ -18,7 +19,7 @@ export default function BlogListSection() {
               <h4 className={styles["blog-card-title"]}>{blog.title}</h4>
               <p className={styles["blog-card-date"]}>{blog.date}</p>
               <p className={styles["blog-card-desc"]}>{blog.description}</p>
-              <a href={blog.url} className={styles["blog-card-link"]}>続きを読む</a>
+              <Link href={blog.url} className={styles["blog-card-link"]}>続きを読む</Link>
             </div>
           ))
         )}
