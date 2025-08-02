@@ -3,9 +3,9 @@ import Link from 'next/link'
 
 export default function Header() {
   const navItems = [
-    { id: 'profile', link: '#', label: '自己紹介' },
-    { id: 'blog', link: '#', label: 'ブログ' },
-    { id: 'portfolio', link: '#', label: 'ポートフォリオ' },
+    { id: 'profile', link: '/about', label: '自己紹介' },
+    { id: 'blog', link: '/blog', label: 'ブログ' },
+    { id: 'portfolio', link: '/portfolio', label: 'ポートフォリオ' },
   ];
   
   return (
