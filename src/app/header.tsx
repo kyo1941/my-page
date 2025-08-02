@@ -1,6 +1,5 @@
 import React from "react";
 import Link from 'next/link'
-import styles from "./header.module.css";
 
 export default function Header() {
   const navItems = [
@@ -10,13 +9,13 @@ export default function Header() {
   ];
   
   return (
-    <header className={styles["header-root"]}>
-      <Link href="/" className={styles["header-title"]}>kyo1941</Link>
+    <header className="w-full flex items-center justify-between px-8 py-4 border-b border-gray-200 font-sans bg-gray-200">
+      <Link href="/" className="text-2xl font-bold text-gray-900">kyo1941</Link>
       <nav>
-        <ul className={styles["header-nav-list"]}>
+        <ul className="flex gap-8 text-gray-900 text-base font-semibold">
           {navItems.map(item => (
             <li key={item.id}>
-              <Link href={item.link} className={styles["header-nav-link"]}>
+              <Link href={item.link} className="no-underline text-inherit transition-all duration-200 hover:underline hover:text-foreground">
                 {item.label}
               </Link>
             </li>
