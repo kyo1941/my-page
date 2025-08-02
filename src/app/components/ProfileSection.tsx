@@ -14,12 +14,43 @@ export default function ProfileSection() {
           height={160} 
         />
         <div className="flex-1 text-left">
-          <p className="mb-10 text-gray-900">
+          <p className="py-4 text-gray-900">
             こんにちは、kyo1941です。<br />
             音楽を聴いたり、競技プログラミングをやったりしています。<br />
           </p>
           <div>
             <Link href="#" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">詳しくはこちら</Link>
+          </div>
+          <div className="pt-6 flex items-center gap-2">
+            <Link href="https://x.com/kyo1941_" target="_blank" rel="noopener noreferrer" className="inline-block hover:opacity-80 transition-opacity">
+              <Image 
+                className="object-cover" 
+                src="/logo-black.png" 
+                alt="x icon"
+                width={28} 
+                height={28} 
+              />
+            </Link>
+            
+            <Link href="https://github.com/kyo1941" target="_blank" rel="noopener noreferrer" className="inline-block hover:opacity-80 transition-opacity pl-2">
+              <Image 
+                className="object-cover"  
+                src="/github-logo.svg" 
+                alt="github icon"   
+                width={32} 
+                height={32} 
+              />
+            </Link>
+
+            <Link href="https://www.wantedly.com/id/kyosuke_hanzawa" target="_blank" rel="noopener noreferrer" className="inline-block hover:opacity-80 transition-opacity">
+              <Image 
+                className="object-cover"  
+                src="/wantedly-logo.png" 
+                alt="wantedly icon"   
+                width={44} 
+                height={44} 
+              />
+            </Link>
           </div>
         </div>
       </div>
