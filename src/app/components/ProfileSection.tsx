@@ -19,7 +19,7 @@ export default function ProfileSection() {
             音楽を聴いたり、競技プログラミングをやったりしています。<br />
           </p>
           <div>
-            <Link href="#" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">詳しくはこちら</Link>
+            <Link href="/about" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">詳しくはこちら</Link>
           </div>
           <div className="pt-6 flex items-center gap-2">
             <Link href="https://x.com/kyo1941_" target="_blank" rel="noopener noreferrer" className="inline-block hover:opacity-80 transition-opacity">
