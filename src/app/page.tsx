@@ -6,7 +6,7 @@ import BlogListSection from "./components/BlogListSection";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background font-sans">
+    <div className="min-h-screen bg-white font-sans">
       <Header />
       <main className="max-w-4xl mx-auto px-4 py-12">
         <WelcomeSection />

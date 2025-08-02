@@ -12,6 +12,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-light-gray: var(--light-gray);
+  --color-gray: var(--gray);
+  --color-link-color: var(--link-color);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
