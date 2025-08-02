@@ -1,15 +1,14 @@
 import Image from "next/image";
 import Header from "./header";
-import styles from "./page.module.css";
 import WelcomeSection from "./components/WelcomeSection";
 import ProfileSection from "./components/ProfileSection";
 import BlogListSection from "./components/BlogListSection";
 
 export default function Home() {
   return (
-    <div className={styles["page-root"]}>
+    <div className="min-h-screen bg-background font-sans">
       <Header />
-      <main className={styles["page-main"]}>
+      <main className="max-w-4xl mx-auto px-4 py-12">
         <WelcomeSection />
         <ProfileSection />
         <BlogListSection />
