@@ -6,7 +6,12 @@ export default function BlogListSection() {
 
   return (
     <section className="border-b border-gray-200 py-12">
-      <h3 className="text-2xl font-bold mb-6 text-gray-900">最新ブログ</h3>
+      <div className="flex justify-between">
+        <h3 className="text-2xl font-bold mb-6 text-gray-900">最新ブログ</h3>
+        <div>
+          <Link href="/blog" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">一覧はこちら</Link>
+        </div>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {blogs.length === 0 ? (
           <div className="col-span-full text-center text-gray-600">
