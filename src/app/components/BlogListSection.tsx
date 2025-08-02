@@ -6,7 +6,7 @@ export default function BlogListSection() {
 
   return (
     <section className="border-b border-gray-200 py-12">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-baseline mb-6">
         <h3 className="text-2xl font-bold mb-6 text-gray-900">最新ブログ</h3>
         <div>
           <Link href="/blog" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">一覧はこちら</Link>
@@ -20,7 +20,7 @@ export default function BlogListSection() {
         ) : (
           blogs.map((blog) => (
             <Link href={blog.url} key={blog.id} className="block">
-              <div className="bg-gray-50 p-6 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer">
+              <div className="bg-gray-50 p-6 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <h4 className="font-semibold mb-2 text-gray-900">{blog.title}</h4>
                 <p className="text-xs text-gray-600 mb-2">{blog.date}</p>
                 <p className="text-sm mb-4 text-gray-700 flex-grow">{blog.description}</p>
