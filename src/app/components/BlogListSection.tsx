@@ -14,12 +14,17 @@ export default function BlogListSection() {
           </div>
         ) : (
           blogs.map((blog) => (
-            <div className="bg-gray-50 p-6 rounded-lg shadow-lg flex flex-col h-full" key={blog.id}>
-              <h4 className="font-semibold mb-2 text-gray-900">{blog.title}</h4>
-              <p className="text-xs text-gray-600 mb-2">{blog.date}</p>
-              <p className="text-sm mb-4 text-gray-700 flex-grow">{blog.description}</p>
-              <Link href={blog.url} className="text-blue-600 text-sm no-underline hover:underline hover:text-blue-700 mt-auto">続きを読む</Link>
-            </div>
+            <Link href={blog.url} key={blog.id} className="block">
+              <div className="bg-gray-50 p-6 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer">
+                <h4 className="font-semibold mb-2 text-gray-900">{blog.title}</h4>
+                <p className="text-xs text-gray-600 mb-2">{blog.date}</p>
+                <p className="text-sm mb-4 text-gray-700 flex-grow">{blog.description}</p>
+                <div className="flex items-center justify-between mt-auto">
+                  <span className="text-blue-600 text-sm font-medium">続きを読む</span>
+                  <span className="text-blue-600 text-sm">→</span>
+                </div>
+              </div>
+            </Link>
           ))
         )}
       </div>
