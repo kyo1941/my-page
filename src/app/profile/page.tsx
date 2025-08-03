@@ -1,6 +1,7 @@
 import Header from "../header";
 
-import CareerSection from "../components/CareerSection"; // 作成したコンポーネントをインポート
+import CareerSection from "../components/CareerSection";
+import SkillsSection from "../components/SkillsSection";
 
 export default function AboutPage() {
   return (
@@ -21,8 +22,13 @@ export default function AboutPage() {
               </p>
             </div>
           </section>
-          <section>
+          
+          <section className="border-b border-gray-200 pb-12 mb-12">
             <CareerSection />
+          </section>
+
+          <section>
+            <SkillsSection />
           </section>
         </div>
       </main>

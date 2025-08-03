@@ -2,7 +2,7 @@ import { careerData } from '../data/career';
 
 export default function CareerSection() {
   return (
-    <div className='items-center'>
+    <div>
       <h2 className="text-3xl font-bold mb-10 text-gray-900">経歴</h2>
       <div className="m-6 relative border-l-2 border-gray-200">
         {careerData.map((career, index) => (
