@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion'; // ★ 1. インポート
 
 export default function SkillsSection() {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
@@ -23,6 +24,7 @@ export default function SkillsSection() {
     <div>
       <h2 className="text-3xl font-bold mb-8 text-gray-900">技術スタック</h2>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+        
         {skills.map((skill) => (
           <button
             key={skill.name}
@@ -41,14 +43,50 @@ export default function SkillsSection() {
         ))}
       </div>
       
-      {selectedSkill && (
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">{selectedSkill}</h3>
-          <p className="text-gray-700">
-            {skills.find(s => s.name === selectedSkill)?.description}
-          </p>
-        </div>
-      )}
+      
+      <AnimatePresence>
+        {selectedSkill && (
+          <motion.div 
+            className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+            onClick={() => setSelectedSkill(null)}
+            
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.div 
+              className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative"
+              onClick={(e) => e.stopPropagation()}
+              
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <button
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
+                onClick={() => setSelectedSkill(null)}
+              >
+                ×
+              </button>
+              <div className="flex items-center mb-4">
+                <Image
+                  src={skills.find(s => s.name === selectedSkill)?.icon || ''}
+                  alt={`${selectedSkill} icon`}
+                  width={64}
+                  height={64}
+                  className="mr-4"
+                />
+                <h3 className="text-2xl font-bold text-gray-900">{selectedSkill}</h3>
+              </div>
+              <p className="text-gray-700 leading-relaxed">
+                {skills.find(s => s.name === selectedSkill)?.description}
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
