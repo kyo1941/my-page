@@ -2,15 +2,16 @@ import Image from 'next/image';
 
 export default function SkillsSection() {
   const skills = [
-    { name: 'TypeScript', icon: '/icon/typescript.svg' },
-    { name: 'React', icon: '/icon/react-2.svg' },
-    { name: 'Python', icon: '/icon/python-5.svg' },
-    { name: 'C++', icon: '/icon/c++.svg' },
     { name: 'Kotlin', icon: '/icon/kotlin-1.svg' },
+    { name: 'Jetpack Compose', icon: '/icon/jetpack-compose.svg' },
     { name: 'HTML', icon: '/icon/html-1.svg' },
     { name: 'CSS', icon: '/icon/css-3.svg' },
     { name: 'Tailwind CSS', icon: '/icon/tailwind-css-2.svg' },
-    { name: 'Jetpack', icon: '/icon/jetpack-compose.svg' },
+    { name: 'TypeScript', icon: '/icon/typescript.svg' },
+    { name: 'React', icon: '/icon/react-2.svg' },
+    { name: 'Next.js', icon: '/icon/next-js.svg'},
+    { name: 'Python', icon: '/icon/python-5.svg' },
+    { name: 'C++', icon: '/icon/c++.svg' },
   ];
 
   return (
