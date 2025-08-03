@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Header from "./header";
-import WelcomeSection from "./components/WelcomeSection";
-import ProfileSection from "./components/ProfileSection";
-import BlogListSection from "./components/BlogListSection";
+import WelcomeSection from "./components/top/WelcomeSection";
+import ProfileSection from "./components/top/ProfileSection";
+import BlogListSection from "./components/top/BlogListSection";
 
 export default function Home() {
   return (
