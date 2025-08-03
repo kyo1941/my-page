@@ -1,7 +1,6 @@
 export type Career = {
   icon: string;
   company: string;
-  logoUrl?: string; // 会社のロゴ画像のURL（任意）
   period: string;
   position: string;
   tasks: string[];

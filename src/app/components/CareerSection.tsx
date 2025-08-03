@@ -22,7 +22,7 @@ export default function CareerSection() {
             <div className="ml-4 pt-2">
               <h3 className="text-2xl font-semibold text-gray-900">{career.company}</h3>
               <p className="block my-3 text-sm font-normal leading-none text-gray-500">{career.period} | {career.position}</p>
-              <ul className="list-disc list-inside text-gray-700 space-y-1">
+              <ul className="list-disc list-inside text-gray-700 space-y-1.5">
                 {career.tasks.map((task, taskIndex) => (
                   <li key={taskIndex}>{task}</li>
                 ))}
