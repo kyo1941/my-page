@@ -11,7 +11,7 @@ export default function Header() {
   
   return (
     <header className="w-full flex items-center justify-between px-8 py-4 border-b border-gray-200 font-sans bg-gray-200">
-      <Link href={ROUTES.HOME} className="text-2xl font-bold text-gray-900">kyo1941</Link>
+      <Link href={ROUTES.HOME} className="text-2xl font-bold text-gray-900 transition-opacity hover:opacity-70">kyo1941</Link>
       <nav>
         <ul className="flex gap-8 text-gray-900 text-base font-semibold">
           {navItems.map(item => (
