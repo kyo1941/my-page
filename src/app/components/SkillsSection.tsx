@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion'; // ★ 1. インポート
+import { motion, AnimatePresence } from 'framer-motion';
 
 const skills = [
     { name: 'Kotlin', icon: '/icon/kotlin-1.svg', description: 'Android開発の標準装備ですので、それなりには使えます。' },

@@ -8,7 +8,6 @@ export default function AboutPage() {
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header />
 
-      {/* 自己紹介・経歴セクションを区切り線で分ける */}
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-sm p-8">
           <section className="border-b border-gray-200 pb-12 mb-12">
@@ -22,7 +21,7 @@ export default function AboutPage() {
               </p>
             </div>
           </section>
-          
+
           <section className="border-b border-gray-200 pb-12 mb-12">
             <CareerSection />
           </section>
