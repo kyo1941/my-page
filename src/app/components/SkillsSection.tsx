@@ -45,47 +45,53 @@ export default function SkillsSection() {
       
       
       <AnimatePresence>
-        {selectedSkill && (
-          <motion.div 
-            className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
-            onClick={() => setSelectedSkill(null)}
-            
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+        {selectedSkill && (() => {
+          const skill = skills.find(s => s.name === selectedSkill);
+          if (!skill) return null;
+
+          return (
             <motion.div 
-              className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative"
-              onClick={(e) => e.stopPropagation()}
+              className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+              onClick={() => setSelectedSkill(null)}
               
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <button
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
-                onClick={() => setSelectedSkill(null)}
+              <motion.div 
+                className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative"
+                onClick={(e) => e.stopPropagation()}
+                
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
               >
-                ×
-              </button>
-              <div className="flex items-center mb-4">
-                <Image
-                  src={skills.find(s => s.name === selectedSkill)?.icon || ''}
-                  alt={`${selectedSkill} icon`}
-                  width={64}
-                  height={64}
-                  className="mr-4"
-                />
-                <h3 className="text-2xl font-bold text-gray-900">{selectedSkill}</h3>
-              </div>
-              <p className="text-gray-700 leading-relaxed">
-                {skills.find(s => s.name === selectedSkill)?.description}
-              </p>
+                <button
+                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
+                  onClick={() => setSelectedSkill(null)}
+                  aria-label="閉じる"
+                >
+                  ×
+                </button>
+                <div className="flex items-center mb-4">
+                  <Image
+                    src={skill.icon}
+                    alt={`${skill.name} icon`}
+                    width={64}
+                    height={64}
+                    className="mr-4"
+                  />
+                  <h3 className="text-2xl font-bold text-gray-900">{skill.name}</h3>
+                </div>
+                <p className="text-gray-700 leading-relaxed">
+                  {skill.description}
+                </p>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
+          );
+        })()}
       </AnimatePresence>
     </div>
   );
