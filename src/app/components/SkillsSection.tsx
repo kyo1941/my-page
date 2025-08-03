@@ -28,7 +28,7 @@ export default function SkillsSection() {
         {skills.map((skill) => (
           <button
             key={skill.name}
-            className="flex flex-col items-center py-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex flex-col items-center py-2 bg-gray-50 rounded-lg shadow hover:-translate-y-0.5 hover:shadow-xl hover:bg-gray-100 transition-all duration-300"
             onClick={() => setSelectedSkill(selectedSkill === skill.name ? null : skill.name)}
           >
             <Image
