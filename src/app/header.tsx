@@ -1,16 +1,17 @@
 import React from "react";
-import Link from 'next/link'
+import Link from 'next/link';
+import { ROUTES } from './routes';
 
 export default function Header() {
   const navItems = [
-    { id: 'profile', link: '/about', label: '自己紹介' },
-    { id: 'blog', link: '/blog', label: 'ブログ' },
-    { id: 'portfolio', link: '/portfolio', label: 'ポートフォリオ' },
+    { id: 'profile', link: ROUTES.PROFILE, label: '自己紹介' },
+    { id: 'blog', link: ROUTES.BLOG, label: 'ブログ' },
+    { id: 'portfolio', link: ROUTES.PORTFOLIO, label: 'ポートフォリオ' },
   ];
   
   return (
     <header className="w-full flex items-center justify-between px-8 py-4 border-b border-gray-200 font-sans bg-gray-200">
-      <Link href="/" className="text-2xl font-bold text-gray-900">kyo1941</Link>
+      <Link href={ROUTES.HOME} className="text-2xl font-bold text-gray-900">kyo1941</Link>
       <nav>
         <ul className="flex gap-8 text-gray-900 text-base font-semibold">
           {navItems.map(item => (
