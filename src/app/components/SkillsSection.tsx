@@ -4,10 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion'; // ★ 1. インポート
 
-export default function SkillsSection() {
-  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
-
-  const skills = [
+const skills = [
     { name: 'Kotlin', icon: '/icon/kotlin-1.svg', description: 'Android開発の標準装備ですので、それなりには使えます。' },
     { name: 'Jetpack Compose', icon: '/icon/jetpack-compose.svg', description: 'これなしではもうやっていけません。あとJetpackライブラリも色々使えます。' },
     { name: 'HTML', icon: '/icon/html-1.svg', description: 'WEB開発では避けては通れないので勉強中です。' },
@@ -19,6 +16,9 @@ export default function SkillsSection() {
     { name: 'Python', icon: '/icon/python-5.svg', description: '深層学習系の研究で使用しています。' },
     { name: 'C++', icon: '/icon/c++.svg', description: '競技プログラミングに使っています。もはやそれ専用の言語と化しています。' },
   ];
+
+export default function SkillsSection() {
+  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
 
   return (
     <div>

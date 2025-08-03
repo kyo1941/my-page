@@ -1,4 +1,5 @@
 import { careerData } from '../data/career';
+import Image from 'next/image';
 
 export default function CareerSection() {
   return (
@@ -7,14 +8,18 @@ export default function CareerSection() {
       <div className="m-6 relative border-l-2 border-gray-200">
         {careerData.map((career, index) => (
           <div key={index} className="mb-10 ml-6">
-            {/* タイムラインの丸い点 */}
-            <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white">
-              <svg className="w-2.5 h-2.5 text-blue-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z"/>
-              </svg>
+            
+            <span className="absolute flex items-center justify-center w-12 h-12 bg-gray-50 p-1 rounded-full -left-6 ring-2 ring-white">
+              <Image
+                src={career.icon}
+                alt={`${career.company} icon`}
+                width={48}
+                height={48}
+                className="object-contain rounded-full"
+              />
             </span>
 
-            <div className="ml-4">
+            <div className="ml-4 pt-2">
               <h3 className="text-2xl font-semibold text-gray-900">{career.company}</h3>
               <p className="block my-3 text-sm font-normal leading-none text-gray-500">{career.period} | {career.position}</p>
               <ul className="list-disc list-inside text-gray-700 space-y-1">

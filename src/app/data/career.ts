@@ -1,4 +1,5 @@
 export type Career = {
+  icon: string;
   company: string;
   logoUrl?: string; // 会社のロゴ画像のURL（任意）
   period: string;
@@ -7,30 +8,29 @@ export type Career = {
   technologies: string[];
 };
 
-// 仮の経歴データなので読み込めるようにする必要がある
+// ハードコードは将来的にやめるべき
 export const careerData: Career[] = [
   {
-    company: '株式会社NextDev',
-    period: '2022年4月 - 現在',
-    position: 'フロントエンドエンジニア',
+    icon: '/icon/company-icon.svg',
+    company: 'Sansan株式会社',
+    period: '2025年8月 - 現在',
+    position: 'Androidエンジニア',
     tasks: [
-      'BtoB向けSaaSプロダクトのUI設計・開発を担当',
-      'Next.js (App Router) を用いたパフォーマンス改善と機能追加',
-      'Storybookを導入し、コンポーネント駆動開発の文化を醸成',
-      'E2Eテストの自動化により、デプロイプロセスの信頼性を向上',
+      'toC名刺管理アプリ「Eight」チーム',
+      '詳しくは決まり次第記述する',      
     ],
-    technologies: ['TypeScript', 'React', 'Next.js', 'Tailwind CSS', 'GraphQL', 'Vercel'],
+    technologies: ['Kotlin', 'Jetpack'],
   },
   {
-    company: '合同会社WebApp Solutions',
-    period: '2020年4月 - 2022年3月',
-    position: 'Webエンジニア',
+    icon: '/icon/saitama-univ.png',
+    company: '埼玉大学',
+    period: '2021年4月 - 2027年3月',
+    position: '工学部 情報工学科 / 理工学研究科 数理電子情報専攻',
     tasks: [
-      'ECサイトのバックエンド開発（PHP/Laravel）',
-      'Vue.jsを用いた管理画面のフロントエンド改修',
-      'AWS (EC2, RDS) を用いたインフラの構築・運用保守',
-      '顧客との要件定義や仕様策定にも参加',
+      '半年間のiOSアプリチーム開発',
+      '音声強調における教師なし学習環境下での少量データ学習に関する研究',
+      '深層学習物体検知モデル(YOLO)を用いた衣服の汚れ検知と、精度向上のためのデータ拡張/補正アルゴリズムの設計・実装',
     ],
-    technologies: ['PHP', 'Laravel', 'JavaScript', 'Vue.js', 'MySQL', 'AWS'],
+    technologies: [],
   },
 ];
