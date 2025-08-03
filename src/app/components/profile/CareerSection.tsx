@@ -1,4 +1,4 @@
-import { careerData } from '../data/career';
+import { careerData } from '../../data/career';
 import Image from 'next/image';
 
 export default function CareerSection() {
