@@ -6,6 +6,30 @@ import { useContactForm } from '../../hooks/useContactForm';
 import { validateContactForm, hasValidationErrors, ValidationErrors } from '../../utils/formValidation';
 
 export default function ContactForm() {
+  // サイトキーを事前チェックする
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  if (!siteKey) {
+    if (process.env.NODE_ENV === 'production') {
+      return (
+        <div>
+          <h2 className="text-3xl font-bold mb-14 text-gray-900">お問い合わせ</h2>
+          <p className='text-center'>現在、システムの問題によりお問い合わせフォームをご利用いただけません。<br />ご不便をおかけし、大変申し訳ございません。</p>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h2 className="text-3xl font-bold mb-14 text-gray-900">お問い合わせ</h2>
+          <div style={{ padding: '1rem', border: '2px solid red', color: 'red' }}>
+            <p className="font-bold text-lg">開発者向けエラー:</p>
+            <p>NEXT_PUBLIC_RECAPTCHA_SITE_KEY が設定されていません。.env.local ファイルなどを確認してください。</p>
+          </div>
+        </div>
+      );
+    }
+  }
+  
+  // サイトキーが存在することを確認したのち実行
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
