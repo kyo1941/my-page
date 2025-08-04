@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { validateContactForm, hasValidationErrors } from '../../utils/formValidation';
 
 export async function POST(request: NextRequest) {
   try {
     const { email, subject, message, recaptchaToken } = await request.json();
+
+    // サーバー側でもバリデーションを行う
+    const validationErrors = validateContactForm({ email, subject, message });
+    if (hasValidationErrors(validationErrors)) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: validationErrors },
+        { status: 400 }
+      );
+    }
 
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     if (!secretKey) {
@@ -12,7 +22,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-    
+
     const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
       headers: {
