@@ -20,7 +20,7 @@ export default function ContactForm() {
       return (
         <div>
           <h2 className="text-3xl font-bold mb-14 text-gray-900">お問い合わせ</h2>
-          <div style={{ padding: '1rem', border: '2px solid red', color: 'red' }}>
+          <div className="p-4 border-2 border-red-500 text-red-500">
             <p className="font-bold text-lg">開発者向けエラー:</p>
             <p>NEXT_PUBLIC_RECAPTCHA_SITE_KEY が設定されていません。.env.local ファイルなどを確認してください。</p>
           </div>
