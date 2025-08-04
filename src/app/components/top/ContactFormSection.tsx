@@ -126,30 +126,30 @@ export default function ContactForm() {
         </div>
 
         {submitStatus === 'success' && showStatus && (
-          <div className="relative p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
+          <div className="flex items-start justify-between p-4 bg-green-100 border border-green-400 text-green-700 rounded-md w-fit mx-auto max-w-full">
+            <p>メッセージが正常に送信されました。ありがとうございます！</p>
             <button
               type="button"
-              className="absolute top-0.5 right-3 text-3xl text-green-700 hover:text-green-900"
+              className="ml-4 -mt-3 text-3xl text-green-700 hover:text-green-900"
               onClick={() => setShowStatus(false)}
               aria-label="閉じる"
             >
               ×
             </button>
-            メッセージが正常に送信されました。ありがとうございます！
           </div>
         )}
 
         {submitStatus === 'error' && showStatus && (
-          <div className="relative p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+          <div className="flex items-start justify-between p-4 bg-red-100 border border-red-400 text-red-700 rounded-md w-fit mx-auto max-w-full">
+            <p>送信中にエラーが発生しました。もう一度お試しください。</p>
             <button
               type="button"
-              className="absolute top-0.5 right-3 text-3xl text-red-700 hover:text-red-900"
+              className="ml-4 -mt-3 text-3xl text-red-700 hover:text-red-900"
               onClick={() => setShowStatus(false)}
               aria-label="閉じる"
             >
               ×
             </button>
-            送信中にエラーが発生しました。もう一度お試しください。
           </div>
         )}
 
