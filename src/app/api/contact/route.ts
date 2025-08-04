@@ -4,13 +4,22 @@ export async function POST(request: NextRequest) {
   try {
     const { email, subject, message, recaptchaToken } = await request.json();
 
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+    if (!secretKey) {
+      console.error('RECAPTCHA_SECRET_KEY is not set');
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+    
     const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
-        secret: process.env.RECAPTCHA_SECRET_KEY || '',
+        secret: secretKey,
         response: recaptchaToken,
       }),
     });
@@ -27,6 +36,7 @@ export async function POST(request: NextRequest) {
     // 受信メールアドレスの確認
     const recipientEmail = process.env.CONTACT_EMAIL;
     if (!recipientEmail) {
+      console.error('CONTACT_EMAIL environment variable is not set');
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 }
