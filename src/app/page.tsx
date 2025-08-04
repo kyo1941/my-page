@@ -23,6 +23,10 @@ export default function Home() {
             <BlogListSection />
           </section>
         </div>
+
+        {/* TODO: 成果物も簡単な見出しを作成しておく。詳しい内容は専用のページに遷移させる。 */}
+
+        {/* TODO: 独自のメール入力フォームを用意する。reCAPTCHAを使用してスパム対策も行う。 */}
       </main>
     </div>
   );
