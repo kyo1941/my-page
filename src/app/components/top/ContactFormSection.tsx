@@ -10,6 +10,7 @@ export default function ContactForm() {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [recaptchaError, setRecaptchaError] = useState<string>('');
   const [showStatus, setShowStatus] = useState(true);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   
@@ -27,9 +28,10 @@ export default function ContactForm() {
 
     const recaptchaValue = recaptchaRef.current?.getValue();
     if (!recaptchaValue) {
-      alert('reCAPTCHAを完了してください');
+      setRecaptchaError('『私はロボットではありません』にチェックを入れてください')
       return;
     }
+    setRecaptchaError('')
 
     const result = await submitForm({
       email,
@@ -122,8 +124,12 @@ export default function ContactForm() {
           <ReCAPTCHA
             ref={recaptchaRef}
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+            onChange={() => setRecaptchaError('')}  
           />
         </div>
+        {recaptchaError && (
+          <p className="mt-2 text-sm text-red-600 text-center">{recaptchaError}</p>
+        )}
 
         {submitStatus === 'success' && showStatus && (
           <div className="flex items-start justify-between p-4 bg-green-100 border border-green-400 text-green-700 rounded-md w-fit mx-auto max-w-full">
