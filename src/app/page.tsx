@@ -11,15 +11,15 @@ export default function Home() {
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-sm p-8">
           
-          <section className="border-b border-gray-200 pb-12 mb-12 text-center">
+          <section className="border-b border-gray-200 pb-12 my-12 text-center">
             <WelcomeSection />
           </section>
           
-          <section className="border-b border-gray-200 pb-12 mb-12 text-center">
+          <section className="border-b border-gray-200 pb-16 my-16">
             <ProfileSection />
           </section>
 
-          <section>
+          <section className="pb-16">
             <BlogListSection />
           </section>
         </div>
