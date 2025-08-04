@@ -16,8 +16,23 @@ export const validateContactForm = (data: FormData): ValidationErrors => {
   // メールアドレスの検証
   if (!data.email) {
     errors.email = 'メールアドレスは必須です';
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    errors.email = '有効なメールアドレスを入力してください';
+  } else {
+    const parts = data.email.split('@');
+    if (parts.length !== 2) {
+      errors.email = '「@」を1つだけ含めてください．';
+    } else {
+      const [localPart, domainPart] = parts;
+      if (localPart.length === 0 || domainPart.length === 0) {
+        errors.email = '「@」の前後には文字が必要です．';
+      } else if (domainPart.indexOf('.') === -1) {
+        errors.email = 'ドメイン（「@」以降）には「.」が必要です．';
+      } else if (domainPart.startsWith('.') || domainPart.endsWith('.')) {
+        errors.email = 'ドメインの最初や最後に「.」は使用できません．';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+          // 上記のチェックをすべて通過してもなお無効な場合（最終チェック）
+          errors.email = '有効なメールアドレスの形式で入力してください．';
+      }
+    }
   }
 
   // 件名の検証
