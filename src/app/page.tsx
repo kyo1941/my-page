@@ -26,7 +26,7 @@ export default function Home() {
 
           {/* TODO: 成果物も簡単な見出しを作成しておく。詳しい内容は専用のページに遷移させる。 */}
 
-          <section className="pb-16 my-16">
+          <section className="pb-16 my-10">
             <ContactForm />
           </section>
         </div>

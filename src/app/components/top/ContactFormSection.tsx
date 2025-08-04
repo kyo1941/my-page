@@ -54,8 +54,8 @@ export default function ContactForm() {
   }, [submitStatus]);
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h2 className="text-3xl font-bold mb-8 text-gray-900">お問い合わせ</h2>
+    <div>
+      <h2 className="text-3xl font-bold mb-14 text-gray-900">お問い合わせ</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
