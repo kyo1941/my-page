@@ -19,10 +19,15 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 前回の送信結果は初期化する
+    setShowStatus(false);
+    setValidationErrors({});
+    setRecaptchaError('');
+
     const errors = validateContactForm({ email, subject, message });
-    setValidationErrors(errors);
 
     if (hasValidationErrors(errors)) {
+      setValidationErrors(errors);
       return;
     }
 
@@ -31,7 +36,6 @@ export default function ContactForm() {
       setRecaptchaError('『私はロボットではありません』にチェックを入れてください')
       return;
     }
-    setRecaptchaError('')
 
     const result = await submitForm({
       email,
@@ -44,7 +48,6 @@ export default function ContactForm() {
       setEmail('');
       setSubject('');
       setMessage('');
-      setValidationErrors({});
       recaptchaRef.current?.reset();
     }
   };
@@ -59,7 +62,7 @@ export default function ContactForm() {
     <div>
       <h2 className="text-3xl font-bold mb-14 text-gray-900">お問い合わせ</h2>
       
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
             メールアドレス *
