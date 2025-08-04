@@ -27,7 +27,6 @@ export async function POST(request: NextRequest) {
     // 受信メールアドレスの確認
     const recipientEmail = process.env.CONTACT_EMAIL;
     if (!recipientEmail) {
-      console.error('CONTACT_EMAIL environment variable is not set');
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 }

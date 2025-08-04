@@ -2,58 +2,47 @@
 
 import { useState, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { useContactForm } from '../../hooks/useContactForm';
+import { validateContactForm, hasValidationErrors, ValidationErrors } from '../../utils/formValidation';
 
 export default function ContactForm() {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   const recaptchaRef = useRef<ReCAPTCHA>(null);
+  
+  const { isSubmitting, submitStatus, submitForm } = useContactForm();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
+
+    const errors = validateContactForm({ email, subject, message });
+    setValidationErrors(errors);
+
+    if (hasValidationErrors(errors)) {
+      return;
+    }
 
     const recaptchaValue = recaptchaRef.current?.getValue();
     if (!recaptchaValue) {
       alert('reCAPTCHAを完了してください');
-      setIsSubmitting(false);
       return;
     }
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          subject,
-          message,
-          recaptchaToken: recaptchaValue,
-        }),
-      });
+    const result = await submitForm({
+      email,
+      subject,
+      message,
+      recaptchaToken: recaptchaValue,
+    });
 
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
-
-      const result = await response.json();
-      console.log('Form submitted successfully:', result);
-
-      setSubmitStatus('success');
+    if (result.success) {
       setEmail('');
       setSubject('');
       setMessage('');
+      setValidationErrors({});
       recaptchaRef.current?.reset();
-    } catch (error) {
-      console.error('Submit error:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -72,9 +61,14 @@ export default function ContactForm() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              validationErrors.email ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="your-email@example.com"
           />
+          {validationErrors.email && (
+            <p className="mt-1 text-sm text-red-600">{validationErrors.email}</p>
+          )}
         </div>
 
         <div>
@@ -87,9 +81,14 @@ export default function ContactForm() {
             required
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              validationErrors.subject ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="お問い合わせの件名"
           />
+          {validationErrors.subject && (
+            <p className="mt-1 text-sm text-red-600">{validationErrors.subject}</p>
+          )}
         </div>
 
         <div>
@@ -102,9 +101,14 @@ export default function ContactForm() {
             rows={6}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              validationErrors.message ? 'border-red-500' : 'border-gray-300'
+            }`}
             placeholder="お問い合わせ内容をご記入ください"
           />
+          {validationErrors.message && (
+            <p className="mt-1 text-sm text-red-600">{validationErrors.message}</p>
+          )}
         </div>
 
         <div className="flex justify-center">
