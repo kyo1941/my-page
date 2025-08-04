@@ -6,12 +6,23 @@ import BlogListSection from "./components/top/BlogListSection";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-gray-50 font-sans">
       <Header />
       <main className="max-w-4xl mx-auto px-4 py-12">
-        <WelcomeSection />
-        <ProfileSection />
-        <BlogListSection />
+        <div className="bg-white rounded-lg shadow-sm p-8">
+          
+          <section className="border-b border-gray-200 pb-12 mb-12 text-center">
+            <WelcomeSection />
+          </section>
+          
+          <section className="border-b border-gray-200 pb-12 mb-12 text-center">
+            <ProfileSection />
+          </section>
+
+          <section>
+            <BlogListSection />
+          </section>
+        </div>
       </main>
     </div>
   );

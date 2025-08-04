@@ -4,7 +4,7 @@ import { ROUTES, EXTERNAL_LINKS } from '../../routes';
 
 export default function ProfileSection() {
   return (
-    <section className="border-b border-gray-200 py-12"> 
+    <div> 
       <h3 className="text-2xl font-bold mb-6 text-gray-900">自己紹介</h3>
       <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
         <Image 
@@ -55,6 +55,6 @@ export default function ProfileSection() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
