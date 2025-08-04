@@ -3,6 +3,7 @@ import Header from "./header";
 import WelcomeSection from "./components/top/WelcomeSection";
 import ProfileSection from "./components/top/ProfileSection";
 import BlogListSection from "./components/top/BlogListSection";
+import ContactForm from "./components/top/ContactFormSection";
 
 export default function Home() {
   return (
@@ -19,14 +20,17 @@ export default function Home() {
             <ProfileSection />
           </section>
 
-          <section className="pb-16">
+          <section className="border-b border-gray-200 pb-16 my-16">
             <BlogListSection />
+          </section>
+
+          {/* TODO: 成果物も簡単な見出しを作成しておく。詳しい内容は専用のページに遷移させる。 */}
+
+          <section className="pb-16 my-16">
+            <ContactForm />
           </section>
         </div>
 
-        {/* TODO: 成果物も簡単な見出しを作成しておく。詳しい内容は専用のページに遷移させる。 */}
-
-        {/* TODO: 独自のメール入力フォームを用意する。reCAPTCHAを使用してスパム対策も行う。 */}
       </main>
     </div>
   );

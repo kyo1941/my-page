@@ -1,0 +1,71 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(request: NextRequest) {
+  try {
+    const { email, subject, message, recaptchaToken } = await request.json();
+
+    const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: process.env.RECAPTCHA_SECRET_KEY || '',
+        response: recaptchaToken,
+      }),
+    });
+
+    // リクエストデータの不備チェック
+    const recaptchaData = await recaptchaResponse.json();
+    if (!recaptchaData.success) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA verification failed' },
+        { status: 400 }
+      );
+    }
+
+    // 受信メールアドレスの確認
+    const recipientEmail = process.env.CONTACT_EMAIL;
+    if (!recipientEmail) {
+      console.error('CONTACT_EMAIL environment variable is not set');
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+
+    // 現在は開発用にコンソール出力（実際のメール送信は未実装）
+    console.log('Email to send:', {
+      to: recipientEmail,
+      from: email,
+      subject: `${subject}`,
+      message,
+    });
+
+    // TODO: 実際のメール送信サービスの実装
+    // 例：SendGrid, Nodemailer, Resend などを使用
+    // await sendEmail({
+    //   to: recipientEmail,
+    //   from: email,
+    //   subject: `[お問い合わせ] ${subject}`,
+    //   html: `
+    //     <h3>新しいお問い合わせ</h3>
+    //     <p><strong>送信者:</strong> ${email}</p>
+    //     <p><strong>件名:</strong> ${subject}</p>
+    //     <p><strong>メッセージ:</strong></p>
+    //     <p>${message}</p>
+    //   `,
+    // });
+
+    return NextResponse.json(
+      { message: 'メール送信が完了しました' },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Contact form error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
