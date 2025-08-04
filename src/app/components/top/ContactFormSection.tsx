@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useContactForm } from '../../hooks/useContactForm';
 import { validateContactForm, hasValidationErrors, ValidationErrors } from '../../utils/formValidation';
@@ -10,6 +10,7 @@ export default function ContactForm() {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [showStatus, setShowStatus] = useState(true);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   
   const { isSubmitting, submitStatus, submitForm } = useContactForm();
@@ -45,6 +46,12 @@ export default function ContactForm() {
       recaptchaRef.current?.reset();
     }
   };
+
+  useEffect(() => {
+    if (submitStatus === 'success' || submitStatus === 'error') {
+      setShowStatus(true);
+    }
+  }, [submitStatus]);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -118,14 +125,30 @@ export default function ContactForm() {
           />
         </div>
 
-        {submitStatus === 'success' && (
-          <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
+        {submitStatus === 'success' && showStatus && (
+          <div className="relative p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
+            <button
+              type="button"
+              className="absolute top-0.5 right-3 text-3xl text-green-700 hover:text-green-900"
+              onClick={() => setShowStatus(false)}
+              aria-label="閉じる"
+            >
+              ×
+            </button>
             メッセージが正常に送信されました。ありがとうございます！
           </div>
         )}
 
-        {submitStatus === 'error' && (
-          <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+        {submitStatus === 'error' && showStatus && (
+          <div className="relative p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+            <button
+              type="button"
+              className="absolute top-0.5 right-3 text-3xl text-red-700 hover:text-red-900"
+              onClick={() => setShowStatus(false)}
+              aria-label="閉じる"
+            >
+              ×
+            </button>
             送信中にエラーが発生しました。もう一度お試しください。
           </div>
         )}
