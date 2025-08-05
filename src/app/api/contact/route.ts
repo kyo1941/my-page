@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     if(!recaptchaToken) {
       return NextResponse.json(
         { error: 'reCAPTCHA token is missing' },
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     console.log('Email to send:', {
       to: recipientEmail,
       from: email,
-      subject: `${subject}`,
+      subject,
       message,
     });
 
