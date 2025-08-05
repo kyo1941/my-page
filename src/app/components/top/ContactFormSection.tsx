@@ -5,7 +5,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { useContactForm } from '../../hooks/useContactForm';
 import { validateContactForm, hasValidationErrors, ValidationErrors } from '../../utils/formValidation';
 
-export default function ContactFrom() {
+export default function ContactForm() {
   // サイトキーを事前チェックする
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   if (!siteKey) {
