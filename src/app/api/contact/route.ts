@@ -13,6 +13,13 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    
+    if(!recaptchaToken) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA token is missing' },
+        { status: 400 }
+      );
+    }
 
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     if (!secretKey) {
