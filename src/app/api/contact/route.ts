@@ -3,7 +3,7 @@ import { validateContactForm, hasValidationErrors } from '../../utils/formValida
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, subject, message, recaptchaToken } = await request.json();
+    const { email, subject, message, turnstileToken } = await request.json();
 
     // サーバー側でもバリデーションを行う
     const validationErrors = validateContactForm({ email, subject, message });
@@ -14,38 +14,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if(!recaptchaToken) {
+    if(!turnstileToken) {
       return NextResponse.json(
-        { error: 'reCAPTCHA token is missing' },
+        { error: 'Turnstile token is missing' },
         { status: 400 }
       );
     }
 
-    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+    const secretKey = process.env.TURNSTILE_SECRET_KEY;
     if (!secretKey) {
-      console.error('RECAPTCHA_SECRET_KEY is not set');
+      console.error('TURNSTILE_SECRET_KEY is not set');
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 }
       );
     }
 
-    const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    const turnstileResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
         secret: secretKey,
-        response: recaptchaToken,
+        response: turnstileToken,
       }),
     });
 
     // リクエストデータの不備チェック
-    const recaptchaData = await recaptchaResponse.json();
-    if (!recaptchaData.success) {
+    const turnstileData = await turnstileResponse.json();
+    if (!turnstileData.success) {
       return NextResponse.json(
-        { error: 'reCAPTCHA verification failed' },
+        { error: 'Turnstile verification failed' },
         { status: 400 }
       );
     }

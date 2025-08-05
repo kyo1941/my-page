@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { useContactForm } from '../../hooks/useContactForm';
 import { validateContactForm, hasValidationErrors, ValidationErrors } from '../../utils/formValidation';
 
 export default function ContactForm() {
   // サイトキーを事前チェックする
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   if (!siteKey) {
     if (process.env.NODE_ENV === 'production') {
       return (
@@ -22,7 +22,7 @@ export default function ContactForm() {
           <h2 className="text-3xl font-bold mb-14 text-gray-900">お問い合わせ</h2>
           <div className="p-4 border-2 border-red-500 text-red-500">
             <p className="font-bold text-lg">開発者向けエラー:</p>
-            <p>NEXT_PUBLIC_RECAPTCHA_SITE_KEY が設定されていません。.env.local ファイルなどを確認してください。</p>
+            <p>NEXT_PUBLIC_TURNSTILE_SITE_KEY が設定されていません。.env.local ファイルなどを確認してください。</p>
           </div>
         </div>
       );
@@ -39,10 +39,12 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
-  const [recaptchaError, setRecaptchaError] = useState<string>('');
+  const [turnstileError, setTurnstileError] = useState<string>('');
   const [showStatus, setShowStatus] = useState(true);
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
   
+  const turnstileRef = useRef<TurnstileInstance>(null);
+
   const { isSubmitting, submitStatus, submitForm } = useContactForm();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -51,7 +53,7 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
     // 前回の送信結果は初期化する
     setShowStatus(false);
     setValidationErrors({});
-    setRecaptchaError('');
+    setTurnstileError('');
 
     const errors = validateContactForm({ email, subject, message });
 
@@ -60,9 +62,8 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
       return;
     }
 
-    const recaptchaValue = recaptchaRef.current?.getValue();
-    if (!recaptchaValue) {
-      setRecaptchaError('『私はロボットではありません』にチェックを入れてください')
+    if (!turnstileToken) {
+      setTurnstileError('認証を完了してください')
       return;
     }
 
@@ -70,15 +71,17 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
       email,
       subject,
       message,
-      recaptchaToken: recaptchaValue,
+      turnstileToken: turnstileToken,
     });
 
     if (result.success) {
       setEmail('');
       setSubject('');
       setMessage('');
-      recaptchaRef.current?.reset();
     }
+
+    setTurnstileToken('');
+    turnstileRef.current?.reset();
   };
 
   useEffect(() => {
@@ -86,6 +89,22 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
       setShowStatus(true);
     }
   }, [submitStatus]);
+
+
+  const handleTurnstileSuccess = useCallback((token: string) => {
+    setTurnstileToken(token);
+    setTurnstileError('');
+  }, []);
+
+  const handleTurnstileError = useCallback(() => {
+    setTurnstileError('認証に失敗しました。もう一度お試しください。');
+  }, []);
+
+  // ★変更点2: onExpire内でreset()を呼ばないように修正します。
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken('');
+    setTurnstileError('認証の有効期限が切れました。再度認証してください。');
+  }, []);
 
   return (
     <div>
@@ -152,15 +171,17 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
           )}
         </div>
 
-        <div className="flex justify-center">
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={siteKey}
-            onChange={() => setRecaptchaError('')}  
+        <div className="flex justify-center">          
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={siteKey}
+            onSuccess={handleTurnstileSuccess}
+            onError={handleTurnstileError}
+            onExpire={handleTurnstileExpire}
           />
         </div>
-        {recaptchaError && (
-          <p className="mt-2 text-sm text-red-600 text-center">{recaptchaError}</p>
+        {turnstileError && (
+          <p className="mt-2 text-sm text-red-600 text-center">{turnstileError}</p>
         )}
 
         {submitStatus === 'success' && showStatus && (
