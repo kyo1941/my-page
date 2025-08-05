@@ -5,7 +5,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { useContactForm } from '../../hooks/useContactForm';
 import { validateContactForm, hasValidationErrors, ValidationErrors } from '../../utils/formValidation';
 
-export default function ContactForm() {
+export default function ContactFrom() {
   // サイトキーを事前チェックする
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   if (!siteKey) {
@@ -28,8 +28,13 @@ export default function ContactForm() {
       );
     }
   }
-  
-  // サイトキーが存在することを確認したのち実行
+
+  // サイトキーが存在することを確認したのち実際に表示するコンテンツの処理
+  return <ContactFormContents siteKey={siteKey} />;
+}
+
+
+function ContactFormContents({ siteKey }: { siteKey : string }) {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
