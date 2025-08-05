@@ -4,7 +4,7 @@ interface ContactFormData {
   email: string;
   subject: string;
   message: string;
-  recaptchaToken: string;
+  turnstileToken: string;
 }
 
 export type SubmitStatus = 'idle' | 'success' | 'error';
