@@ -5,9 +5,9 @@ export default function BlogListSection() {
   const blogs = getBlogs().slice(0, 3);
 
   return (
-    <section className="border-b border-gray-200 py-12">
+    <div>
       <div className="flex justify-between items-baseline mb-6">
-        <h3 className="text-2xl font-bold mb-6 text-gray-900">最新ブログ</h3>
+        <h3 className="text-3xl font-bold mb-6 text-gray-900">最新ブログ</h3>
         <div>
           <Link href="/blog" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">一覧はこちら</Link>
         </div>
@@ -33,6 +33,6 @@ export default function BlogListSection() {
           ))
         )}
       </div>
-    </section>
+    </div>
   );
 }

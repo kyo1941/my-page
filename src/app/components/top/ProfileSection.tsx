@@ -4,11 +4,11 @@ import { ROUTES, EXTERNAL_LINKS } from '../../routes';
 
 export default function ProfileSection() {
   return (
-    <section className="border-b border-gray-200 py-12"> 
-      <h3 className="text-2xl font-bold mb-6 text-gray-900">自己紹介</h3>
+    <div> 
+      <h3 className="text-3xl font-bold mb-12 text-gray-900">自己紹介</h3>
       <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
         <Image 
-          className="rounded-full object-cover flex-shrink-0 border-2 border-gray-900" 
+          className="rounded-full object-cover flex-shrink-0 border-2 border-gray-300" 
           src="/profile.jpg" 
           alt="プロフィール画像" 
           width={160} 
@@ -55,6 +55,6 @@ export default function ProfileSection() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
