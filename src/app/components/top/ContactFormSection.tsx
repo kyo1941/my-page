@@ -71,7 +71,7 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
       email,
       subject,
       message,
-      turnstileToken: turnstileToken,
+      turnstileToken,
     });
 
     if (result.success) {
@@ -90,7 +90,6 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
     }
   }, [submitStatus]);
 
-
   const handleTurnstileSuccess = useCallback((token: string) => {
     setTurnstileToken(token);
     setTurnstileError('');
@@ -100,7 +99,6 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
     setTurnstileError('認証に失敗しました。もう一度お試しください。');
   }, []);
 
-  // ★変更点2: onExpire内でreset()を呼ばないように修正します。
   const handleTurnstileExpire = useCallback(() => {
     setTurnstileToken('');
     setTurnstileError('認証の有効期限が切れました。再度認証してください。');
