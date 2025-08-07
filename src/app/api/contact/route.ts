@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateContactForm, hasValidationErrors } from '../../utils/formValidation';
+import { Resend } from 'resend';
+import he from 'he';
 
 export async function POST(request: NextRequest) {
   try {
@@ -60,28 +62,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 現在は開発用にコンソール出力（実際のメール送信は未実装）
-    console.log('Email to send:', {
-      to: recipientEmail,
-      from: email,
-      subject,
-      message,
-    });
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      console.error('RESEND_API_KEY is not set');
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+    const resend = new Resend(resendApiKey);
 
-    // TODO: 実際のメール送信サービスの実装
-    // 例：SendGrid, Nodemailer, Resend などを使用
-    // await sendEmail({
-    //   to: recipientEmail,
-    //   from: email,
-    //   subject: `[お問い合わせ] ${subject}`,
-    //   html: `
-    //     <h3>新しいお問い合わせ</h3>
-    //     <p><strong>送信者:</strong> ${email}</p>
-    //     <p><strong>件名:</strong> ${subject}</p>
-    //     <p><strong>メッセージ:</strong></p>
-    //     <p>${message}</p>
-    //   `,
-    // });
+    await resend.emails.send({
+      // TODO: 実際のドメインを認証して置き換える
+      from: 'onboarding@resend.dev',
+      to: recipientEmail,
+      subject: `[お問い合わせ] ${subject}`,
+      replyTo: email,
+      html: `
+        <h3>新しいお問い合わせ</h3>
+        <p><strong>送信者:</strong> ${he.encode(email)}</p>
+        <p><strong>件名:</strong> ${he.encode(subject)}</p>
+        <p><strong>メッセージ:</strong></p>
+        <p>${he.encode(message).replace(/\n/g, '<br>')}</p>
+      `,
+    });
 
     return NextResponse.json(
       { message: 'メール送信が完了しました' },
