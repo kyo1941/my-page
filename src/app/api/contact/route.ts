@@ -61,7 +61,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      console.error('RESEND_API_KEY is not set');
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+    const resend = new Resend(resendApiKey);
 
     await resend.emails.send({
       // TODO: 実際のドメインを認証して置き換える
