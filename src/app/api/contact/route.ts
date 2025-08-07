@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateContactForm, hasValidationErrors } from '../../utils/formValidation';
 import { Resend } from 'resend';
+import he from 'he';
 
 export async function POST(request: NextRequest) {
   try {
@@ -79,10 +80,10 @@ export async function POST(request: NextRequest) {
       replyTo: email,
       html: `
         <h3>新しいお問い合わせ</h3>
-        <p><strong>送信者:</strong> ${email}</p>
-        <p><strong>件名:</strong> ${subject}</p>
+        <p><strong>送信者:</strong> ${he.encode(email)}</p>
+        <p><strong>件名:</strong> ${he.encode(subject)}</p>
         <p><strong>メッセージ:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
+        <p>${he.encode(message).replace(/\n/g, '<br>')}</p>
       `,
     });
 
