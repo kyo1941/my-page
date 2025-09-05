@@ -41,7 +41,16 @@ export const careerData: Career[] = [
       'スクラム開発を通した、新機能開発における設計書の作成や実装。\nAndroidチームメンバーだけでなく、PdMとの仕様調整のコミュニケーションも行いつつ、初の実務経験ということもあり大規模なアーキテクチャについてキャッチアップしながら取り組んだ。',      
       'モーションセンサーを使用したアニメーションを実装する新機能開発を担当。',
     ],
-    technologies: ['Kotlin', 'Jetpack'],
+    technologies: [
+      'Kotlin',
+      'GitHub', 
+      'Jetpack Compose', 
+      'MVVM', 
+      'Dagger Hilt',
+      'Kotlin Coroutines', 
+      'Glide',
+      'JUnit',
+    ],
   },
   {
     icon: '/icon/saitama-univ.png',
