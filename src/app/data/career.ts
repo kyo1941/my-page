@@ -10,15 +10,47 @@ export type Career = {
 // ハードコードは将来的にやめるべき
 export const careerData: Career[] = [
   {
-    icon: '/icon/company-icon.svg',
-    company: 'Sansan株式会社',
-    period: '2025年8月 - 現在',
+    icon: '/icon/dwango-logo.svg',
+    company: '株式会社ドワンゴ',
+    period: '2025年11月 - 2026年1月',
     position: 'Androidエンジニア',
     tasks: [
-      'toC名刺管理アプリ「Eight」チーム',
-      '詳しくは決まり次第記述する',      
+      '動画配信サイト「ニコニコ動画」のAndroidエンジニアとして従事。',
+      '決まったらなんか書くよん',
     ],
     technologies: ['Kotlin', 'Jetpack'],
+  },
+  {
+    icon: '/icon/company-icon.svg',
+    company: '株式会社ミラティブ',
+    period: '2025年10月 - 2025年10月',
+    position: 'Androidエンジニア',
+    tasks: [
+      'ライブ配信アプリ「ミラティブ」のAndroidエンジニアとして従事。',
+      '決まったらなんか書くよん',
+    ],
+    technologies: ['Kotlin', 'Jetpack'],
+  },
+  {
+    icon: '/icon/sansan-logo.png',
+    company: 'Sansan株式会社',
+    period: '2025年8月 - 2025年9月',
+    position: 'Eight事業部 Androidエンジニア',
+    tasks: [
+      'toC名刺管理アプリ「Eight」チームのAndroidエンジニアとして従事。',
+      'スクラム開発を通した、新機能開発における設計書の作成や実装。\nAndroidチームメンバーだけでなく、PdMとの仕様調整のコミュニケーションも行いつつ、初の実務経験ということもあり大規模なアーキテクチャについてキャッチアップしながら取り組んだ。',      
+      'モーションセンサーを使用したアニメーションを実装する新機能開発を担当。',
+    ],
+    technologies: [
+      'Kotlin',
+      'GitHub', 
+      'Jetpack Compose', 
+      'MVVM', 
+      'Dagger Hilt',
+      'Kotlin Coroutines', 
+      'Glide',
+      'JUnit',
+    ],
   },
   {
     icon: '/icon/saitama-univ.png',
