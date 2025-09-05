@@ -5,8 +5,7 @@ import my.backend.dto.ValidationErrors
 // --- Validation Logic ---
 fun validateContactForm(email: String, subject: String, message: String): ValidationErrors {
     val emailError =
-            if (email.isBlank() ||
-                            !email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$".toRegex())
+            if (email.isBlank() || !email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$".toRegex())
             ) {
                 "有効なメールアドレスを入力してください。"
             } else null
