@@ -9,7 +9,7 @@ export default function CareerSection() {
         {careerData.map((career, index) => (
           <div key={index} className="mb-10 ml-6">
             
-            <span className="absolute flex items-center justify-center w-13 h-13 bg-white p-0.5 rounded-full -left-7 ring-2 ring-gray-100">
+            <span className="absolute flex items-center justify-center w-13 h-13 bg-white p-0.5 rounded-full -left-6.5 ring-2 ring-gray-100 shadow-[0_0_0_6px_white]">
               <Image
                 src={career.icon}
                 alt={`${career.company} icon`}
