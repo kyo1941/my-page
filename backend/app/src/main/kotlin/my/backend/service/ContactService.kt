@@ -17,16 +17,13 @@ import reactor.core.publisher.Mono
 
 // --- Service ---
 @Service
-class ContactService(private val webClientBuilder: WebClient.Builder) {
-
-    @Value("\${turnstile.secret-key}") private lateinit var turnstileSecretKey: String
-
-    @Value("\${contact.recipient-email}") private lateinit var recipientEmail: String
-
-    @Value("\${resend.api-key}") private lateinit var resendApiKey: String
-
-    @Value("\${resend.from-email}") private lateinit var fromEmail: String
-
+class ContactService(
+        private val webClientBuilder: WebClient.Builder,
+        @Value("\${turnstile.secret-key}") private val turnstileSecretKey: String,
+        @Value("\${contact.recipient-email}") private val recipientEmail: String,
+        @Value("\${resend.api-key}") private val resendApiKey: String,
+        @Value("\${resend.from-email}") private val fromEmail: String
+) {
     private val logger = LoggerFactory.getLogger(ContactService::class.java)
 
     private val webClient: WebClient = webClientBuilder.build()
