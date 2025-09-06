@@ -28,12 +28,17 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
     fun processContactRequest(request: ContactFormRequest) {
         // 2a. Turnstile verification
         try {
-            verifyTurnstile(request.turnstileToken).block()?.let {
-                if (!it.success) {
-                    logger.warn("Turnstile verification failed: ${it.errorCodes}")
-                    throw IllegalStateException("Turnstile verification failed")
-                }
+            val turnstileResponse = verifyTurnstile(request.turnstileToken).block()
+            if (turnstileResponse == null || !turnstileResponse.success) {
+                val errorCodes =
+                        turnstileResponse?.errorCodes
+                                ?: listOf("No response from verification service")
+                logger.warn("Turnstile verification failed: $errorCodes")
+                throw IllegalStateException("Turnstile verification failed")
             }
+            logger.info(
+                    "Turnstile response received: success=${turnstileResponse.success}, errorCodes=${turnstileResponse.errorCodes}"
+            )
         } catch (e: Exception) {
             logger.error("Turnstile verification error", e)
             throw e
