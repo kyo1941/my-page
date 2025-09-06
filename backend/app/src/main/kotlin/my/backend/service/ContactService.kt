@@ -26,35 +26,22 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
     private val logger = LoggerFactory.getLogger(ContactService::class.java)
 
     fun processContactRequest(request: ContactFormRequest) {
-        logger.info("=== Contact request received ===")
-        logger.info("Email: ${request.email}")
-        logger.info("Subject: ${request.subject}")
-        logger.info("Message length: ${request.message.length}")
-        logger.info("Turnstile token: ${request.turnstileToken}")
-
         // 2a. Turnstile verification
-        logger.info("Starting Turnstile verification...")
         try {
             verifyTurnstile(request.turnstileToken).block()?.let {
-                logger.info(
-                        "Turnstile response received: success=${it.success}, errorCodes=${it.errorCodes}"
-                )
                 if (!it.success) {
                     logger.warn("Turnstile verification failed: ${it.errorCodes}")
                     throw IllegalStateException("Turnstile verification failed")
                 }
             }
-            logger.info("Turnstile verification passed")
         } catch (e: Exception) {
             logger.error("Turnstile verification error", e)
             throw e
         }
 
         // 2b. Send email
-        logger.info("Starting email sending...")
         try {
             sendEmail(request)
-            logger.info("Email sent successfully")
         } catch (e: Exception) {
             logger.error("Email sending error", e)
             throw e
@@ -101,10 +88,9 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
 
         try {
             resend.emails().send(sendEmailRequest)
-            logger.info("Email sent successfully to $recipientEmail")
         } catch (e: Exception) {
             logger.error("Failed to send email", e)
-            throw RuntimeException("Failed to send email")
+            throw RuntimeException("Failed to send email: ", e)
         }
     }
 }
