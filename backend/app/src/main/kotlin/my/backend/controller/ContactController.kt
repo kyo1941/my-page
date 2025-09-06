@@ -17,7 +17,7 @@ import com.resend.core.exception.ResendException
 @RequestMapping("/api")
 class ContactController(private val contactService: ContactService) {
 
-    private val logger = LoggerFactory.getLogger(ContactController::class.java)
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @PostMapping("/contact")
     fun submitContactForm(@RequestBody request: ContactFormRequest): ResponseEntity<ApiResponse> {
