@@ -35,24 +35,18 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
 
     fun processContactRequest(request: ContactFormRequest) {
         // Turnstile verification
-        try {
-            val turnstileResponse = verifyTurnstile(request.turnstileToken).block()
+        val turnstileResponse = verifyTurnstile(request.turnstileToken).block()
 
-            // Check verification result
-            if (turnstileResponse == null || !turnstileResponse.success) {
-                val errorCodes =
-                        turnstileResponse?.errorCodes
-                                ?: listOf("No response from verification service")
-                logger.warn("Turnstile verification failed: $errorCodes")
-                throw TurnstileVerificationException("Turnstile verification failed")
-            }
-            logger.info(
-                    "Turnstile response received: success=${turnstileResponse.success}, errorCodes=${turnstileResponse.errorCodes}"
-            )
-        } catch (e: Exception) {
-            logger.error("Turnstile verification error", e)
-            throw e
+        // Check verification result
+        if (turnstileResponse == null || !turnstileResponse.success) {
+            val errorCodes =
+                    turnstileResponse?.errorCodes ?: listOf("No response from verification service")
+            logger.warn("Turnstile verification failed: $errorCodes")
+            throw TurnstileVerificationException("Turnstile verification failed")
         }
+        logger.info(
+                "Turnstile response received: success=${turnstileResponse.success}, errorCodes=${turnstileResponse.errorCodes}"
+        )
 
         // Send email
         sendEmail(request)
