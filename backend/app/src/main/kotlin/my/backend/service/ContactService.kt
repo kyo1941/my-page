@@ -30,6 +30,8 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
 
     private val webClient: WebClient = webClientBuilder.build()
 
+    private val resend: Resend by lazy { Resend(resendApiKey) }
+
     fun processContactRequest(request: ContactFormRequest) {
         // 2a. Turnstile verification
         try {
@@ -73,8 +75,6 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
     }
 
     private fun sendEmail(request: ContactFormRequest) {
-        val resend = Resend(resendApiKey)
-
         val emailHtml =
                 """
             <h3>新しいお問い合わせ</h3>
