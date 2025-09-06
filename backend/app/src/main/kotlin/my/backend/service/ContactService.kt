@@ -4,6 +4,7 @@ import com.resend.Resend
 import com.resend.services.emails.model.SendEmailRequest
 import my.backend.dto.ContactFormRequest
 import my.backend.dto.TurnstileResponse
+import my.backend.exception.TurnstileVerificationException
 import org.apache.commons.text.StringEscapeUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -43,7 +44,7 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
                         turnstileResponse?.errorCodes
                                 ?: listOf("No response from verification service")
                 logger.warn("Turnstile verification failed: $errorCodes")
-                throw IllegalStateException("Turnstile verification failed")
+                throw TurnstileVerificationException("Turnstile verification failed")
             }
             logger.info(
                     "Turnstile response received: success=${turnstileResponse.success}, errorCodes=${turnstileResponse.errorCodes}"
