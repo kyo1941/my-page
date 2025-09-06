@@ -28,6 +28,8 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
 
     private val logger = LoggerFactory.getLogger(ContactService::class.java)
 
+    private val webClient: WebClient = webClientBuilder.build()
+
     fun processContactRequest(request: ContactFormRequest) {
         // 2a. Turnstile verification
         try {
@@ -57,7 +59,6 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
     }
 
     private fun verifyTurnstile(token: String): Mono<TurnstileResponse> {
-        val webClient = webClientBuilder.build()
         val formData = LinkedMultiValueMap<String, String>()
         formData.add("secret", turnstileSecretKey)
         formData.add("response", token)
