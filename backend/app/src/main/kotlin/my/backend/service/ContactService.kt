@@ -23,6 +23,9 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
     @Value("\${contact.recipient-email}") private lateinit var recipientEmail: String
 
     @Value("\${resend.api-key}") private lateinit var resendApiKey: String
+
+    @Value("\${resend.from-email}") private lateinit var fromEmail: String
+
     private val logger = LoggerFactory.getLogger(ContactService::class.java)
 
     fun processContactRequest(request: ContactFormRequest) {
@@ -82,9 +85,7 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
 
         val sendEmailRequest =
                 SendEmailRequest.builder()
-                        .from(
-                                "onboarding@resend.dev"
-                        ) // Note: Must be a verified domain in production
+                        .from(fromEmail)
                         .to(recipientEmail)
                         .subject("[お問い合わせ] ${request.subject}")
                         .replyTo(request.email)
