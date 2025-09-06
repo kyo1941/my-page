@@ -30,23 +30,29 @@ class ContactService(
 
     private val resend: Resend by lazy { Resend(resendApiKey) }
 
-    fun processContactRequest(request: ContactFormRequest) {
-        // Turnstile verification
-        val turnstileResponse = verifyTurnstile(request.turnstileToken).block()
-
-        // Check verification result
-        if (turnstileResponse == null || !turnstileResponse.success) {
-            val errorCodes =
-                    turnstileResponse?.errorCodes ?: listOf("No response from verification service")
-            logger.warn("Turnstile verification failed: $errorCodes")
-            throw TurnstileVerificationException("Turnstile verification failed")
-        }
-        logger.info(
-                "Turnstile response received: success=${turnstileResponse.success}, errorCodes=${turnstileResponse.errorCodes}"
-        )
-
-        // Send email
-        sendEmail(request)
+    fun processContactRequest(request: ContactFormRequest): Mono<Void> {
+        return verifyTurnstile(request.turnstileToken)
+                .flatMap { turnstileResponse ->
+                    if (turnstileResponse.success) {
+                        logger.info(
+                                "Turnstile response received: success=${turnstileResponse.success}, errorCodes=${turnstileResponse.errorCodes}"
+                        )
+                        Mono.fromRunnable<Void> { sendEmail(request) }
+                    } else {
+                        logger.warn(
+                                "Turnstile verification failed: ${turnstileResponse.errorCodes}"
+                        )
+                        Mono.error(TurnstileVerificationException("Turnstile verification failed"))
+                    }
+                }
+                .switchIfEmpty(
+                        Mono.error(
+                                TurnstileVerificationException(
+                                        "Turnstile verification returned no response"
+                                )
+                        )
+                )
+                .then()
     }
 
     private fun verifyTurnstile(token: String): Mono<TurnstileResponse> {
