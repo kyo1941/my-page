@@ -19,14 +19,14 @@ class ContactController(private val contactService: ContactService) {
 
     @PostMapping("/contact")
     fun submitContactForm(@RequestBody request: ContactFormRequest): ResponseEntity<ApiResponse> {
-        // 1. Server-side validation
+        // Server-side validation
         val validationErrors = validateContactForm(request.email, request.subject, request.message)
         if (validationErrors.hasErrors()) {
             return ResponseEntity.badRequest()
                     .body(ApiResponse(error = "Invalid input", details = validationErrors))
         }
 
-        // 2. Delegate to service
+        // Delegate to service
         return try {
             contactService.processContactRequest(request)
             ResponseEntity.ok(ApiResponse(message = "メール送信が完了しました"))

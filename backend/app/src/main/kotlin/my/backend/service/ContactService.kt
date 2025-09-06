@@ -33,9 +33,11 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
     private val resend: Resend by lazy { Resend(resendApiKey) }
 
     fun processContactRequest(request: ContactFormRequest) {
-        // 2a. Turnstile verification
+        // Turnstile verification
         try {
             val turnstileResponse = verifyTurnstile(request.turnstileToken).block()
+
+            // Check verification result
             if (turnstileResponse == null || !turnstileResponse.success) {
                 val errorCodes =
                         turnstileResponse?.errorCodes
@@ -51,13 +53,8 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
             throw e
         }
 
-        // 2b. Send email
-        try {
-            sendEmail(request)
-        } catch (e: Exception) {
-            logger.error("Email sending error", e)
-            throw e
-        }
+        // Send email
+        sendEmail(request)
     }
 
     private fun verifyTurnstile(token: String): Mono<TurnstileResponse> {
@@ -93,11 +90,6 @@ class ContactService(private val webClientBuilder: WebClient.Builder) {
                         .html(emailHtml)
                         .build()
 
-        try {
-            resend.emails().send(sendEmailRequest)
-        } catch (e: Exception) {
-            logger.error("Failed to send email", e)
-            throw RuntimeException("Failed to send email: ", e)
-        }
+        resend.emails().send(sendEmailRequest)
     }
 }
