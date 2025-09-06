@@ -31,8 +31,9 @@ class ContactController(private val contactService: ContactService) {
             contactService.processContactRequest(request)
             ResponseEntity.ok(ApiResponse(message = "メール送信が完了しました"))
         } catch (e: Exception) {
+            logger.error("An unexpected error occurred while processing contact form: ", e)
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse(error = e.message ?: "Unknown error occurred"))
+                    .body(ApiResponse(error = "メールの送信中に予期せぬエラーが発生しました。"))
         }
     }
 }
