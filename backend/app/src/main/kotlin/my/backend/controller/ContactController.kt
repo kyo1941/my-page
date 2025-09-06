@@ -3,8 +3,8 @@ package my.backend.controller
 import my.backend.dto.ApiResponse
 import my.backend.dto.ContactFormRequest
 import my.backend.service.ContactService
-import my.backend.validation.hasValidationErrors
 import my.backend.validation.validateContactForm
+import my.backend.validation.hasErrors
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,7 +21,7 @@ class ContactController(private val contactService: ContactService) {
     fun submitContactForm(@RequestBody request: ContactFormRequest): ResponseEntity<ApiResponse> {
         // 1. Server-side validation
         val validationErrors = validateContactForm(request.email, request.subject, request.message)
-        if (hasValidationErrors(validationErrors)) {
+        if (validationErrors.hasErrors()) {
             return ResponseEntity.badRequest()
                     .body(ApiResponse(error = "Invalid input", details = validationErrors))
         }

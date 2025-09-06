@@ -16,6 +16,6 @@ fun validateContactForm(email: String, subject: String, message: String): Valida
     return ValidationErrors(email = emailError, subject = subjectError, message = messageError)
 }
 
-fun hasValidationErrors(errors: ValidationErrors): Boolean {
-    return errors.email != null || errors.subject != null || errors.message != null
+fun ValidationErrors.hasErrors(): Boolean {
+    return email != null || subject != null || message != null
 }
