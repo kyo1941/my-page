@@ -5,16 +5,19 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const skills = [
-    { name: 'Kotlin', icon: '/icon/kotlin-1.svg', description: 'Android開発の標準装備ですので、それなりには使えます。' },
-    { name: 'Jetpack Compose', icon: '/icon/jetpack-compose.svg', description: 'これなしではもうやっていけません。あとJetpackライブラリも色々使えます。' },
+    { name: 'Kotlin', icon: '/icon/kotlin-1.svg', description: 'Android開発の標準装備ですので、それなりには使えます。また、サーバーサイドでもKotlinを使っています。' },
+    { name: 'Jetpack Compose', icon: '/icon/jetpack-compose.svg', description: 'これなしではもうやっていけません。あとJetpackライブラリも大体は使えます。' },
     { name: 'HTML', icon: '/icon/html-1.svg', description: 'WEB開発では避けては通れないので勉強中です。' },
     { name: 'CSS', icon: '/icon/css-3.svg', description: 'デザインが整うと一気に垢抜けるので楽しいです。こちらも勉強中です。' },
     { name: 'Tailwind CSS', icon: '/icon/tailwind-css-2.svg', description: 'コンポーネントごとにCSS書けるのが便利すぎて感動してます。積極的に使いがちです。' },
-    { name: 'TypeScript', icon: '/icon/typescript.svg', description: 'フロントエンドもバックエンドにも使えるので興味津々です。勉強中です。' },
-    { name: 'React', icon: '/icon/react-2.svg', description: 'Vue.jsもあるみたいだけど、Composeっぽいのはこっちなのかなあと思っている。' },
-    { name: 'Next.js', icon: '/icon/next-js.svg', description: 'このWEBサイトにもNext.jsを使用しています。' },
+    { name: 'TypeScript', icon: '/icon/typescript.svg', description: 'Javascriptよりも型安全で、積極的に使いがちな気がします。' },
+    { name: 'React', icon: '/icon/react-2.svg', description: 'Vue.jsもあるみたいだけど、Composeっぽいのはこっちなのかなあと思っています。' },
+    { name: 'Next.js', icon: '/icon/next-js.svg', description: 'このWEBサイトのフロントエンドはNext.jsを使用しています。鯛で海老を釣っている気持ちです。' },
+    { name: 'Spring Boot', icon: '/icon/spring-boot.svg', description: 'このWEBサイトのバックエンドはSpring Bootを使用しKotlinで構築しています。鯛二匹で海老を釣っている気持ちです。' },
     { name: 'Python', icon: '/icon/python-5.svg', description: '深層学習系の研究で使用しています。' },
     { name: 'C++', icon: '/icon/c++.svg', description: '競技プログラミングに使っています。もはやそれ専用の言語と化しています。' },
+    { name: 'Git', icon: '/icon/git.svg', description: 'バージョン管理ツールとして使用しています。最低限の使い方は理解しています。' },
+    { name: 'Docker', icon: '/icon/docker.svg', description: '研究室のサーバー管理に使用しています。' },
   ];
 
 export default function SkillsSection() {
