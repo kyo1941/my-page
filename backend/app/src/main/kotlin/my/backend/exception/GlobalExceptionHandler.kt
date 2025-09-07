@@ -2,9 +2,11 @@ package my.backend.exception
 
 import com.resend.core.exception.ResendException
 import my.backend.dto.ApiResponse
+import my.backend.dto.ValidationErrors
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException 
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
@@ -12,6 +14,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 class GlobalExceptionHandler {
 
     private val logger = LoggerFactory.getLogger(javaClass)
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationExceptions(
+            ex: MethodArgumentNotValidException
+    ): ResponseEntity<ApiResponse> {
+        val errors = ex.bindingResult.fieldErrors.associate { it.field to it.defaultMessage }
+        val validationErrors =
+                ValidationErrors(
+                        email = errors["email"],
+                        subject = errors["subject"],
+                        message = errors["message"]
+                )
+        logger.warn("Validation failed: $errors")
+        return ResponseEntity.badRequest()
+                .body(ApiResponse(error = "Invalid input", details = validationErrors))
+    }
 
     @ExceptionHandler(TurnstileVerificationException::class)
     fun handleTurnstileVerificationException(
