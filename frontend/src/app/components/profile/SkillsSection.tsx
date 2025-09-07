@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const skills = [
-    { name: 'Kotlin', icon: '/icon/kotlin-1.svg', description: 'Android開発の標準装備ですので、それなりには使えます。' },
+    { name: 'Kotlin', icon: '/icon/kotlin-1.svg', description: 'Android開発の標準装備ですので、それなりには使えます。また、サーバーサイドでもKotlinを使っています。' },
     { name: 'Jetpack Compose', icon: '/icon/jetpack-compose.svg', description: 'これなしではもうやっていけません。あとJetpackライブラリも大体は使えます。' },
     { name: 'HTML', icon: '/icon/html-1.svg', description: 'WEB開発では避けては通れないので勉強中です。' },
     { name: 'CSS', icon: '/icon/css-3.svg', description: 'デザインが整うと一気に垢抜けるので楽しいです。こちらも勉強中です。' },
@@ -17,6 +17,7 @@ const skills = [
     { name: 'Python', icon: '/icon/python-5.svg', description: '深層学習系の研究で使用しています。' },
     { name: 'C++', icon: '/icon/c++.svg', description: '競技プログラミングに使っています。もはやそれ専用の言語と化しています。' },
     { name: 'Git', icon: '/icon/git.svg', description: 'バージョン管理ツールとして使用しています。最低限の使い方は理解しています。' },
+    { name: 'Docker', icon: '/icon/docker.svg', description: '研究室のサーバー管理に使用しています。' },
   ];
 
 export default function SkillsSection() {
