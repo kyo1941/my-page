@@ -32,7 +32,7 @@ export const careerData: Career[] = [
     technologies: ['Kotlin', 'Jetpack'],
   },
   {
-    icon: '/icon/sansan-logo.png',
+    icon: '/icon/sansan-logo.svg',
     company: 'Sansan株式会社',
     period: '2025年8月 - 2025年9月',
     position: 'Eight事業部 Androidエンジニア',
