@@ -32,6 +32,13 @@ class ContactService(
 
     fun processContactRequest(request: ContactFormRequest): Mono<Void> {
         return verifyTurnstile(request.turnstileToken)
+                .switchIfEmpty(
+                        Mono.error(
+                                TurnstileVerificationException(
+                                        "Turnstile verification returned no response"
+                                )
+                        )
+                )
                 .flatMap { turnstileResponse ->
                     if (turnstileResponse.success) {
                         logger.info(
@@ -45,13 +52,6 @@ class ContactService(
                         Mono.error(TurnstileVerificationException("Turnstile verification failed"))
                     }
                 }
-                .switchIfEmpty(
-                        Mono.error(
-                                TurnstileVerificationException(
-                                        "Turnstile verification returned no response"
-                                )
-                        )
-                )
                 .then()
     }
 

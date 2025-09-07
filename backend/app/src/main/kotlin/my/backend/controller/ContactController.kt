@@ -22,7 +22,7 @@ class ContactController(private val contactService: ContactService) {
         }
 
         // Delegate to service
-        contactService.processContactRequest(request)
+        contactService.processContactRequest(request).block()
         return ResponseEntity.ok(ApiResponse(message = "メール送信が完了しました"))
     }
 }
