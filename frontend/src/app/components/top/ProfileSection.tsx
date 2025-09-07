@@ -52,6 +52,16 @@ export default function ProfileSection() {
                 height={32} 
               />
             </Link>
+
+            <Link href={EXTERNAL_LINKS.ZENN} target="_blank" rel="noopener noreferrer" className="inline-block hover:opacity-70 transition-opacity">
+              <Image 
+                className="object-cover"
+                src="/zenn-icon.svg"
+                alt="zenn icon"
+                width={32} 
+                height={32} 
+              />
+            </Link>
           </div>
         </div>
       </div>
