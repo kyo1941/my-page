@@ -14,6 +14,7 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
 
 // --- Service ---
 @Service
@@ -45,6 +46,7 @@ class ContactService(
                                 "Turnstile response received: success=${turnstileResponse.success}, errorCodes=${turnstileResponse.errorCodes}"
                         )
                         Mono.fromRunnable<Void> { sendEmail(request) }
+                                .subscribeOn(Schedulers.boundedElastic())
                     } else {
                         logger.warn(
                                 "Turnstile verification failed: ${turnstileResponse.errorCodes}"
@@ -76,7 +78,7 @@ class ContactService(
             <p><strong>送信者:</strong> ${StringEscapeUtils.escapeHtml4(request.email)}</p>
             <p><strong>件名:</strong> ${StringEscapeUtils.escapeHtml4(request.subject)}</p>
             <p><strong>メッセージ:</strong></p>
-                    <p>${StringEscapeUtils.escapeHtml4(request.message).replace("\n", "<br>")}</p>
+                <p>${StringEscapeUtils.escapeHtml4(request.message).replace("\n", "<br>")}</p>
         """.trimIndent()
 
         val sendEmailRequest =
