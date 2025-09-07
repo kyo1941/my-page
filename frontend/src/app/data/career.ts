@@ -15,7 +15,7 @@ export const careerData: Career[] = [
     period: '2025年11月 - 2026年1月',
     position: 'Androidエンジニア',
     tasks: [
-      '動画配信サイト「ニコニコ動画」のAndroidエンジニアとして従事。',
+      '動画配信アプリ「ニコニコ動画」のAndroidエンジニアとして従事。',
       '決まり次第追記します。',
     ],
     technologies: ['Kotlin', 'Jetpack'],
