@@ -28,7 +28,7 @@ class GlobalExceptionHandler {
                 )
         logger.warn("Validation failed: $errors")
         return ResponseEntity.badRequest()
-                .body(ApiResponse(error = "Invalid input", details = validationErrors))
+                .body(ApiResponse(error = "入力値が無効です。", details = validationErrors))
     }
 
     @ExceptionHandler(TurnstileVerificationException::class)
