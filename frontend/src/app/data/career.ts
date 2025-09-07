@@ -16,7 +16,7 @@ export const careerData: Career[] = [
     position: 'Androidエンジニア',
     tasks: [
       '動画配信サイト「ニコニコ動画」のAndroidエンジニアとして従事。',
-      '決まったらなんか書くよん',
+      '決まり次第追記します。',
     ],
     technologies: ['Kotlin', 'Jetpack'],
   },
@@ -27,7 +27,7 @@ export const careerData: Career[] = [
     position: 'Androidエンジニア',
     tasks: [
       'ライブ配信アプリ「ミラティブ」のAndroidエンジニアとして従事。',
-      '決まったらなんか書くよん',
+      '決まり次第追記します。',
     ],
     technologies: ['Kotlin', 'Jetpack'],
   },
@@ -39,7 +39,7 @@ export const careerData: Career[] = [
     tasks: [
       'toC名刺管理アプリ「Eight」チームのAndroidエンジニアとして従事。',
       'スクラム開発を通した、新機能開発における設計書の作成や実装。\nAndroidチームメンバーだけでなく、PdMとの仕様調整のコミュニケーションも行いつつ、初の実務経験ということもあり大規模なアーキテクチャについてキャッチアップしながら取り組んだ。',      
-      'モーションセンサーを使用したアニメーションを実装する新機能開発を担当。',
+      'モーションセンサーを使用した名刺反転アニメーションを実装する新機能開発を担当。\nセンサーの制御を行い端末負荷を抑えつつ、ユーザー体験を向上させるアニメーションの実装を行った。',
     ],
     technologies: [
       'Kotlin',
