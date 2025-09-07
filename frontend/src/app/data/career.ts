@@ -7,6 +7,9 @@ export type Career = {
   technologies: string[];
 };
 
+// 現在進行形の場合に使用する定数
+export const CURRENT_TERM = '現在';
+
 // ハードコードは将来的にやめるべき
 export const careerData: Career[] = [
   {

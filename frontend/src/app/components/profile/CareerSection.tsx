@@ -1,4 +1,4 @@
-import { careerData } from '../../data/career';
+import { careerData, CURRENT_TERM } from '../../data/career';
 import Image from 'next/image';
 import { useMemo, useCallback } from 'react';
 
@@ -11,13 +11,25 @@ export default function CareerSection() {
     if (!startDateStr || !endDateStr) return false;
 
     const parseDate = (dateStr: string) => {
-      const year = parseInt(dateStr.substring(0, 4), 10);
-      const month = parseInt(dateStr.substring(5, 7), 10) - 1;
+      const match = dateStr.match(/(\d{4})年\s*(\d{1,2})月/);
+      if (!match) return new Date(NaN);
+
+      const year = parseInt(match[1], 10);
+      const month = parseInt(match[2], 10) - 1; 
       return new Date(year, month);
     };
 
     const startDate = parseDate(startDateStr);
+    if (isNaN(startDate.getTime())) return false;
+
+    if (endDateStr === CURRENT_TERM) {
+      return startDate <= now;
+    }
+
     const endDate = parseDate(endDateStr);
+    if (isNaN(endDate.getTime())) return false;
+
+    if (startDate > endDate) return false;
 
     endDate.setMonth(endDate.getMonth() + 1);
     endDate.setDate(0);
