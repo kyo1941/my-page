@@ -18,7 +18,14 @@ export const useContactForm = () => {
     setSubmitStatus('idle');
 
     try {
-      const response = await fetch('/api/contact', {
+      // 環境に応じてAPIエンドポイントを決定
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+      if (process.env.NODE_ENV === 'production' && !baseUrl) {
+        throw new Error('NEXT_PUBLIC_API_BASE_URLは本番環境で定義されている必要があります。');
+      } 
+      const apiUrl = baseUrl || 'http://localhost:8080';
+      
+      const response = await fetch(`${apiUrl}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,7 +34,8 @@ export const useContactForm = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to send message');
       }
 
       const result = await response.json();
@@ -35,6 +43,7 @@ export const useContactForm = () => {
       setSubmitStatus('success');
       return { success: true, data: result };
     } catch (error) {
+      console.error('Contact form submission error:', error);
       setSubmitStatus('error');
       return { success: false, error };
     } finally {
