@@ -1,11 +1,11 @@
 import { careerData } from '../../data/career';
 import Image from 'next/image';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 
 export default function CareerSection() {
   const now = useMemo(() => new Date(), []);
 
-  const isCurrent = (period: string) => {
+  const isCurrent = useCallback((period: string) => {
     const [startDateStr, endDateStr] = period.split(' - ');
 
     if (!startDateStr || !endDateStr) return false;
@@ -23,7 +23,7 @@ export default function CareerSection() {
     endDate.setDate(0);
 
     return startDate <= now && now <= endDate;
-  };
+  }, [now]);
 
   // isCurrent関数を使って各キャリアが現在進行中かどうかを判定し、新しいプロパティを追加
   const processedCareerData = useMemo(() => {
