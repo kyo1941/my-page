@@ -19,7 +19,6 @@ export default function ProfileDetailSection() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold mb-8 text-gray-900">自己紹介</h1>
       <div className="prose max-w-none prose-lg">
         <ul className="text-gray-700 leading-relaxed mb-6">
             <li className="my-1">福島県 県北出身</li>
