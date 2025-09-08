@@ -1,41 +1,51 @@
 export type Blog = {
-  id: number;
+  slug: string; // ファイル名から自動で生成する
   title: string;
   date: string;
   description: string;
-  url: string;
+  coverImage: string | undefined;
+  tags: string[];
+  content: string;
 };
 
 // 仮の記事データなので今後読み込めるようにする必要があります
 export function getBlogs(): Blog[] {
   return [
     {
-      id: 1,
+      slug: "first-personal-site",
       title: "初めての個人サイト制作",
       date: "2025年5月17日",
-      description: "個人サイトを作ることになった経緯とその過程で学んだことについて…",
-      url: "#1"
+      description: "個人サイトを作ることになった経緯とその過程で学んだことについてまとめました。",
+      coverImage: "/images/blog/first-personal-site.jpg",
+      tags: ["Web", "雑記"],
+      content: "ここに記事の本文が入ります。"
     },
     {
-      id: 2,
+      slug: "html-css-basics",
       title: "HTMLとCSSの基本",
       date: "2025年5月10日",
-      description: "Webページの基本構造とスタイリングについて学んだことをまとめました…",
-      url: "#2"
+      description: "Webページの基本構造とスタイリングについて学んだことをまとめました。",
+      coverImage: "/images/blog/html-css-basics.jpg",
+      tags: ["Web", "技術"],
+      content: "ここに記事の本文が入ります。"
     },
     {
-      id: 3,
+      slug: "responsive-design",
       title: "レスポンシブデザインとは",
       date: "2025年5月3日",
-      description: "様々な画面サイズに対応するWebサイトの作り方について…",
-      url: "#3"
+      description: "様々な画面サイズに対応するWebサイトの作り方についてまとめました。",
+      coverImage: "/images/blog/responsive-design.jpg",
+      tags: ["Web", "デザイン"],
+      content: "ここに記事の本文が入ります。"
     },
     {
-      id: 4,
+      slug: "javascript-basics",
       title: "JavaScriptの基礎文法",
       date: "2025年4月28日",
-      description: "JavaScriptの基本的な文法や使い方について解説します…",
-      url: "#4"
+      description: "JavaScriptの基本的な文法や使い方についてまとめました。",
+      coverImage: "/images/blog/javascript-basics.jpg",
+      tags: ["Web", "JavaScript"],
+      content: "ここに記事の本文が入ります。"
     }
   ];
 }
