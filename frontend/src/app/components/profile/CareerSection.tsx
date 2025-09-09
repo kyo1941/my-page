@@ -64,7 +64,7 @@ export default function CareerSection() {
               <p className="block my-3 text-sm font-normal leading-none text-gray-500">{career.period} | {career.position}</p>
               <ul className="list-disc list-outside text-gray-700 space-y-1.5">
                 {career.tasks.map((task, taskIndex) => (
-                  <li key={taskIndex} className='whitespace-pre-line'>{task}</li>
+                  <li key={taskIndex} className='whitespace-pre-line my-2.5'>{task}</li>
                 ))}
               </ul>
               <div className="my-4 flex flex-wrap gap-2">

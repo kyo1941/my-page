@@ -1,4 +1,6 @@
 import Header from "../header";
+import BlogSection from "../components/blog/BlogSection";
+import SearchSection from "../components/blog/SearchSection";
 
 export default function BlogPage() {
   return (
@@ -9,9 +11,13 @@ export default function BlogPage() {
 
           <h1 className="text-4xl font-bold mb-8 text-gray-900">ブログ</h1>
 
-          <div className="text-center text-gray-600 py-12">
-            <p>ブログ記事を準備中です。</p>
-          </div>
+          <section className="pb-6 mb-6">
+            <SearchSection />
+          </section>
+
+          <section>
+            <BlogSection />
+          </section>
         </div>
       </main>
     </div>
