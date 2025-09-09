@@ -1,6 +1,7 @@
 import Header from "../header";
 import BlogSection from "../components/blog/BlogSection";
-import SearchSection from "../components/blog/SearchSection";
+import TextSearchSection from "../components/blog/TextSearchSection";
+import TagSearchSection from "../components/blog/TagSearchSection";
 
 export default function BlogPage() {
   return (
@@ -11,8 +12,12 @@ export default function BlogPage() {
 
           <h1 className="text-4xl font-bold mb-8 text-gray-900">ブログ</h1>
 
-          <section className="pb-6 mb-6">
-            <SearchSection />
+          <section className="pb-2 mb-2">
+            <TextSearchSection />
+          </section>
+
+          <section className="border-b border-gray-200 pb-8 mb-8">
+            <TagSearchSection />
           </section>
 
           <section>

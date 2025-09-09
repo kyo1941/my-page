@@ -1,5 +1,5 @@
 // TODO: 実際に検索する機能を実装する
-export default function SearchSection() {
+export default function TextSearchSection() {
   return (
     <div>
         <div className="mt-6">
