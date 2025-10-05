@@ -1,4 +1,11 @@
-# 個人ページ
+# 個人WEBサイト
 
 ## 概要
-- WEBの勉強も兼ねて、自分用のWEBサイトを作成します
+自身のポートフォリオの作成を、WEBの勉強も兼ねて取り組んでいます。
+
+### 使用技術
+
+|分類|技術|
+| :--- | :--- |
+| **フロントエンド** | Typescript <br> Next.js <br> React <br> Tailwind CSS |
+| **バックエンド** | Kotlin <br> Spring Boot |
