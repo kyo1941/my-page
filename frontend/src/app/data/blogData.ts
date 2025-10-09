@@ -10,8 +10,8 @@ export type Blog = {
   title: string;
   date: string;
   description: string;
-  coverImage: string | undefined;
-  tags: string[];
+  coverImage?: string | undefined;
+  tags?: string[];
   content: string;
 };
 
@@ -37,8 +37,8 @@ export function getSortedPostsData() {
         title: string;
         date: string;
         description: string;
-        coverImage: string;
-        tags: string[];
+        coverImage?: string;
+        tags?: string[];
       }),
     };
   });
@@ -83,8 +83,8 @@ export async function getPostData(slug: string): Promise<Blog> {
       title: string;
       date: string;
       description: string;
-      coverImage: string;
-      tags: string[];
+      coverImage?: string;
+      tags?: string[];
     }),
   };
 }
