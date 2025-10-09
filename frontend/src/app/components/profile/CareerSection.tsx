@@ -1,4 +1,5 @@
 import { careerData, CURRENT_TERM } from '../../data/career';
+import { parseDate } from '../../utils/parseDate';
 import Image from 'next/image';
 import { useMemo, useCallback } from 'react';
 
@@ -9,15 +10,6 @@ export default function CareerSection() {
     const [startDateStr, endDateStr] = period.split(' - ');
 
     if (!startDateStr || !endDateStr) return false;
-
-    const parseDate = (dateStr: string) => {
-      const match = dateStr.match(/(\d{4})年\s*(\d{1,2})月/);
-      if (!match) return new Date(NaN);
-
-      const year = parseInt(match[1], 10);
-      const month = parseInt(match[2], 10) - 1; 
-      return new Date(year, month);
-    };
 
     const startDate = parseDate(startDateStr);
     if (isNaN(startDate.getTime())) return false;
@@ -72,7 +64,7 @@ export default function CareerSection() {
               <p className="block my-3 text-sm font-normal leading-none text-gray-500">{career.period} | {career.position}</p>
               <ul className="list-disc list-outside text-gray-700 space-y-1.5">
                 {career.tasks.map((task, taskIndex) => (
-                  <li key={taskIndex} className='whitespace-pre-line'>{task}</li>
+                  <li key={taskIndex} className='whitespace-pre-line my-2.5'>{task}</li>
                 ))}
               </ul>
               <div className="my-4 flex flex-wrap gap-2">
