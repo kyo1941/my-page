@@ -1,5 +1,5 @@
 import Header from "../header";
-import BlogSection from "../components/blog/BlogSection";
+import BlogListSection from "../components/blog/BlogListSection";
 import TextSearchSection from "../components/blog/TextSearchSection";
 import TagSearchSection from "../components/blog/TagSearchSection";
 
@@ -21,7 +21,7 @@ export default function BlogPage() {
           </section>
 
           <section>
-            <BlogSection />
+            <BlogListSection />
           </section>
         </div>
       </main>
