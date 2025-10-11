@@ -1,7 +1,7 @@
 import Header from "../header";
-import ProfileDetailSection from "../components/profile/ProfileDetailSection";
-import CareerSection from "../components/profile/CareerSection";
-import SkillsSection from "../components/profile/SkillsSection";
+import ProfileDetailSection from "./section/ProfileDetailSection";
+import CareerSection from "./section/CareerSection";
+import SkillsSection from "./section/SkillsSection";
 
 export default function AboutPage() {
   return (
