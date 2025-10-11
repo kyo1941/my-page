@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { TurnstileInstance } from '@marsidev/react-turnstile';
 import { validateContactForm, hasValidationErrors, ValidationErrors } from '@/app/utils/formValidation';
-import { useContactForm } from '@/app/repository/contactFormRepository';
+import { container } from 'tsyringe';
+import { IContactFormRepository } from '@/app/repository/contactFormRepository';
 
 export interface ContactFormInput {
   email: string;
@@ -22,7 +23,9 @@ export function useContactFormTop(siteKey: string) {
   const turnstileRef = useRef<TurnstileInstance>(null);
   // 送信状態
   const [showStatus, setShowStatus] = useState(true);
-  const { isSubmitting, submitStatus, submitForm } = useContactForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const contactFormRepository = container.resolve<IContactFormRepository>('IContactFormRepository');
 
   // 送信イベント
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,14 +42,23 @@ export function useContactFormTop(siteKey: string) {
       setTurnstileError('認証を完了してください');
       return;
     }
-    const result = await submitForm({ email, subject, message, turnstileToken });
-    if (result.success) {
-      setEmail('');
-      setSubject('');
-      setMessage('');
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    try {
+      const result = await contactFormRepository.submitForm({ email, subject, message, turnstileToken });
+      setSubmitStatus('success');
+      if (result.success) {
+        setEmail('');
+        setSubject('');
+        setMessage('');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+      setTurnstileToken('');
+      turnstileRef.current?.reset();
     }
-    setTurnstileToken('');
-    turnstileRef.current?.reset();
   };
 
   useEffect(() => {
