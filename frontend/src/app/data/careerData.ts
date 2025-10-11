@@ -30,9 +30,16 @@ export const careerData: Career[] = [
     position: 'Androidエンジニア',
     tasks: [
       'ライブ配信アプリ「ミラティブ」のAndroidエンジニアとして従事。',
-      '決まり次第追記します。',
+      '既存のXMLベースのUIをJetpack Composeに置き換える作業を担当。\n触れたことのないアーキテクチャでありながら、短期間でキャッチアップしていきながら実装を行った。',
+      'フルリモートワークであったため、より積極的にコミュニケーションをとり、進捗や課題を共有しながら開発を進めた。',
     ],
-    technologies: ['Kotlin', 'Jetpack'],
+    technologies: [
+      'Kotlin',
+      'Jetpack Compose',
+      'Flux',
+      'Koin',
+      'LiveData',
+    ],
   },
   {
     icon: '/icon/sansan-logo.svg',
