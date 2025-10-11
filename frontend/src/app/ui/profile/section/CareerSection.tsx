@@ -1,41 +1,8 @@
-import { careerData, CURRENT_TERM } from '../../../data/careerData';
-import { parseDate } from '../../../utils/parseDate';
 import Image from 'next/image';
-import { useMemo, useCallback } from 'react';
+import { useCareerSection } from '@/app/hooks/profile/useCareerSection';
 
 export default function CareerSection() {
-  const now = useMemo(() => new Date(), []);
-
-  const isCurrent = useCallback((period: string) => {
-    const [startDateStr, endDateStr] = period.split(' - ');
-
-    if (!startDateStr || !endDateStr) return false;
-
-    const startDate = parseDate(startDateStr);
-    if (isNaN(startDate.getTime())) return false;
-
-    if (endDateStr === CURRENT_TERM) {
-      return startDate <= now;
-    }
-
-    const endDate = parseDate(endDateStr);
-    if (isNaN(endDate.getTime())) return false;
-
-    if (startDate > endDate) return false;
-
-    endDate.setMonth(endDate.getMonth() + 1);
-    endDate.setDate(0);
-
-    return startDate <= now && now <= endDate;
-  }, [now]);
-
-  // isCurrent関数を使って各キャリアが現在進行中かどうかを判定し、新しいプロパティを追加
-  const processedCareerData = useMemo(() => {
-    return careerData.map((career) => ({
-      ...career,
-      isCurrent: isCurrent(career.period)
-    }));
-  }, [now]);
+  const { processedCareerData } = useCareerSection();
 
   return (
     <div>
