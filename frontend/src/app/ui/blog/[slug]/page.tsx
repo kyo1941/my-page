@@ -1,4 +1,4 @@
-import { getAllPostSlugs, getPostData } from '@/app/data/blogData'; 
+import { getAllPostSlugs, getPostData } from '@/app/repository/blogRepository'; 
 import Header from '@/app/components/header';
 import BackButton from '@/app/components/BackButton';
 import ReactMarkdown from 'react-markdown';

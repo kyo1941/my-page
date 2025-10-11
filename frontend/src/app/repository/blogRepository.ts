@@ -45,11 +45,10 @@ export function getSortedPostsData() {
 
   // 記事を日付順にソート
   return allPostsData.sort((a, b) => {
-  const dateA = parseDate(a.date);
-  const dateB = parseDate(b.date);
-  
-  return dateB.getTime() - dateA.getTime();
-});
+    const dateA = parseDate(a.date);
+    const dateB = parseDate(b.date);
+    return dateB.getTime() - dateA.getTime();
+  });
 }
 
 // すべての記事のslugを取得する関数 (動的ルーティング用)
@@ -72,7 +71,6 @@ export async function getPostData(slug: string): Promise<Blog> {
 
   // gray-matterでメタデータと本文をパース
   const matterResult = matter(fileContents);
-  
   // 本文はここではまだMarkdownのまま
   const content = matterResult.content;
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSortedPostsData } from "../../../data/blogData";
+import { getSortedPostsData } from "../../../repository/blogRepository";
 import { ROUTES } from "@/app/routes";
 
 export default function BlogListSection() {
