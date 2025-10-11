@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useContactForm } from '@/app/useCase/useContactForm';
+import { useContactForm } from '@/app/repository/contactFormRepository';
 import { validateContactForm, hasValidationErrors, ValidationErrors } from '@/app/utils/formValidation';
 
 export default function ContactForm() {
