@@ -1,6 +1,6 @@
 import React from "react";
 import Link from 'next/link';
-import { ROUTES } from './routes';
+import { ROUTES } from '@/app/routes';
 
 export default function Header() {
   const navItems = [

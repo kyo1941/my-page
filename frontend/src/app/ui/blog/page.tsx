@@ -1,4 +1,4 @@
-import Header from "../header";
+import Header from "@/app/components/header";
 import BlogListSection from "./section/BlogListSection";
 import TextSearchSection from "./section/TextSearchSection";
 import TagSearchSection from "./section/TagSearchSection";

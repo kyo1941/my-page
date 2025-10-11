@@ -1,6 +1,6 @@
 "use client";
 
-import { TAGS, Tag } from "../../data/tagData";
+import { TAGS, Tag } from "../../../data/tagData";
 import { useState } from "react";
 
 interface TagSearchSectionProps {

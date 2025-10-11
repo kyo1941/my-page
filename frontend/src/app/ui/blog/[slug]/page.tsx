@@ -1,6 +1,6 @@
-import { getAllPostSlugs, getPostData } from '../../data/blogData'; 
-import Header from '../../header';
-import BackButton from '../../components/BackButton';
+import { getAllPostSlugs, getPostData } from '@/app/data/blogData'; 
+import Header from '@/app/components/header';
+import BackButton from '@/app/components/BackButton';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';

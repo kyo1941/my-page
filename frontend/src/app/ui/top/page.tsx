@@ -1,4 +1,4 @@
-import Header from "../header";
+import Header from "../../components/header";
 import WelcomeSection from "./section/WelcomeSection";
 import ProfileSection from "./section/ProfileSection";
 import BlogListSection from "./section/BlogListSection";
