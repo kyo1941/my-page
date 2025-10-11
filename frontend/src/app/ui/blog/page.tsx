@@ -1,7 +1,7 @@
-import Header from "../header";
-import BlogListSection from "../components/blog/BlogListSection";
-import TextSearchSection from "../components/blog/TextSearchSection";
-import TagSearchSection from "../components/blog/TagSearchSection";
+import Header from "@/app/components/header";
+import BlogListSection from "./section/BlogListSection";
+import TextSearchSection from "./section/TextSearchSection";
+import TagSearchSection from "./section/TagSearchSection";
 
 export default function BlogPage() {
   return (

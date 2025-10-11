@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useContactForm } from '../../hooks/useContactForm';
-import { validateContactForm, hasValidationErrors, ValidationErrors } from '../../utils/formValidation';
+import { useContactForm } from '@/app/useCase/useContactForm';
+import { validateContactForm, hasValidationErrors, ValidationErrors } from '@/app/utils/formValidation';
 
 export default function ContactForm() {
   // サイトキーを事前チェックする

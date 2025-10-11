@@ -1,5 +1,5 @@
-import { careerData, CURRENT_TERM } from '../../data/career';
-import { parseDate } from '../../utils/parseDate';
+import { careerData, CURRENT_TERM } from '../../../data/career';
+import { parseDate } from '../../../utils/parseDate';
 import Image from 'next/image';
 import { useMemo, useCallback } from 'react';
 

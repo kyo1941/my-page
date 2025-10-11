@@ -1,9 +1,9 @@
 // サイト内ルーティング定数
 export const ROUTES = {
   HOME: '/',
-  PROFILE: '/profile',
-  BLOG: '/blog',
-  PORTFOLIO: '/portfolio',
+  PROFILE: '/ui/profile',
+  BLOG: '/ui/blog',
+  PORTFOLIO: '/ui/portfolio',
 };
 
 // 外部リンク定数
