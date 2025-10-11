@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { getSortedPostsData } from "@/app/repository/blogRepository";
+import { useBlogListTop } from "@/app/hooks/top/useBlogListTop";
 import { ROUTES } from "@/app/routes";
 
 export default function BlogListSection() {
-  const blogs = getSortedPostsData().slice(0, 3);
+  const { blogs } = useBlogListTop(3);
 
   return (
     <div>
