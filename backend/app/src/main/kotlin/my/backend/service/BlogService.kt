@@ -45,7 +45,9 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
                 .filter { it.contains(":") }
                 .associate {
                     val part = it.split(":", limit = 2)
-                    part[0].trim() to part[1].trim()
+                    val key = part[0].trim()
+                    val value = part[1].trim().removeSurrounding("'").removeSurrounding("\"")
+                    key to value
                 }
 
             val tags = frontMatter.lines()
