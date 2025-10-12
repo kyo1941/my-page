@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { getSortedPostsData } from "../../data/blogData";
+import { useBlogList } from "@/app/hooks/blog/useBlogList";
+import { ROUTES } from "@/app/routes";
 
 export default function BlogListSection() {
-  const blogs = getSortedPostsData();
+  const { blogs } = useBlogList();
 
   return (
     <div>
@@ -13,7 +14,7 @@ export default function BlogListSection() {
           </div>
         ) : (
           blogs.map((blog) => (
-            <Link href={`/blog/${blog.slug}`} key={blog.slug} className="block">
+            <Link href={`${ROUTES.BLOG}/${blog.slug}`} key={blog.slug} className="block">
               <div className="bg-gray-50 p-7 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <h4 className="font-semibold mb-2 text-gray-900">{blog.title}</h4>
                 <p className="text-xs text-gray-600 mb-2">{blog.date}</p>

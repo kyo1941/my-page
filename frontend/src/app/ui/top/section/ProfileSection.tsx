@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ROUTES, EXTERNAL_LINKS } from '../../routes';
+import { ROUTES, EXTERNAL_LINKS } from '@/app/routes';
 
 export default function ProfileSection() {
   return (
