@@ -11,7 +11,7 @@ export type Blog = {
 };
 
 export async function getSortedPostsData(): Promise<Blog[]> {
-  const res = await fetch(`${API_BASE_URL}/blogs`);
+  const res = await fetch(`${API_BASE_URL}/api/blogs`);
   try {
     if (!res.ok) {
       console.error('Failed to fetch blogs from API');
@@ -39,7 +39,7 @@ export async function getAllPostSlugs() {
 
 export async function getPostData(slug: string): Promise<Blog | null> {
   try {
-    const res = await fetch(`${API_BASE_URL}/blogs/${slug}`);
+    const res = await fetch(`${API_BASE_URL}/api/blogs/${slug}`);
     if (!res.ok) {
       console.error(`Failed to fetch blog with slug: ${slug}`);
       return null;
