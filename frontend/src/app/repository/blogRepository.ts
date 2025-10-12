@@ -1,9 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { parseDate } from '../utils/parseDate';
-
-const postsDirectory = path.join(process.cwd(), '_post');
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export type Blog = {
   slug: string; // ファイル名から自動で生成する
@@ -15,74 +10,44 @@ export type Blog = {
   content: string;
 };
 
-// すべての記事のメタデータを取得する関数
-export function getSortedPostsData() {
-  // _postsディレクトリ内のファイル名を取得
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames.map((fileName) => {
-    // ファイル名から ".md" を取り除いてslugを作成
-    const slug = fileName.replace(/\.md$/, '');
-
-    // Markdownファイルを文字列として読み込む
-    const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-    // gray-matterでメタデータをパース
-    const matterResult = matter(fileContents);
-
-    // 必要なデータを結合して返す
-    return {
-      slug,
-      ...(matterResult.data as {
-        title: string;
-        date: string;
-        description: string;
-        coverImage?: string;
-        tags?: string[];
-      }),
-    };
-  });
-
-  // 記事を日付順にソート
-  return allPostsData.sort((a, b) => {
-    const dateA = parseDate(a.date);
-    const dateB = parseDate(b.date);
-    return dateB.getTime() - dateA.getTime();
-  });
+export async function getSortedPostsData(): Promise<Blog[]> {
+  const res = await fetch(`${API_BASE_URL}/blogs`);
+  try {
+    if (!res.ok) {
+      console.error('Failed to fetch blogs from API');
+      return [];
+    }
+    const blogs = await res.json();
+    return blogs;
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    return [];
+  }
 }
 
-// すべての記事のslugを取得する関数 (動的ルーティング用)
-export function getAllPostSlugs() {
-  const fileNames = fs.readdirSync(postsDirectory);
-  // [{ params: { slug: 'my-first-post' } }, ...] のような形式の配列を返す
-  return fileNames.map((fileName) => {
+export async function getAllPostSlugs() {
+  const blogs = await getSortedPostsData();
+
+  return blogs.map((blog) => {
     return {
       params: {
-        slug: fileName.replace(/\.md$/, ''),
+        slug: blog.slug,
       },
     };
   });
 }
 
-// 特定のslugの記事データを取得する関数
-export async function getPostData(slug: string): Promise<Blog> {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-  // gray-matterでメタデータと本文をパース
-  const matterResult = matter(fileContents);
-  // 本文はここではまだMarkdownのまま
-  const content = matterResult.content;
-
-  return {
-    slug,
-    content,
-    ...(matterResult.data as {
-      title: string;
-      date: string;
-      description: string;
-      coverImage?: string;
-      tags?: string[];
-    }),
-  };
+export async function getPostData(slug: string): Promise<Blog | null> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/blogs/${slug}`);
+    if (!res.ok) {
+      console.error(`Failed to fetch blog with slug: ${slug}`);
+      return null;
+    }
+    const blog = await res.json();
+    return blog;
+  } catch (error) {
+    console.error('Error fetching blog:', error);
+    return null;
+  }
 }

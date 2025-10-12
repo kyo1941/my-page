@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { useBlogListTop } from "@/app/hooks/top/useBlogListTop";
 import { ROUTES } from "@/app/routes";

@@ -8,7 +8,7 @@ import rehypeRaw from 'rehype-raw';
 
 // ブログページの生成に必要なパスを事前に取得する関数
 export async function generateStaticParams() {
-  const paths = getAllPostSlugs();
+  const paths = await getAllPostSlugs();
   return paths.map(path => ({
       slug: path.params.slug,
   }));
@@ -18,6 +18,14 @@ export async function generateStaticParams() {
 export default async function PostPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const postData = await getPostData(slug);
+
+  if (!postData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <h1 className="text-2xl font-bold text-gray-900">記事が見つかりませんでした。お探しのページは存在しないか、削除された可能性があります。</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
