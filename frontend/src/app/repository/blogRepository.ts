@@ -11,18 +11,8 @@ export type Blog = {
 };
 
 export async function getSortedPostsData(): Promise<Blog[]> {
-  const res = await fetch(`${API_BASE_URL}/api/blogs`);
-  try {
-    if (!res.ok) {
-      console.error('Failed to fetch blogs from API');
-      return [];
-    }
-    const blogs = await res.json();
-    return blogs;
-  } catch (error) {
-    console.error('Error fetching blogs:', error);
-    return [];
-  }
+  const blogs = await fetchApi<Blog[]>(`${API_BASE_URL}/api/blogs`);
+  return blogs || [];
 }
 
 export async function getAllPostSlugs() {
@@ -38,16 +28,19 @@ export async function getAllPostSlugs() {
 }
 
 export async function getPostData(slug: string): Promise<Blog | null> {
+  return await fetchApi<Blog>(`${API_BASE_URL}/api/blogs/${slug}`);
+}
+
+async function fetchApi<T>(url: string): Promise<T | null> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/blogs/${slug}`);
+    const res = await fetch(url);
     if (!res.ok) {
-      console.error(`Failed to fetch blog with slug: ${slug}`);
+      console.error(`Failed to fetch from API: ${res.status} for ${url}`);
       return null;
     }
-    const blog = await res.json();
-    return blog;
+    return await res.json();
   } catch (error) {
-    console.error('Error fetching blog:', error);
+    console.error(`Error fetching from ${url}:`, error);
     return null;
   }
 }
