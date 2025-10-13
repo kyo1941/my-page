@@ -10,8 +10,9 @@ export type Blog = {
   content: string;
 };
 
-export async function getSortedPostsData(): Promise<Blog[]> {
-  const blogs = await fetchApi<Blog[]>(`${API_BASE_URL}/api/blogs`);
+export async function getSortedPostsData(limit?: number): Promise<Blog[]> {
+  const url = limit ? `${API_BASE_URL}/api/blogs?limit=${limit}` : `${API_BASE_URL}/api/blogs`;
+  const blogs = await fetchApi<Blog[]>(url);
   return blogs || [];
 }
 

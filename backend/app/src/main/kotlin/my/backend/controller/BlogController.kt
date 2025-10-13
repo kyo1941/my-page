@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestParam
 
 @RestController
 @RequestMapping("/api/blogs")
 class BlogController(private val blogService: BlogService) {
     @GetMapping
-    fun getAllBlogs(): List<BlogDto> {
-        return blogService.getAllBlogs()
+    fun getAllBlogs(@RequestParam(required = false) limit: Int?): List<BlogDto> {
+        return blogService.getBlogs(limit)
     }
 
     @GetMapping("/{slug}")

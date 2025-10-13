@@ -68,8 +68,8 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
         }.sortedByDescending { it.date }
     }
 
-    fun getAllBlogs(): List<BlogDto> {
-        return blogs
+    fun getBlogs(limit: Int?): List<BlogDto> {
+        return blogs.take(limit ?: blogs.size)
     }
 
     fun getBlogBySlug(slug: String): BlogDto? {

@@ -6,8 +6,8 @@ export function useBlogListTop(limit: number): { blogs: Blog[] } {
 
   useEffect(() => {
     const fetchData = async () => {
-      const allBlogs = await getSortedPostsData();
-      setBlogs(allBlogs.slice(0, limit));
+      const topBlogs = await getSortedPostsData(limit);
+      setBlogs(topBlogs);
     };
     fetchData();
   }, [limit]);
