@@ -18,6 +18,7 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
     private val blogsDirectory = "classpath:blogs/*.md"
     private val parser: Parser
     private val renderer: HtmlRenderer
+    private val blogs: List<BlogDto>
 
     init {
         val options = MutableDataSet()
@@ -31,11 +32,9 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
         )
         parser = Parser.builder(options).build()
         renderer = HtmlRenderer.builder(options).build()
-    }
 
-    fun getAllBlogs(): List<BlogDto> {
         val resources = resourceResolver.getResources(blogsDirectory)
-        return resources.map { resource ->
+        blogs = resources.map { resource ->
             val content = resource.inputStream.readBytes().toString(StandardCharsets.UTF_8)
             val parts = content.split("---", limit = 3)
             val frontMatter = parts.getOrNull(1) ?: ""
@@ -69,7 +68,11 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
         }.sortedByDescending { it.date }
     }
 
+    fun getAllBlogs(): List<BlogDto> {
+        return blogs
+    }
+
     fun getBlogBySlug(slug: String): BlogDto? {
-        return getAllBlogs().find { it.slug == slug }
+        return blogs.find { it.slug == slug }
     }
 }
