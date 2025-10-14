@@ -18,12 +18,8 @@ class BlogController(private val blogService: BlogService) {
     }
 
     @GetMapping("/{slug}")
-    fun getBlogBySlug(@PathVariable slug: String): ResponseEntity<BlogDto?> {
-        val blog = blogService.getBlogBySlug(slug)
-        return if (blog != null) {
-            ResponseEntity.ok(blog)
-        } else {
-            ResponseEntity.notFound().build()
-        }
+    fun getBlogBySlug(@PathVariable slug: String): ResponseEntity<BlogDto> {
+        val blog = blogService.getBlogBySlug(slug) ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(blog)
     }
 }
