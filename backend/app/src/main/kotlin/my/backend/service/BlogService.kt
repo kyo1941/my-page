@@ -56,7 +56,16 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
                 tags = meta["tags"] as? List<String> ?: emptyList(),
                 content = contentHtml
             )
-        }.sortedByDescending { it.date }
+        }.sortedByDescending {
+            try {
+                java.time.LocalDate.parse(
+                    it.date,
+                    java.time.format.DateTimeFormatter.ofPattern("yyyy年M月d日", java.util.Locale.JAPAN)
+                )
+            } catch (e: java.time.format.DateTimeParseException) {
+                java.time.LocalDate.MIN
+            }
+        }
     }
 
     fun getBlogs(limit: Int?): List<BlogDto> {
