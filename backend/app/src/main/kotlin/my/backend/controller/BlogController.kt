@@ -7,17 +7,23 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.http.ResponseEntity
 
 @RestController
 @RequestMapping("/api/blogs")
 class BlogController(private val blogService: BlogService) {
     @GetMapping
-    fun getAllBlogs(@RequestParam(required = false) limit: Int?): List<BlogDto> {
-        return blogService.getBlogs(limit)
+    fun getAllBlogs(@RequestParam(required = false) limit: Int?): ResponseEntity<List<BlogDto>> {
+        return ResponseEntity.ok(blogService.getBlogs(limit))
     }
 
     @GetMapping("/{slug}")
-    fun getBlogBySlug(@PathVariable slug: String): BlogDto? {
-        return blogService.getBlogBySlug(slug)
+    fun getBlogBySlug(@PathVariable slug: String): ResponseEntity<BlogDto?> {
+        val blog = blogService.getBlogBySlug(slug)
+        return if (blog != null) {
+            ResponseEntity.ok(blog)
+        } else {
+            ResponseEntity.notFound().build()
+        }
     }
 }
