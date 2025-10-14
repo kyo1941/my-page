@@ -33,10 +33,22 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
         )
         parser = Parser.builder(options).build()
         renderer = HtmlRenderer.builder(options).build()
-        
+
+        blogs = loadBlogs()
+    }
+
+    fun getBlogs(limit: Int?): List<BlogDto> {
+        return blogs.take(limit ?: blogs.size)
+    }
+
+    fun getBlogBySlug(slug: String): BlogDto? {
+        return blogs.find { it.slug == slug }
+    }
+
+    private fun loadBlogs(): List<BlogDto> {
         val yaml = Yaml()
         val resources = resourceResolver.getResources(blogsDirectory)
-        blogs = resources.map { resource ->
+        return resources.map { resource ->
             val content = resource.inputStream.readBytes().toString(StandardCharsets.UTF_8)
             val parts = content.split("---", limit = 3)
             val frontMatter = parts.getOrNull(1) ?: ""
@@ -66,13 +78,5 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
                 java.time.LocalDate.MIN
             }
         }
-    }
-
-    fun getBlogs(limit: Int?): List<BlogDto> {
-        return blogs.take(limit ?: blogs.size)
-    }
-
-    fun getBlogBySlug(slug: String): BlogDto? {
-        return blogs.find { it.slug == slug }
     }
 }
