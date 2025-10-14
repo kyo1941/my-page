@@ -9,6 +9,7 @@ import com.vladsch.flexmark.util.data.MutableDataSet
 import my.backend.dto.BlogDto
 import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.stereotype.Service
+import org.yaml.snakeyaml.Yaml
 import java.nio.charset.StandardCharsets
 import java.util.Arrays
 
@@ -32,7 +33,8 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
         )
         parser = Parser.builder(options).build()
         renderer = HtmlRenderer.builder(options).build()
-
+        
+        val yaml = Yaml()
         val resources = resourceResolver.getResources(blogsDirectory)
         blogs = resources.map { resource ->
             val content = resource.inputStream.readBytes().toString(StandardCharsets.UTF_8)
@@ -40,29 +42,18 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
             val frontMatter = parts.getOrNull(1) ?: ""
             val markdownBody = parts.getOrNull(2) ?: ""
 
-            val meta = frontMatter.lines()
-                .filter { it.contains(":") }
-                .associate {
-                    val part = it.split(":", limit = 2)
-                    val key = part[0].trim()
-                    val value = part[1].trim().removeSurrounding("'").removeSurrounding("\"")
-                    key to value
-                }
-
-            val tags = frontMatter.lines()
-                .map { it.trim() }
-                .filter { it.startsWith("-") }
-                .map { it.removePrefix("-").trim() }
+            val meta: Map<String, Any> = yaml.load(frontMatter) ?: emptyMap()
 
             val contentHtml = renderer.render(parser.parse(markdownBody))
 
+            @Suppress("UNCHECKED_CAST")
             BlogDto(
                 slug = resource.filename?.replace(".md", "") ?: "",
-                title = meta["title"] ?: "",
-                date = meta["date"] ?: "",
-                description = meta["description"] ?: "",
-                coverImage = meta["coverImage"]?.removeSurrounding("'"),
-                tags = tags,
+                title = meta["title"] as? String ?: "",
+                date = meta["date"] as? String ?: "",
+                description = meta["description"] as? String ?: "",
+                coverImage = meta["coverImage"] as? String,
+                tags = meta["tags"] as? List<String> ?: emptyList(),
                 content = contentHtml
             )
         }.sortedByDescending { it.date }

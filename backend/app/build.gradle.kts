@@ -27,6 +27,9 @@ dependencies {
     // --- Markdown to HTML ---
     implementation("com.vladsch.flexmark:flexmark-all:0.64.8")
 
+    // --- SnakeYaml ---
+    implementation("org.yaml:snakeyaml:2.5")
+
     // Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
