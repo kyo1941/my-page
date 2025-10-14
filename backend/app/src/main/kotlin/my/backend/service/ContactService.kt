@@ -16,7 +16,6 @@ import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 
-// --- Service ---
 @Service
 class ContactService(
         private val webClientBuilder: WebClient.Builder,
