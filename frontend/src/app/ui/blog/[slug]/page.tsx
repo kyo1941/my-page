@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
 
+// server component のため、直接実装をインスタンス化する
 const blogRepository = new BlogRepository();
 
 // ブログページの生成に必要なパスを事前に取得する関数
