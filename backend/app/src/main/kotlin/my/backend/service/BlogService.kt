@@ -11,7 +11,6 @@ import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.stereotype.Service
 import org.yaml.snakeyaml.Yaml
 import java.nio.charset.StandardCharsets
-import java.util.Arrays
 
 @Service
 class BlogService(private val resourceResolver: ResourcePatternResolver) {
@@ -37,8 +36,15 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
         blogs = loadBlogs()
     }
 
-    fun getBlogs(limit: Int?): List<BlogDto> {
-        return blogs.take(limit ?: blogs.size)
+    fun getBlogs(limit: Int?, tags: List<String>?, keyword: String?): List<BlogDto> {
+        return blogs
+            .filter { blog ->
+                tags.isNullOrEmpty() || tags.any { tag -> blog.tags.contains(tag) }
+            }
+            .filter { blog ->
+                keyword.isNullOrBlank() || blog.title.contains(keyword, ignoreCase = true) || blog.description.contains(keyword, ignoreCase = true)
+            }
+            .take(limit ?: blogs.size)
     }
 
     fun getBlogBySlug(slug: String): BlogDto? {
