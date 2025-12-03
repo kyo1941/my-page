@@ -39,7 +39,7 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
     fun getBlogs(limit: Int?, tags: List<String>?, keyword: String?): List<BlogDto> {
         return blogs
             .filter { blog ->
-                tags == null || tags.all { tag -> blog.tags.contains(tag) }
+                tags == null || tags.any { tag -> blog.tags.contains(tag) }
             }
             .filter { blog ->
                 keyword == null || blog.title.contains(keyword, ignoreCase = true) || blog.description.contains(keyword, ignoreCase = true)
