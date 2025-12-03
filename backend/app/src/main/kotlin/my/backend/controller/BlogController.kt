@@ -13,8 +13,12 @@ import org.springframework.http.ResponseEntity
 @RequestMapping("/api/blogs")
 class BlogController(private val blogService: BlogService) {
     @GetMapping
-    fun getAllBlogs(@RequestParam(required = false) limit: Int?): ResponseEntity<List<BlogDto>> {
-        return ResponseEntity.ok(blogService.getBlogs(limit))
+    fun getAllBlogs(
+        @RequestParam(required = false) limit: Int?,
+        @RequestParam(required = false) tags: List<String>?,
+        @RequestParam(required = false) keyword: String?
+    ): ResponseEntity<List<BlogDto>> {
+        return ResponseEntity.ok(blogService.getBlogs(limit, tags, keyword))
     }
 
     @GetMapping("/{slug}")
