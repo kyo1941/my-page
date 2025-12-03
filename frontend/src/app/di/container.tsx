@@ -11,10 +11,12 @@ import "reflect-metadata";
 import { container } from 'tsyringe';
 import { ContactFormRepository } from '@/app/repository/contactFormRepository';
 import { SkillsRepository } from '@/app/repository/skillsRepository';
+import { BlogRepository } from '@/app/repository/blogRepository';
 
 // すべての依存関係を一箇所で登録
 container.register('IContactFormRepository', { useClass: ContactFormRepository });
 container.register('ISkillsRepository', { useClass: SkillsRepository });
+container.register('IBlogRepository', { useClass: BlogRepository });
 
 /**
  * DIコンテナを初期化するためだけのクライアントコンポーネント

@@ -1,3 +1,6 @@
+import "reflect-metadata";
+import { injectable } from 'tsyringe';
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export type Blog = {
@@ -16,7 +19,15 @@ export type BlogSearchParams = {
   keyword?: string;
 };
 
-export async function getSortedPostsData(params?: BlogSearchParams): Promise<Blog[]> {
+export interface IBlogRepository {
+  getSortedPostsData(params?: BlogSearchParams): Promise<Blog[]>;
+  getAllPostSlugs(): Promise<{ params: { slug: string } }[]>;
+  getPostData(slug: string): Promise<Blog | null>;
+}
+
+@injectable()
+export class BlogRepository implements IBlogRepository {
+  async getSortedPostsData(params?: BlogSearchParams): Promise<Blog[]> {
   const searchParams = new URLSearchParams();
   
   if (params?.limit) {
@@ -29,28 +40,29 @@ export async function getSortedPostsData(params?: BlogSearchParams): Promise<Blo
     searchParams.append('keyword', params.keyword);
   }
   
-  const queryString = searchParams.toString();
-  const url = queryString 
-    ? `${API_BASE_URL}/api/blogs?${queryString}` 
-    : `${API_BASE_URL}/api/blogs`;
-  const blogs = await fetchApi<Blog[]>(url);
-  return blogs || [];
-}
+    const queryString = searchParams.toString();
+    const url = queryString 
+      ? `${API_BASE_URL}/api/blogs?${queryString}` 
+      : `${API_BASE_URL}/api/blogs`;
+    const blogs = await fetchApi<Blog[]>(url);
+    return blogs || [];
+  }
 
-export async function getAllPostSlugs() {
-  const blogs = await getSortedPostsData();
+  async getAllPostSlugs() {
+    const blogs = await this.getSortedPostsData();
 
-  return blogs.map((blog) => {
-    return {
-      params: {
-        slug: blog.slug,
-      },
-    };
-  });
-}
+    return blogs.map((blog) => {
+      return {
+        params: {
+          slug: blog.slug,
+        },
+      };
+    });
+  }
 
-export async function getPostData(slug: string): Promise<Blog | null> {
-  return await fetchApi<Blog>(`${API_BASE_URL}/api/blogs/${slug}`);
+  async getPostData(slug: string): Promise<Blog | null> {
+    return await fetchApi<Blog>(`${API_BASE_URL}/api/blogs/${slug}`);
+  }
 }
 
 async function fetchApi<T>(url: string): Promise<T | null> {

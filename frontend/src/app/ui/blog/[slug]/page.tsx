@@ -1,4 +1,4 @@
-import { getAllPostSlugs, getPostData } from '@/app/repository/blogRepository'; 
+import { BlogRepository } from '@/app/repository/blogRepository'; 
 import Header from '@/app/components/header';
 import BackButton from '@/app/components/BackButton';
 import ReactMarkdown from 'react-markdown';
@@ -6,9 +6,11 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
 
+const blogRepository = new BlogRepository();
+
 // ブログページの生成に必要なパスを事前に取得する関数
 export async function generateStaticParams() {
-  const paths = await getAllPostSlugs();
+  const paths = await blogRepository.getAllPostSlugs();
   return paths.map(path => ({
       slug: path.params.slug,
   }));
@@ -16,7 +18,7 @@ export async function generateStaticParams() {
 
 // ページ本体のコンポーネント
 export default async function PostPage({ params }: { params: { slug: string } }) {
-  const postData = await getPostData(params.slug);
+  const postData = await blogRepository.getPostData(params.slug);
 
   if (!postData) {
     return (
