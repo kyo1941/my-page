@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Blog, getSortedPostsData } from '@/app/repository/blogRepository';
+import { container } from 'tsyringe';
+import { Blog, IBlogRepository } from '@/app/repository/blogRepository';
 
 export function useBlogListTop(limit: number): { blogs: Blog[] } {
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const blogRepository = container.resolve<IBlogRepository>('IBlogRepository');
 
   useEffect(() => {
     const fetchData = async () => {
-      const topBlogs = await getSortedPostsData({ limit });
+      const topBlogs = await blogRepository.getSortedPostsData({ limit });
       setBlogs(topBlogs);
     };
     fetchData();
