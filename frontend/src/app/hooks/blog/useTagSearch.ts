@@ -1,18 +1,8 @@
-import { useState } from 'react';
-import { TAGS, Tag } from '@/app/data/tagData';
+import { TAGS } from '@/app/data/tagData';
+import { useBlogSearchContext } from './useBlogSearchContext';
 
 export function useTagSearch() {
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
-
-  const toggleTag = (tag: Tag) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag)
-        ? prev.filter((t) => t !== tag)
-        : [...prev, tag]
-    );
-  };
-
-  // TODO: selectedTagsをもとに絞り込みロジックを今後実装する
+  const { selectedTags, toggleTag } = useBlogSearchContext();
 
   return {
     tags: TAGS,

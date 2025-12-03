@@ -1,16 +1,17 @@
 "use client";
 
-import { useTagSearch } from '@/app/hooks/blog/useTagSearch';
+import { useBlogSearchContext } from '@/app/hooks/blog/useBlogSearchContext';
+import { TAGS } from '@/app/data/tagData';
 
 export default function TagSearchSection() {
-  const { tags, selectedTags, toggleTag } = useTagSearch();
+  const { selectedTags, toggleTag } = useBlogSearchContext();
 
   return (
     <div>
         <div className="mt-6">
             <h2 className="text-xl font-semibold mb-4 text-gray-900">タグで絞り込み</h2>
             <div className="flex flex-wrap gap-2">
-                {tags.map((tag) => (
+                {TAGS.map((tag) => (
                     <button
                         key={tag}
                         onClick={() => toggleTag(tag)}
