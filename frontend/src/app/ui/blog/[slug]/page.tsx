@@ -15,8 +15,9 @@ export async function generateStaticParams() {
 }
 
 // ページ本体のコンポーネント
-export default async function PostPage({ params }: { params: { slug: string } }) {
-  const postData = await blogRepository.getPostData(params.slug);
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const postData = await blogRepository.getPostData(slug);
 
   if (!postData) {
     return (
