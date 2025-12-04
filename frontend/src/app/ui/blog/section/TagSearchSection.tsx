@@ -4,12 +4,27 @@ import { useBlogSearchContext } from '@/app/hooks/blog/useBlogSearchContext';
 import { TAGS } from '@/app/data/tagData';
 
 export default function TagSearchSection() {
-  const { selectedTags, toggleTag } = useBlogSearchContext();
+  const { selectedTags, toggleTag, setSelectedTags } = useBlogSearchContext();
+
+  const handleClearTags = () => {
+    setSelectedTags([]);
+  };
 
   return (
     <div>
         <div className="mt-6">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900">タグで絞り込み</h2>
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">タグで絞り込み</h2>
+                {selectedTags.length > 0 && (
+                    <button
+                        type="button"
+                        onClick={handleClearTags}
+                        className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                    >
+                        クリア
+                    </button>
+                )}
+            </div>
             <div className="flex flex-wrap gap-2">
                 {TAGS.map((tag) => (
                     <button
