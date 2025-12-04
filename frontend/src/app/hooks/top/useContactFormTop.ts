@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { TurnstileInstance } from '@marsidev/react-turnstile';
 import { validateContactForm, hasValidationErrors, ValidationErrors } from '@/app/utils/formValidation';
-import { container } from 'tsyringe';
-import { IContactFormRepository } from '@/app/repository/contactFormRepository';
+import { contactFormRepository } from '@/app/repository/contactFormRepository';
 
 export interface ContactFormInput {
   email: string;
@@ -25,7 +24,6 @@ export function useContactFormTop(siteKey: string) {
   const [showStatus, setShowStatus] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const contactFormRepository = container.resolve<IContactFormRepository>('IContactFormRepository');
 
   // 送信イベント
   const handleSubmit = async (e: React.FormEvent) => {

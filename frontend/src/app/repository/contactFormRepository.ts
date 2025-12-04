@@ -1,5 +1,3 @@
-import { injectable } from 'tsyringe';
-
 export interface ContactFormData {
   email: string;
   subject: string;
@@ -7,12 +5,7 @@ export interface ContactFormData {
   turnstileToken: string;
 }
 
-export interface IContactFormRepository {
-  submitForm(data: ContactFormData): Promise<{ success: boolean; data?: any; error?: any }>;
-}
-
-@injectable()
-export class ContactFormRepository implements IContactFormRepository {
+export class ContactFormRepository {
   async submitForm(data: ContactFormData) {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     if (process.env.NODE_ENV === 'production' && !baseUrl) {
@@ -32,3 +25,5 @@ export class ContactFormRepository implements IContactFormRepository {
     return { success: true, data: result };
   }
 }
+
+export const contactFormRepository = new ContactFormRepository();
