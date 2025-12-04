@@ -1,6 +1,3 @@
-import "reflect-metadata";
-import { injectable } from 'tsyringe';
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export type Blog = {
@@ -19,14 +16,7 @@ export type BlogSearchParams = {
   keyword?: string;
 };
 
-export interface IBlogRepository {
-  getSortedPostsData(params?: BlogSearchParams): Promise<Blog[]>;
-  getAllPostSlugs(): Promise<{ params: { slug: string } }[]>;
-  getPostData(slug: string): Promise<Blog | null>;
-}
-
-@injectable()
-export class BlogRepository implements IBlogRepository {
+export class BlogRepository {
   async getSortedPostsData(params?: BlogSearchParams): Promise<Blog[]> {
   const searchParams = new URLSearchParams();
   
@@ -78,3 +68,5 @@ async function fetchApi<T>(url: string): Promise<T | null> {
     return null;
   }
 }
+
+export const blogRepository = new BlogRepository();

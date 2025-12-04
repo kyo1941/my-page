@@ -1,13 +1,10 @@
-import { BlogRepository } from '@/app/repository/blogRepository'; 
+import { blogRepository } from '@/app/repository/blogRepository'; 
 import Header from '@/app/components/header';
 import BackButton from '@/app/components/BackButton';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
-
-// server component のため、直接実装をインスタンス化する
-const blogRepository = new BlogRepository();
 
 // ブログページの生成に必要なパスを事前に取得する関数
 export async function generateStaticParams() {
