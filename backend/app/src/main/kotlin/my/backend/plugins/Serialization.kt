@@ -10,11 +10,11 @@ fun Application.configureSerialization() {
 
     install(ContentNegotiation) {
         json(
-                Json {
-                    prettyPrint = isDevelopment
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                }
+            Json {
+                prettyPrint = isDevelopment
+                isLenient = true
+                ignoreUnknownKeys = true
+            },
         )
     }
 }

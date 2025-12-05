@@ -7,8 +7,8 @@ import java.net.URI
 
 fun Application.configureHTTP() {
     val allowedOrigins =
-            environment.config.propertyOrNull("app.cors.allowed-origins")?.getString()
-                    ?: "http://localhost:3000"
+        environment.config.propertyOrNull("app.cors.allowed-origins")?.getString()
+            ?: "http://localhost:3000"
 
     install(CORS) {
         allowMethod(HttpMethod.Options)

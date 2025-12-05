@@ -12,19 +12,20 @@ import my.backend.service.ContactService
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
-fun appModule(config: ApplicationConfig) = module {
-    // Config
-    single { config }
+fun appModule(config: ApplicationConfig) =
+    module {
+        // Config
+        single { config }
 
-    // HttpClient (Turnstile API用)
-    single {
-        HttpClient(CIO) { install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) } }
-    } onClose { it?.close() }
+        // HttpClient (Turnstile API用)
+        single {
+            HttpClient(CIO) { install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) } }
+        } onClose { it?.close() }
 
-    // Resend (メール送信用)
-    single { Resend(config.property("app.resend.api-key").getString()) }
+        // Resend (メール送信用)
+        single { Resend(config.property("app.resend.api-key").getString()) }
 
-    // Services
-    single { BlogService() }
-    single { ContactService(get(), get(), get()) }
-}
+        // Services
+        single { BlogService() }
+        single { ContactService(get(), get(), get()) }
+    }

@@ -22,9 +22,9 @@ private fun parseValidationError(error: String): Pair<String, String>? {
 private fun buildValidationErrors(errors: List<String>): ValidationErrors {
     val errorMap = errors.mapNotNull { parseValidationError(it) }.toMap()
     return ValidationErrors(
-            email = errorMap["email"],
-            subject = errorMap["subject"],
-            message = errorMap["message"]
+        email = errorMap["email"],
+        subject = errorMap["subject"],
+        message = errorMap["message"],
     )
 }
 
@@ -38,8 +38,8 @@ fun Application.configureStatusPages() {
             val validationErrors = buildValidationErrors(errors)
             logger.warn("Validation failed: $errors")
             call.respond(
-                    HttpStatusCode.BadRequest,
-                    ApiResponse(error = "入力値が無効です。", details = validationErrors)
+                HttpStatusCode.BadRequest,
+                ApiResponse(error = "入力値が無効です。", details = validationErrors),
             )
         }
 
@@ -48,8 +48,8 @@ fun Application.configureStatusPages() {
             logger.error("Turnstile verification failed:", cause)
 
             call.respond(
-                    HttpStatusCode.Forbidden,
-                    ApiResponse(error = "認証に失敗しました。ページを再読み込みして、もう一度お試しください。")
+                HttpStatusCode.Forbidden,
+                ApiResponse(error = "認証に失敗しました。ページを再読み込みして、もう一度お試しください。"),
             )
         }
 
@@ -57,8 +57,8 @@ fun Application.configureStatusPages() {
         exception<ResendException> { call, cause ->
             logger.error("Email sending failed:", cause)
             call.respond(
-                    HttpStatusCode.InternalServerError,
-                    ApiResponse(error = "メール送信サービスで一時的な問題が発生しました。")
+                HttpStatusCode.InternalServerError,
+                ApiResponse(error = "メール送信サービスで一時的な問題が発生しました。"),
             )
         }
 
@@ -66,8 +66,8 @@ fun Application.configureStatusPages() {
         exception<Throwable> { call, cause ->
             logger.error("An unexpected error occurred:", cause)
             call.respond(
-                    HttpStatusCode.InternalServerError,
-                    ApiResponse(error = "サーバーに予期せぬエラーが発生しました。")
+                HttpStatusCode.InternalServerError,
+                ApiResponse(error = "サーバーに予期せぬエラーが発生しました。"),
             )
         }
     }
