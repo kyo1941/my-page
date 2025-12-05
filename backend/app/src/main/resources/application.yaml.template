@@ -1,0 +1,20 @@
+ktor:
+  deployment:
+    port: 8080
+    host: 0.0.0.0
+  application:
+    modules:
+      - my.backend.ApplicationKt.module
+
+# Application-specific configuration
+# Copy this file to application.yaml and fill in the values
+app:
+  turnstile:
+    secret-key: "YOUR_TURNSTILE_SECRET_KEY"
+  contact:
+    recipient-email: "YOUR_EMAIL@example.com"
+  resend:
+    api-key: "YOUR_RESEND_API_KEY"
+    from-email: "onboarding@resend.dev"
+  cors:
+    allowed-origins: "http://localhost:3000"
