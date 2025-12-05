@@ -10,6 +10,8 @@ import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.config.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import my.backend.dto.ContactFormRequest
 import my.backend.dto.TurnstileResponse
@@ -58,7 +60,7 @@ class ContactService(config: ApplicationConfig) {
                         .body()
         }
 
-        private fun sendEmail(request: ContactFormRequest) {
+        private suspend fun sendEmail(request: ContactFormRequest) {
                 val emailHtml =
                         """
             <h3>新しいお問い合わせ</h3>
@@ -77,6 +79,8 @@ class ContactService(config: ApplicationConfig) {
                                 .html(emailHtml)
                                 .build()
 
-                resend.emails().send(sendEmailRequest)
+                withContext(Dispatchers.IO) {
+                        resend.emails().send(sendEmailRequest)
+                }
         }
 }
