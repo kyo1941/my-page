@@ -57,10 +57,11 @@ class BlogService {
         val indexStream =
                 javaClass.classLoader.getResourceAsStream("blogs/index.txt") ?: return emptyList()
 
-        val fileNames =
-                BufferedReader(InputStreamReader(indexStream, StandardCharsets.UTF_8))
+        val fileNames = indexStream.use { stream ->
+                BufferedReader(InputStreamReader(stream, StandardCharsets.UTF_8))
                         .readLines()
                         .filter { it.isNotBlank() }
+        }
 
         return fileNames
                 .mapNotNull { fileName ->
@@ -68,7 +69,9 @@ class BlogService {
                             javaClass.classLoader.getResourceAsStream("blogs/$fileName")
                                     ?: return@mapNotNull null
 
-                    val content = resourceStream.bufferedReader(StandardCharsets.UTF_8).readText()
+                    val content = resourceStream.use { stream ->
+                        stream.bufferedReader(StandardCharsets.UTF_8).readText()
+                    }
                     val parts = content.split("---", limit = 3)
                     val frontMatter = parts.getOrNull(1) ?: ""
                     val markdownBody = parts.getOrNull(2) ?: ""
