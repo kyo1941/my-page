@@ -9,6 +9,7 @@ import io.ktor.server.config.*
 import kotlinx.serialization.json.Json
 import my.backend.service.BlogService
 import my.backend.service.ContactService
+import my.backend.service.PortfolioService
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
@@ -28,4 +29,5 @@ fun appModule(config: ApplicationConfig) =
         // Services
         single { BlogService() }
         single { ContactService(get(), get(), get()) }
+        single { PortfolioService() }
     }
