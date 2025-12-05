@@ -8,4 +8,4 @@
 |分類|技術|
 | :--- | :--- |
 | **フロントエンド** | Typescript <br> Next.js <br> React <br> Tailwind CSS |
-| **バックエンド** | Kotlin <br> Spring Boot |
+| **バックエンド** | Kotlin <br> Ktor <br> koin |
