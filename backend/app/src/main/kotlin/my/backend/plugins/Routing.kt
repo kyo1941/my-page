@@ -6,10 +6,12 @@ import my.backend.routes.blogRoutes
 import my.backend.routes.contactRoutes
 import my.backend.service.BlogService
 import my.backend.service.ContactService
+import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
-    val blogService = BlogService()
-    val contactService = ContactService(environment.config)
+    // Koinからサービスを注入
+    val blogService by inject<BlogService>()
+    val contactService by inject<ContactService>()
 
     routing {
         blogRoutes(blogService)

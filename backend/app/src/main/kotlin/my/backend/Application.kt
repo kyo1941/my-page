@@ -7,6 +7,7 @@ import my.backend.plugins.*
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module() {
+    configureKoin()
     configureSerialization()
     configureHTTP()
     configureValidation()

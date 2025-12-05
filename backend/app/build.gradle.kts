@@ -1,5 +1,6 @@
 
 val ktorVersion = "2.3.9"
+val koinVersion = "3.5.6"
 
 plugins {
     application
@@ -23,8 +24,11 @@ repositories {
 }
 
 dependencies {
-    // Ktor BOM (Bill of Materials)
+    // Ktor BOM
     implementation(platform("io.ktor:ktor-bom:$ktorVersion"))
+
+    // Koin BOM
+    implementation(platform("io.insert-koin:koin-bom:$koinVersion"))
 
     // Ktor Server
     implementation("io.ktor:ktor-server-core-jvm")
@@ -40,6 +44,10 @@ dependencies {
     implementation("io.ktor:ktor-client-core")
     implementation("io.ktor:ktor-client-cio")
     implementation("io.ktor:ktor-client-content-negotiation")
+
+    // Koin
+    implementation("io.insert-koin:koin-ktor")
+    implementation("io.insert-koin:koin-logger-slf4j")
 
     // Logging
     implementation("ch.qos.logback:logback-classic:1.4.14")
@@ -58,6 +66,10 @@ dependencies {
 
     // Testing
     testImplementation("io.ktor:ktor-server-test-host")
+    testImplementation("io.ktor:ktor-client-mock")
+    testImplementation("io.insert-koin:koin-test")
+    testImplementation("io.insert-koin:koin-test-junit5")
+    testImplementation("io.mockk:mockk:1.13.10")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")

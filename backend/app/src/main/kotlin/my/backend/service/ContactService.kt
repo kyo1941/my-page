@@ -12,27 +12,23 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 import my.backend.dto.ContactFormRequest
 import my.backend.dto.TurnstileResponse
 import my.backend.exception.TurnstileVerificationException
 import org.apache.commons.text.StringEscapeUtils
 import org.slf4j.LoggerFactory
 
-class ContactService(config: ApplicationConfig) {
+class ContactService(
+        private val config: ApplicationConfig,
+        private val client: HttpClient,
+        private val resend: Resend
+) {
         private val logger = LoggerFactory.getLogger(ContactService::class.java)
 
         private val turnstileSecretKey = config.property("app.turnstile.secret-key").getString()
         private val recipientEmail = config.property("app.contact.recipient-email").getString()
         private val resendApiKey = config.property("app.resend.api-key").getString()
         private val fromEmail = config.property("app.resend.from-email").getString()
-
-        private val client =
-                HttpClient(CIO) {
-                        install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) }
-                }
-
-        private val resend: Resend by lazy { Resend(resendApiKey) }
 
         suspend fun processContactRequest(request: ContactFormRequest) {
                 val turnstileResponse = verifyTurnstile(request.turnstileToken)
@@ -79,8 +75,6 @@ class ContactService(config: ApplicationConfig) {
                                 .html(emailHtml)
                                 .build()
 
-                withContext(Dispatchers.IO) {
-                        resend.emails().send(sendEmailRequest)
-                }
+                withContext(Dispatchers.IO) { resend.emails().send(sendEmailRequest) }
         }
 }
