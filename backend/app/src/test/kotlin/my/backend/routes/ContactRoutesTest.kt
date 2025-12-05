@@ -1,4 +1,4 @@
-package my.backend
+package my.backend.routes
 
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
@@ -12,31 +12,14 @@ import kotlin.test.assertTrue
 import org.junit.jupiter.api.AfterEach
 import org.koin.core.context.stopKoin
 
-class AppTest {
+class ContactRoutesTest {
     @AfterEach
     fun tearDown() {
         stopKoin()
     }
 
     @Test
-    fun `Blog APIのエンドポイントにアクセスできる`() = testApplication {
-        // application.yamlでモジュールが自動ロードされるため、明示的な設定は不要
-
-        client.get("/api/blogs").apply {
-            assertEquals(HttpStatusCode.OK, status)
-            assertTrue(bodyAsText().contains("["))
-        }
-    }
-
-    @Test
-    fun `特定のスラッグのブログが存在しない場合は404を返す`() = testApplication {
-        client.get("/api/blogs/non-existent-blog").apply {
-            assertEquals(HttpStatusCode.NotFound, status)
-        }
-    }
-
-    @Test
-    fun `無効なデータで問い合わせエンドポイントにアクセスすると400を返す`() = testApplication {
+    fun `空のデータで問い合わせすると400を返す`() = testApplication {
         val jsonClient = createClient { install(ContentNegotiation) { json() } }
 
         jsonClient
@@ -46,13 +29,12 @@ class AppTest {
                 }
                 .apply {
                     assertEquals(HttpStatusCode.BadRequest, status)
-                    val body = bodyAsText()
-                    assertTrue(body.contains("入力値が無効です"))
+                    assertTrue(bodyAsText().contains("入力値が無効です"))
                 }
     }
 
     @Test
-    fun `無効なメール形式で問い合わせエンドポイントにアクセスすると400を返す`() = testApplication {
+    fun `無効なメール形式で問い合わせすると400を返す`() = testApplication {
         val jsonClient = createClient { install(ContentNegotiation) { json() } }
 
         jsonClient
@@ -64,13 +46,12 @@ class AppTest {
                 }
                 .apply {
                     assertEquals(HttpStatusCode.BadRequest, status)
-                    val body = bodyAsText()
-                    assertTrue(body.contains("有効なメールアドレス"))
+                    assertTrue(bodyAsText().contains("有効なメールアドレス"))
                 }
     }
 
     @Test
-    fun `件名が短すぎる場合は問い合わせエンドポイントが400を返す`() = testApplication {
+    fun `件名が3文字未満の場合は400を返す`() = testApplication {
         val jsonClient = createClient { install(ContentNegotiation) { json() } }
 
         jsonClient
@@ -82,13 +63,12 @@ class AppTest {
                 }
                 .apply {
                     assertEquals(HttpStatusCode.BadRequest, status)
-                    val body = bodyAsText()
-                    assertTrue(body.contains("件名は3文字以上"))
+                    assertTrue(bodyAsText().contains("件名は3文字以上"))
                 }
     }
 
     @Test
-    fun `メッセージが短すぎる場合は問い合わせエンドポイントが400を返す`() = testApplication {
+    fun `メッセージが10文字未満の場合は400を返す`() = testApplication {
         val jsonClient = createClient { install(ContentNegotiation) { json() } }
 
         jsonClient
@@ -100,8 +80,7 @@ class AppTest {
                 }
                 .apply {
                     assertEquals(HttpStatusCode.BadRequest, status)
-                    val body = bodyAsText()
-                    assertTrue(body.contains("メッセージは10文字以上"))
+                    assertTrue(bodyAsText().contains("メッセージは10文字以上"))
                 }
     }
 }
