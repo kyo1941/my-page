@@ -30,7 +30,7 @@ export default function PortfolioListSection() {
                   <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-white"></div>
                 </div>
               )}
-              <div className="md:w-2/3 w-full flex flex-col p-6">
+              <div className={`${portfolio.coverImage ? "md:w-2/3" : "md:w-full"} w-full flex flex-col p-6`}>
                 <h4 className="font-semibold mb-2 text-gray-900 text-xl group-hover:text-blue-600 transition-colors">{portfolio.title}</h4>
                 <p className="text-sm text-gray-600 mb-4">{portfolio.date}</p>
                 <p className="text-base mb-4 text-gray-700 flex-grow">{portfolio.description}</p>
