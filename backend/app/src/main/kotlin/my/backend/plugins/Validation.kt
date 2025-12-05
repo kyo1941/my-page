@@ -12,7 +12,7 @@ fun Application.configureValidation() {
             // メールアドレスのバリデーション
             if (request.email.isBlank()) {
                 errors.add("email:メールアドレスは必須です")
-            } else if (!request.email.matches(Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))) {
+            } else if (!request.email.matches(Regex("^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,6}$"))) {
                 errors.add("email:有効なメールアドレスを入力してください")
             }
 
