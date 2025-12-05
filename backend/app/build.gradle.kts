@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    // Ktor BOM (Bill of Materials) - バージョンを一元管理
+    // Ktor BOM (Bill of Materials)
     implementation(platform("io.ktor:ktor-bom:$ktorVersion"))
 
     // Ktor Server
