@@ -18,15 +18,16 @@ fun Application.configureStatusPages() {
         // バリデーションエラー
         exception<RequestValidationException> { call, cause ->
             val errors = cause.reasons
-            val validationErrors = ValidationErrors(
-                email = errors.find { it.contains("メールアドレス") || it.contains("email") },
-                subject = errors.find { it.contains("件名") || it.contains("subject") },
-                message = errors.find { it.contains("メッセージ") || it.contains("message") }
-            )
+            val validationErrors =
+                    ValidationErrors(
+                            email = errors.find { it.contains("メールアドレス") || it.contains("email") },
+                            subject = errors.find { it.contains("件名") || it.contains("subject") },
+                            message = errors.find { it.contains("メッセージ") || it.contains("message") }
+                    )
             logger.warn("Validation failed: $errors")
             call.respond(
-                HttpStatusCode.BadRequest,
-                ApiResponse(error = "入力値が無効です。", details = validationErrors)
+                    HttpStatusCode.BadRequest,
+                    ApiResponse(error = "入力値が無効です。", details = validationErrors)
             )
         }
 
@@ -34,8 +35,8 @@ fun Application.configureStatusPages() {
         exception<TurnstileVerificationException> { call, cause ->
             logger.error("Turnstile verification failed: ${cause.message}")
             call.respond(
-                HttpStatusCode.Forbidden,
-                ApiResponse(error = "認証に失敗しました。ページを再読み込みして、もう一度お試しください。")
+                    HttpStatusCode.Forbidden,
+                    ApiResponse(error = "認証に失敗しました。ページを再読み込みして、もう一度お試しください。")
             )
         }
 
@@ -43,8 +44,8 @@ fun Application.configureStatusPages() {
         exception<ResendException> { call, cause ->
             logger.error("Email sending failed: ${cause.message}")
             call.respond(
-                HttpStatusCode.InternalServerError,
-                ApiResponse(error = "メール送信サービスで一時的な問題が発生しました。")
+                    HttpStatusCode.InternalServerError,
+                    ApiResponse(error = "メール送信サービスで一時的な問題が発生しました。")
             )
         }
 
@@ -52,8 +53,8 @@ fun Application.configureStatusPages() {
         exception<Throwable> { call, cause ->
             logger.error("An unexpected error occurred: ${cause.message}", cause)
             call.respond(
-                HttpStatusCode.InternalServerError,
-                ApiResponse(error = "サーバーに予期せぬエラーが発生しました。")
+                    HttpStatusCode.InternalServerError,
+                    ApiResponse(error = "サーバーに予期せぬエラーが発生しました。")
             )
         }
     }
