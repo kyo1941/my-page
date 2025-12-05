@@ -33,7 +33,8 @@ fun Application.configureStatusPages() {
 
         // Turnstile認証エラー
         exception<TurnstileVerificationException> { call, cause ->
-            logger.error("Turnstile verification failed: ${cause.message}")
+            logger.error("Turnstile verification failed:", cause)
+
             call.respond(
                     HttpStatusCode.Forbidden,
                     ApiResponse(error = "認証に失敗しました。ページを再読み込みして、もう一度お試しください。")
@@ -42,7 +43,7 @@ fun Application.configureStatusPages() {
 
         // Resendメール送信エラー
         exception<ResendException> { call, cause ->
-            logger.error("Email sending failed: ${cause.message}")
+            logger.error("Email sending failed:", cause)
             call.respond(
                     HttpStatusCode.InternalServerError,
                     ApiResponse(error = "メール送信サービスで一時的な問題が発生しました。")
@@ -51,7 +52,7 @@ fun Application.configureStatusPages() {
 
         // その他のエラー
         exception<Throwable> { call, cause ->
-            logger.error("An unexpected error occurred: ${cause.message}", cause)
+            logger.error("An unexpected error occurred:", cause)
             call.respond(
                     HttpStatusCode.InternalServerError,
                     ApiResponse(error = "サーバーに予期せぬエラーが発生しました。")
