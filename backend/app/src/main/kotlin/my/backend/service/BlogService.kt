@@ -54,7 +54,6 @@ class BlogService {
     private fun loadBlogs(): List<BlogDto> {
         val yaml = Yaml()
 
-        // blogs/index.txt からファイル一覧を読み込む
         val indexStream =
                 javaClass.classLoader.getResourceAsStream("blogs/index.txt") ?: return emptyList()
 
@@ -101,6 +100,5 @@ class BlogService {
                         java.time.LocalDate.MIN
                     }
                 }
-                ?: emptyList()
     }
 }
