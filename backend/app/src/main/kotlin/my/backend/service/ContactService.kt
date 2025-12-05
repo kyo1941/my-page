@@ -2,92 +2,77 @@ package my.backend.service
 
 import com.resend.Resend
 import com.resend.services.emails.model.SendEmailRequest
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.forms.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.config.*
+import kotlinx.serialization.json.Json
 import my.backend.dto.ContactFormRequest
 import my.backend.dto.TurnstileResponse
 import my.backend.exception.TurnstileVerificationException
 import org.apache.commons.text.StringEscapeUtils
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.MediaType
-import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
-import org.springframework.web.reactive.function.BodyInserters
-import org.springframework.web.reactive.function.client.WebClient
-import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
 
-@Service
-class ContactService(
-        private val webClientBuilder: WebClient.Builder,
-        @Value("\${turnstile.secret-key}") private val turnstileSecretKey: String,
-        @Value("\${contact.recipient-email}") private val recipientEmail: String,
-        @Value("\${resend.api-key}") private val resendApiKey: String,
-        @Value("\${resend.from-email}") private val fromEmail: String
-) {
+class ContactService(config: ApplicationConfig) {
     private val logger = LoggerFactory.getLogger(ContactService::class.java)
 
-    private val webClient: WebClient = webClientBuilder.build()
+    private val turnstileSecretKey = config.property("app.turnstile.secret-key").getString()
+    private val recipientEmail = config.property("app.contact.recipient-email").getString()
+    private val resendApiKey = config.property("app.resend.api-key").getString()
+    private val fromEmail = config.property("app.resend.from-email").getString()
+
+    private val client = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+            })
+        }
+    }
 
     private val resend: Resend by lazy { Resend(resendApiKey) }
 
-    fun processContactRequest(request: ContactFormRequest): Mono<Void> {
-        return verifyTurnstile(request.turnstileToken)
-                .switchIfEmpty(
-                        Mono.error(
-                                TurnstileVerificationException(
-                                        "Turnstile verification returned no response"
-                                )
-                        )
-                )
-                .flatMap { turnstileResponse ->
-                    if (turnstileResponse.success) {
-                        logger.info(
-                                "Turnstile response received: success=${turnstileResponse.success}, errorCodes=${turnstileResponse.errorCodes}"
-                        )
-                        Mono.fromRunnable<Void> { sendEmail(request) }
-                                .subscribeOn(Schedulers.boundedElastic())
-                    } else {
-                        logger.warn(
-                                "Turnstile verification failed: ${turnstileResponse.errorCodes}"
-                        )
-                        Mono.error(TurnstileVerificationException("Turnstile verification failed"))
-                    }
-                }
-                .then()
+    suspend fun processContactRequest(request: ContactFormRequest) {
+        val turnstileResponse = verifyTurnstile(request.turnstileToken)
+        
+        if (turnstileResponse.success) {
+            logger.info("Turnstile verification succeeded")
+            sendEmail(request)
+        } else {
+            logger.warn("Turnstile verification failed: ${turnstileResponse.errorCodes}")
+            throw TurnstileVerificationException("Turnstile verification failed")
+        }
     }
 
-    private fun verifyTurnstile(token: String): Mono<TurnstileResponse> {
-        val formData = LinkedMultiValueMap<String, String>()
-        formData.add("secret", turnstileSecretKey)
-        formData.add("response", token)
-
-        return webClient
-                .post()
-                .uri("https://challenges.cloudflare.com/turnstile/v0/siteverify")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(BodyInserters.fromFormData(formData))
-                .retrieve()
-                .bodyToMono(TurnstileResponse::class.java)
+    private suspend fun verifyTurnstile(token: String): TurnstileResponse {
+        return client.submitForm(
+            url = "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+            formParameters = parameters {
+                append("secret", turnstileSecretKey)
+                append("response", token)
+            }
+        ).body()
     }
 
     private fun sendEmail(request: ContactFormRequest) {
-        val emailHtml =
-                """
+        val emailHtml = """
             <h3>新しいお問い合わせ</h3>
             <p><strong>送信者:</strong> ${StringEscapeUtils.escapeHtml4(request.email)}</p>
             <p><strong>件名:</strong> ${StringEscapeUtils.escapeHtml4(request.subject)}</p>
             <p><strong>メッセージ:</strong></p>
-                <p>${StringEscapeUtils.escapeHtml4(request.message).replace("\n", "<br>")}</p>
+            <p>${StringEscapeUtils.escapeHtml4(request.message).replace("\n", "<br>")}</p>
         """.trimIndent()
 
-        val sendEmailRequest =
-                SendEmailRequest.builder()
-                        .from(fromEmail)
-                        .to(recipientEmail)
-                        .subject("[お問い合わせ] ${request.subject}")
-                        .replyTo(request.email)
-                        .html(emailHtml)
-                        .build()
+        val sendEmailRequest = SendEmailRequest.builder()
+            .from(fromEmail)
+            .to(recipientEmail)
+            .subject("[お問い合わせ] ${request.subject}")
+            .replyTo(request.email)
+            .html(emailHtml)
+            .build()
 
         resend.emails().send(sendEmailRequest)
     }

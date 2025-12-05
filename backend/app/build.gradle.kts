@@ -1,9 +1,21 @@
 
+val ktorVersion = "2.3.9"
+
 plugins {
-    id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
+    application
     id("org.jetbrains.kotlin.jvm") version "1.9.23"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.9.23"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
+    id("io.ktor.plugin") version "2.3.9"
+}
+
+application {
+    mainClass.set("my.backend.ApplicationKt")
+}
+
+ktor {
+    fatJar {
+        archiveFileName.set("app-all.jar")
+    }
 }
 
 repositories {
@@ -11,27 +23,41 @@ repositories {
 }
 
 dependencies {
-    // Spring Boot Starters
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    // Ktor Server
+    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-cors-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-request-validation:$ktorVersion")
+    implementation("io.ktor:ktor-server-config-yaml:$ktorVersion")
 
-    // --- Resend ---
+    // Ktor Client (Turnstile認証用)
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+
+    // Logging
+    implementation("ch.qos.logback:logback-classic:1.4.14")
+
+    // Resend
     implementation("com.resend:resend-java:2.1.0")
 
-    // --- HTML Escaping ---
+    // HTML Escaping
     implementation("org.apache.commons:commons-text:1.12.0")
 
-    // --- Markdown to HTML ---
+    // Markdown to HTML
     implementation("com.vladsch.flexmark:flexmark-all:0.64.8")
 
-    // --- SnakeYaml ---
+    // SnakeYaml
     implementation("org.yaml:snakeyaml:2.5")
 
     // Testing
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 java {
@@ -42,7 +68,6 @@ java {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "21"
     }
 }

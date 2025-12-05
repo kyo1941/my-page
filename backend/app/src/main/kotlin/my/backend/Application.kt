@@ -1,11 +1,15 @@
 package my.backend
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
+import io.ktor.server.application.*
+import io.ktor.server.netty.*
+import my.backend.plugins.*
 
-// --- Main Application ---
-@SpringBootApplication class Application
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
-fun main(args: Array<String>) {
-    runApplication<Application>(*args)
+fun Application.module() {
+    configureSerialization()
+    configureHTTP()
+    configureValidation()
+    configureStatusPages()
+    configureRouting()
 }

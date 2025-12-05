@@ -7,15 +7,13 @@ import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.data.MutableDataSet
 import my.backend.dto.BlogDto
-import org.springframework.core.io.support.ResourcePatternResolver
-import org.springframework.stereotype.Service
 import org.yaml.snakeyaml.Yaml
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 
-@Service
-class BlogService(private val resourceResolver: ResourcePatternResolver) {
+class BlogService {
 
-    private val blogsDirectory = "classpath:blogs/*.md"
     private val parser: Parser
     private val renderer: HtmlRenderer
     private val blogs: List<BlogDto>
@@ -53,20 +51,30 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
 
     private fun loadBlogs(): List<BlogDto> {
         val yaml = Yaml()
-        val resources = resourceResolver.getResources(blogsDirectory)
-        return resources.map { resource ->
-            val content = resource.inputStream.readBytes().toString(StandardCharsets.UTF_8)
+        
+        // blogs/index.txt からファイル一覧を読み込む
+        val indexStream = javaClass.classLoader.getResourceAsStream("blogs/index.txt")
+            ?: return emptyList()
+        
+        val fileNames = BufferedReader(InputStreamReader(indexStream, StandardCharsets.UTF_8))
+            .readLines()
+            .filter { it.isNotBlank() }
+        
+        return fileNames.mapNotNull { fileName ->
+            val resourceStream = javaClass.classLoader.getResourceAsStream("blogs/$fileName")
+                ?: return@mapNotNull null
+            
+            val content = resourceStream.bufferedReader(StandardCharsets.UTF_8).readText()
             val parts = content.split("---", limit = 3)
             val frontMatter = parts.getOrNull(1) ?: ""
             val markdownBody = parts.getOrNull(2) ?: ""
 
             val meta: Map<String, Any> = yaml.load(frontMatter) ?: emptyMap()
-
             val contentHtml = renderer.render(parser.parse(markdownBody))
 
             @Suppress("UNCHECKED_CAST")
             BlogDto(
-                slug = resource.filename?.replace(".md", "") ?: "",
+                slug = fileName.replace(".md", ""),
                 title = meta["title"] as? String ?: "",
                 date = meta["date"] as? String ?: "",
                 description = meta["description"] as? String ?: "",
@@ -75,14 +83,14 @@ class BlogService(private val resourceResolver: ResourcePatternResolver) {
                 content = contentHtml
             )
         }.sortedByDescending {
-            try {
-                java.time.LocalDate.parse(
-                    it.date,
-                    java.time.format.DateTimeFormatter.ofPattern("yyyy年M月d日", java.util.Locale.JAPAN)
-                )
-            } catch (e: java.time.format.DateTimeParseException) {
-                java.time.LocalDate.MIN
-            }
-        }
+                try {
+                    java.time.LocalDate.parse(
+                        it.date,
+                        java.time.format.DateTimeFormatter.ofPattern("yyyy年M月d日", java.util.Locale.JAPAN)
+                    )
+                } catch (e: java.time.format.DateTimeParseException) {
+                    java.time.LocalDate.MIN
+                }
+            } ?: emptyList()
     }
 }

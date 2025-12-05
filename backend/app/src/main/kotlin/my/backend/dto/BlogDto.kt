@@ -1,5 +1,8 @@
 package my.backend.dto
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class BlogDto(
     val slug: String,
     val title: String,
