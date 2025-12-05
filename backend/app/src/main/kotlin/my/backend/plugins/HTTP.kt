@@ -17,14 +17,21 @@ fun Application.configureHTTP() {
         allowHeader(HttpHeaders.ContentType)
         allowCredentials = true
 
-        allowedOrigins.split(",").forEach { origin ->
-            val uri = URI(origin.trim())
-            val host = uri.host
-            val scheme = uri.scheme
-
-            if (host != null && scheme != null) {
-                allowHost(host, schemes = listOf(scheme))
+        allowedOrigins.split(",")
+            .map { it.trim() }
+            .mapNotNull { origin ->
+                runCatching { URI(origin) }.getOrNull()
             }
-        }
+            .forEach { uri ->
+                val host = uri.host ?: return@forEach
+                val scheme = uri.scheme ?: return@forEach
+
+                val hostPattern = buildString {
+                    append(host)
+                    if (uri.port != -1) append(":${uri.port}")
+                }
+
+                allowHost(hostPattern, schemes = listOf(scheme))
+            }
     }
 }
