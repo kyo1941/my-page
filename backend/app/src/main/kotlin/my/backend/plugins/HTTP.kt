@@ -26,10 +26,11 @@ fun Application.configureHTTP() {
                 val host = uri.host ?: return@forEach
                 val scheme = uri.scheme ?: return@forEach
 
-                val hostPattern = buildString {
-                    append(host)
-                    if (uri.port != -1) append(":${uri.port}")
-                }
+                val hostPattern =
+                    buildString {
+                        append(host)
+                        if (uri.port != -1) append(":${uri.port}")
+                    }
 
                 allowHost(hostPattern, schemes = listOf(scheme))
             }
