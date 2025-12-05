@@ -11,6 +11,23 @@ import my.backend.dto.ValidationErrors
 import my.backend.exception.TurnstileVerificationException
 import org.slf4j.LoggerFactory
 
+private fun parseValidationError(error: String): Pair<String, String>? {
+    val colonIndex = error.indexOf(':')
+    if (colonIndex == -1) return null
+    val field = error.substring(0, colonIndex)
+    val message = error.substring(colonIndex + 1)
+    return field to message
+}
+
+private fun buildValidationErrors(errors: List<String>): ValidationErrors {
+    val errorMap = errors.mapNotNull { parseValidationError(it) }.toMap()
+    return ValidationErrors(
+            email = errorMap["email"],
+            subject = errorMap["subject"],
+            message = errorMap["message"]
+    )
+}
+
 fun Application.configureStatusPages() {
     val logger = LoggerFactory.getLogger("StatusPages")
 
@@ -18,12 +35,7 @@ fun Application.configureStatusPages() {
         // バリデーションエラー
         exception<RequestValidationException> { call, cause ->
             val errors = cause.reasons
-            val validationErrors =
-                    ValidationErrors(
-                            email = errors.find { it.contains("メールアドレス") || it.contains("email") },
-                            subject = errors.find { it.contains("件名") || it.contains("subject") },
-                            message = errors.find { it.contains("メッセージ") || it.contains("message") }
-                    )
+            val validationErrors = buildValidationErrors(errors)
             logger.warn("Validation failed: $errors")
             call.respond(
                     HttpStatusCode.BadRequest,

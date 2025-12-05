@@ -1,12 +1,9 @@
 
-val ktorVersion = "2.3.9"
-val koinVersion = "3.5.6"
-
 plugins {
     application
-    id("org.jetbrains.kotlin.jvm") version "1.9.23"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
-    id("io.ktor.plugin") version "2.3.9"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ktor)
 }
 
 application {
@@ -25,10 +22,10 @@ repositories {
 
 dependencies {
     // Ktor BOM
-    implementation(platform("io.ktor:ktor-bom:$ktorVersion"))
+    implementation(platform("io.ktor:ktor-bom:${libs.versions.ktor.get()}"))
 
     // Koin BOM
-    implementation(platform("io.insert-koin:koin-bom:$koinVersion"))
+    implementation(platform("io.insert-koin:koin-bom:${libs.versions.koin.get()}"))
 
     // Ktor Server
     implementation("io.ktor:ktor-server-core-jvm")
