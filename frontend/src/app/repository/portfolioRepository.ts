@@ -15,28 +15,33 @@ export type PortfolioSearchParams = {
 };
 
 export class PortfolioRepository {
-  async getSortedPostsData(params?: PortfolioSearchParams): Promise<Portfolio[]> {
+  async getSortedPostsData(
+    params?: PortfolioSearchParams,
+  ): Promise<Portfolio[]> {
     const searchParams = new URLSearchParams();
-    
+
     if (params?.limit) {
-      searchParams.append('limit', params.limit.toString());
+      searchParams.append("limit", params.limit.toString());
     }
-    
+
     const queryString = searchParams.toString();
-    const url = queryString 
-      ? `${API_BASE_URL}/api/portfolios?${queryString}` 
+    const url = queryString
+      ? `${API_BASE_URL}/api/portfolios?${queryString}`
       : `${API_BASE_URL}/api/portfolios`;
     const portfolios = await fetchApi<Portfolio[]>(url);
 
     if (portfolios) {
-      return portfolios.map(portfolio => {
-        if (portfolio.coverImage && portfolio.coverImage.startsWith('/')) {
-          return { ...portfolio, coverImage: `${API_BASE_URL}${portfolio.coverImage}` };
+      return portfolios.map((portfolio) => {
+        if (portfolio.coverImage && portfolio.coverImage.startsWith("/")) {
+          return {
+            ...portfolio,
+            coverImage: `${API_BASE_URL}${portfolio.coverImage}`,
+          };
         }
         return portfolio;
       });
     }
-    
+
     return [];
   }
 
@@ -53,8 +58,14 @@ export class PortfolioRepository {
   }
 
   async getPostData(slug: string): Promise<Portfolio | null> {
-    const portfolio = await fetchApi<Portfolio>(`${API_BASE_URL}/api/portfolios/${slug}`);
-    if (portfolio && portfolio.coverImage && portfolio.coverImage.startsWith('/')) {
+    const portfolio = await fetchApi<Portfolio>(
+      `${API_BASE_URL}/api/portfolios/${slug}`,
+    );
+    if (
+      portfolio &&
+      portfolio.coverImage &&
+      portfolio.coverImage.startsWith("/")
+    ) {
       portfolio.coverImage = `${API_BASE_URL}${portfolio.coverImage}`;
     }
     return portfolio;

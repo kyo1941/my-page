@@ -18,21 +18,21 @@ export type BlogSearchParams = {
 
 export class BlogRepository {
   async getSortedPostsData(params?: BlogSearchParams): Promise<Blog[]> {
-  const searchParams = new URLSearchParams();
-  
-  if (params?.limit) {
-    searchParams.append('limit', params.limit.toString());
-  }
-  if (params?.tags && params.tags.length > 0) {
-    params.tags.forEach(tag => searchParams.append('tags', tag));
-  }
-  if (params?.keyword) {
-    searchParams.append('keyword', params.keyword);
-  }
-  
+    const searchParams = new URLSearchParams();
+
+    if (params?.limit) {
+      searchParams.append("limit", params.limit.toString());
+    }
+    if (params?.tags && params.tags.length > 0) {
+      params.tags.forEach((tag) => searchParams.append("tags", tag));
+    }
+    if (params?.keyword) {
+      searchParams.append("keyword", params.keyword);
+    }
+
     const queryString = searchParams.toString();
-    const url = queryString 
-      ? `${API_BASE_URL}/api/blogs?${queryString}` 
+    const url = queryString
+      ? `${API_BASE_URL}/api/blogs?${queryString}`
       : `${API_BASE_URL}/api/blogs`;
     const blogs = await fetchApi<Blog[]>(url);
     return blogs || [];

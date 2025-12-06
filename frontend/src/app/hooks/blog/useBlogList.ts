@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Blog, blogRepository } from '@/app/repository/blogRepository';
-import { useBlogSearchContext } from './useBlogSearchContext';
+import { useState, useEffect } from "react";
+import { Blog, blogRepository } from "@/app/repository/blogRepository";
+import { useBlogSearchContext } from "./useBlogSearchContext";
 
 export function useBlogList() {
   const [blogs, setBlogs] = useState<Blog[]>([]);

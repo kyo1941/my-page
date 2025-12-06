@@ -1,7 +1,13 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import { Tag } from '@/app/data/tagData';
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  ReactNode,
+} from "react";
+import { Tag } from "@/app/data/tagData";
 
 interface BlogSearchContextType {
   selectedTags: Tag[];
@@ -11,17 +17,17 @@ interface BlogSearchContextType {
   toggleTag: (tag: Tag) => void;
 }
 
-const BlogSearchContext = createContext<BlogSearchContextType | undefined>(undefined);
+const BlogSearchContext = createContext<BlogSearchContextType | undefined>(
+  undefined,
+);
 
 export function BlogSearchProvider({ children }: { children: ReactNode }) {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
-  const [keyword, setKeyword] = useState<string>('');
+  const [keyword, setKeyword] = useState<string>("");
 
   const toggleTag = useCallback((tag: Tag) => {
     setSelectedTags((prev) =>
-      prev.includes(tag)
-        ? prev.filter((t) => t !== tag)
-        : [...prev, tag]
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
   }, []);
 
@@ -43,7 +49,9 @@ export function BlogSearchProvider({ children }: { children: ReactNode }) {
 export function useBlogSearchContext() {
   const context = useContext(BlogSearchContext);
   if (!context) {
-    throw new Error('useBlogSearchContext must be used within a BlogSearchProvider');
+    throw new Error(
+      "useBlogSearchContext must be used within a BlogSearchProvider",
+    );
   }
   return context;
 }

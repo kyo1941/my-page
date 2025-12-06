@@ -1,4 +1,4 @@
-import { skills } from '@/app/data/skillsData';
+import { skills } from "@/app/data/skillsData";
 
 export class SkillsRepository {
   getSkills() {
