@@ -1,21 +1,25 @@
-import { portfolioRepository } from '@/app/repository/portfolioRepository'; 
-import Header from '@/app/components/header';
-import BackButton from '@/app/components/BackButton';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeRaw from 'rehype-raw';
+import { portfolioRepository } from "@/app/repository/portfolioRepository";
+import Header from "@/app/components/header";
+import BackButton from "@/app/components/BackButton";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 
 // ポートフォリオページの生成に必要なパスを事前に取得する関数
 export async function generateStaticParams() {
   const paths = await portfolioRepository.getAllPostSlugs();
-  return paths.map(path => ({
-      slug: path.params.slug,
+  return paths.map((path) => ({
+    slug: path.params.slug,
   }));
 }
 
 // ページ本体のコンポーネント
-export default async function PortfolioDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function PortfolioDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const portfolioData = await portfolioRepository.getPostData(slug);
 
@@ -28,12 +32,16 @@ export default async function PortfolioDetailPage({ params }: { params: Promise<
             <div className="mb-8">
               <BackButton />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 text-center py-40">ポートフォリオが見つかりませんでした。<br />お探しのページは存在しないか、削除された可能性があります。</h1>
-        </div>
-      </main>
+            <h1 className="text-2xl font-bold text-gray-900 text-center py-40">
+              ポートフォリオが見つかりませんでした。
+              <br />
+              お探しのページは存在しないか、削除された可能性があります。
+            </h1>
+          </div>
+        </main>
       </div>
     );
-  } 
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
@@ -46,12 +54,14 @@ export default async function PortfolioDetailPage({ params }: { params: Promise<
 
           <article>
             {/* タイトル */}
-            <h1 className="text-4xl font-bold mb-4 text-gray-900">{portfolioData.title}</h1>
-            
+            <h1 className="text-4xl font-bold mb-4 text-gray-900">
+              {portfolioData.title}
+            </h1>
+
             {/* 投稿日 */}
             <div className="text-gray-600 mb-8">{portfolioData.date}</div>
 
-              {/* 本文 (ReactMarkdownでレンダリング) */}
+            {/* 本文 (ReactMarkdownでレンダリング) */}
             <div className="prose prose-lg max-w-none">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}

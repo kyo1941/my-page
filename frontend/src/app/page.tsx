@@ -2,5 +2,5 @@
 import Home from "./ui/top/page";
 
 export default function Main() {
-	return <Home />;
+  return <Home />;
 }

@@ -10,11 +10,10 @@ export default function Home() {
       <Header />
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-sm p-8">
-          
           <section className="border-b border-gray-200 mt-12 pb-12 text-center">
             <WelcomeSection />
           </section>
-          
+
           <section className="border-b border-gray-200 mt-16 pb-16">
             <ProfileSection />
           </section>
@@ -29,7 +28,6 @@ export default function Home() {
             <ContactForm />
           </section>
         </div>
-
       </main>
     </div>
   );

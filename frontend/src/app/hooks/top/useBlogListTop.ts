@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Blog, blogRepository } from '@/app/repository/blogRepository';
+import { useState, useEffect } from "react";
+import { Blog, blogRepository } from "@/app/repository/blogRepository";
 
 export function useBlogListTop(limit: number): { blogs: Blog[] } {
   const [blogs, setBlogs] = useState<Blog[]>([]);

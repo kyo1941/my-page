@@ -16,15 +16,25 @@ export default function BlogListSection() {
           </div>
         ) : (
           blogs.map((blog) => (
-            <Link href={`${ROUTES.BLOG}/${blog.slug}`} key={blog.slug} className="block">
+            <Link
+              href={`${ROUTES.BLOG}/${blog.slug}`}
+              key={blog.slug}
+              className="block"
+            >
               <div className="bg-gray-50 p-7 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <h4 className="font-semibold mb-2 text-gray-900">{blog.title}</h4>
+                <h4 className="font-semibold mb-2 text-gray-900">
+                  {blog.title}
+                </h4>
                 <p className="text-xs text-gray-600 mb-2">{blog.date}</p>
-                <p className="text-sm mb-4 text-gray-700 flex-grow">{blog.description}</p>
+                <p className="text-sm mb-4 text-gray-700 flex-grow">
+                  {blog.description}
+                </p>
                 <div className="flex items-center justify-between mt-auto">
-                  <span className="text-blue-600 text-sm font-medium">続きを読む</span>
+                  <span className="text-blue-600 text-sm font-medium">
+                    続きを読む
+                  </span>
                   <span className="text-blue-600 text-sm">→</span>
-                </div>  
+                </div>
               </div>
             </Link>
           ))

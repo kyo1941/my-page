@@ -10,7 +10,6 @@ export default function BlogPage() {
       <Header />
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-sm p-8">
-
           <h1 className="text-4xl font-bold mb-8 text-gray-900">ブログ</h1>
 
           <BlogSearchProvider>

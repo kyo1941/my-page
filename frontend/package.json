@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "fix": "npm run lint -- --fix && npm run format",
+    "check": "npm run lint && prettier --check ."
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.2.0",
@@ -29,6 +32,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.7",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.7.4",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

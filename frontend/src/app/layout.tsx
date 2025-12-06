@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "kyo1941",
-  description: "kyo1941の個人サイト。日々の出来事や開発に関する情報を発信しています。",
+  description:
+    "kyo1941の個人サイト。日々の出来事や開発に関する情報を発信しています。",
 };
 
 export default function RootLayout({
