@@ -55,7 +55,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             htmlFor="email"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            メールアドレス *
+            メールアドレス
           </label>
           <input
             type="email"
@@ -82,7 +82,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             htmlFor="subject"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            件名 *
+            件名
           </label>
           <input
             type="text"
@@ -109,7 +109,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             htmlFor="message"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            メッセージ *
+            メッセージ
           </label>
           <textarea
             id="message"
