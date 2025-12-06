@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "fix": "npm run lint -- --fix && npm run format",
+    "check": "npm run lint && prettier --check ."
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.2.0",
