@@ -21,7 +21,7 @@ export default function CareerSection() {
             </span>
 
             <div className="ml-4 pt-2">
-              <div className="flex items-center mb-3">
+              <div className="flex items-center mb-2">
                 <h3 className="text-2xl font-semibold text-gray-900">
                   {career.company}
                 </h3>
@@ -31,7 +31,7 @@ export default function CareerSection() {
                   </span>
                 )}
               </div>
-              <p className="block my-3 text-sm font-normal leading-none text-gray-500">
+              <p className="block mb-4 text-sm font-normal leading-none text-gray-500">
                 {career.period} | {career.position}
               </p>
               <ul className="list-disc list-outside text-gray-700 space-y-1.5">
