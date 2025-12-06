@@ -9,7 +9,7 @@ export interface ContactFormInput {
   message: string;
 }
 
-export function useContactFormTop(siteKey: string) {
+export function useContactFormTop() {
   // 入力値
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
@@ -50,7 +50,7 @@ export function useContactFormTop(siteKey: string) {
         setSubject('');
         setMessage('');
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);

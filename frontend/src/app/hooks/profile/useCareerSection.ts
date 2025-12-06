@@ -26,7 +26,7 @@ export function useCareerSection() {
       ...career,
       isCurrent: isCurrent(career.period)
     }));
-  }, [now, isCurrent]);
+  }, [isCurrent]);
 
   return { processedCareerData };
 }

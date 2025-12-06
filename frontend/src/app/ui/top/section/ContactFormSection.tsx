@@ -1,6 +1,6 @@
 "use client";
 
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { useContactFormTop } from '@/app/hooks/top/useContactFormTop';
 
 export default function ContactForm() {
@@ -39,7 +39,7 @@ function ContactFormContents({ siteKey }: { siteKey : string }) {
     turnstile,
     submit,
     handlers,
-  } = useContactFormTop(siteKey);
+  } = useContactFormTop();
 
   return (
     <div>

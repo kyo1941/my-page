@@ -1,7 +1,6 @@
 "use client";
 
 import Image from 'next/image';
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useSkillsSection } from '@/app/hooks/profile/useSkillsSection';
