@@ -13,7 +13,7 @@ export default function SkillsSection() {
         {skills.map((skill) => (
           <div
             key={skill.name}
-            className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+            className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm transition-shadow"
           >
             <div className="flex flex-col min-h-28">
               <div className="flex items-center gap-4">

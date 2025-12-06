@@ -14,7 +14,7 @@ export const careerData: Career[] = [
     icon: "/icon/dwango-logo.svg",
     company: "株式会社ドワンゴ",
     period: "2025年11月 - 2026年1月",
-    position: "Androidエンジニア",
+    position: "ニコニコ事業本部 - Androidエンジニア",
     tasks: [
       "動画アプリ「ニコニコ動画」のAndroidエンジニアとして3ヶ月従事。",
       "ショート動画実装の大規模案件のメンバーとしてアサインされ、画面の実装とAPI連携を担当。",
@@ -25,7 +25,7 @@ export const careerData: Career[] = [
     icon: "/icon/company-icon.svg",
     company: "株式会社ミラティブ",
     period: "2025年10月 - 2025年10月",
-    position: "Androidエンジニア",
+    position: "技術部 - Androidエンジニア",
     tasks: [
       "ライブ配信アプリ「ミラティブ」のAndroidエンジニアとして1ヶ月従事。",
       "既存のXMLベースのUIをJetpack Composeに置き換える作業を担当。\n触れたことのないFluxアーキテクチャでありながら、短期間でキャッチアップしていきながら実装を行った。",
@@ -36,9 +36,9 @@ export const careerData: Career[] = [
     icon: "/icon/sansan-logo.svg",
     company: "Sansan株式会社",
     period: "2025年8月 - 2025年9月",
-    position: "Eight事業部 Androidエンジニア",
+    position: "Eight Engineering Unit - Androidエンジニア",
     tasks: [
-      "toC名刺管理アプリ「Eight」チームのAndroidエンジニアとして1ヶ月従事。",
+      "toC名刺管理アプリ「Eight」のAndroidエンジニアとして1ヶ月従事。",
       "スクラム開発を通した、新機能開発における設計書の作成や実装。\nAndroidチームメンバーだけでなく、PdMやデザイナーとの仕様・デザイン調整のコミュニケーションも行いつつ、初の実務経験ということもあり大規模なアーキテクチャについてキャッチアップしながら取り組んだ。",
       "モーションセンサーを使用した名刺反転アニメーションを実装する新機能開発を担当。\nセンサーの制御を行い端末負荷を抑えつつ、ユーザー体験を向上させるアニメーションの実装を行った。",
     ],
