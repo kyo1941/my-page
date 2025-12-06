@@ -13,12 +13,13 @@ export default function ProfileSection() {
           alt="プロフィール画像"
           width={160}
           height={160}
+          priority
         />
         <div className="flex-1 text-left">
           <p className="py-4 text-gray-900">
             こんにちは、kyo1941です。
             <br />
-            音楽を聴いたり、競技プログラミングをやったりしています。
+            Androidエンジニアをやっています。音楽を聴いたり、料理をしたりします。
             <br />
           </p>
           <div>

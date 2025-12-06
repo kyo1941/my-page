@@ -15,7 +15,7 @@ const animatedUnderline = `
 
 export default function Header() {
   const navItems = [
-    { id: "profile", link: ROUTES.PROFILE, label: "自己紹介" },
+    { id: "profile", link: ROUTES.PROFILE, label: "プロフィール" },
     { id: "blog", link: ROUTES.BLOG, label: "ブログ" },
     { id: "portfolio", link: ROUTES.PORTFOLIO, label: "ポートフォリオ" },
   ];

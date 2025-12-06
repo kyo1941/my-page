@@ -10,7 +10,9 @@ export default function AboutPage() {
 
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-sm p-8">
-          <h1 className="text-4xl font-bold mb-8 text-gray-900">自己紹介</h1>
+          <h1 className="text-4xl font-bold mb-8 text-gray-900">
+            プロフィール
+          </h1>
 
           <section className="border-b border-gray-200 pb-12 mb-12">
             <ProfileDetailSection />
