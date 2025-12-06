@@ -22,10 +22,9 @@ export default function PortfolioListSection() {
                 <div className="relative md:w-1/3 w-full h-48 md:h-auto">
                   <Image 
                     src={portfolio.coverImage} 
-                    alt={portfolio.title} 
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-t-lg md:rounded-l-lg md:rounded-t-none"
+                    alt={portfolio.title}
+                    fill
+                    className="rounded-t-lg md:rounded-l-lg md:rounded-t-none object-cover"
                   />
                   <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-white"></div>
                 </div>
