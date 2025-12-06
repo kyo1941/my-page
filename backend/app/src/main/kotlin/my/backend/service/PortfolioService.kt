@@ -84,19 +84,13 @@ class PortfolioService {
             }
             .sortedByDescending {
                 try {
-                    // Handle different date formats
-                    val dateStr = it.date
-                    if (dateStr.contains("年")) {
-                        java.time.LocalDate.parse(
-                            dateStr,
-                            java.time.format.DateTimeFormatter.ofPattern(
-                                "yyyy年M月d日",
-                                java.util.Locale.JAPAN,
-                            ),
-                        )
-                    } else {
-                        java.time.LocalDate.parse(dateStr)
-                    }
+                    java.time.LocalDate.parse(
+                        it.date,
+                        java.time.format.DateTimeFormatter.ofPattern(
+                            "yyyy年M月d日",
+                            java.util.Locale.JAPAN,
+                        ),
+                    )
                 } catch (e: java.time.format.DateTimeParseException) {
                     java.time.LocalDate.MIN
                 }
