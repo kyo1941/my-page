@@ -5,22 +5,15 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.testing.*
-import org.junit.jupiter.api.AfterEach
-import org.koin.core.context.stopKoin
+import my.backend.testutil.testApplicationWithH2
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ContactRoutesTest {
-    @AfterEach
-    fun tearDown() {
-        stopKoin()
-    }
-
     @Test
     fun `空のデータで問い合わせすると400を返す`() =
-        testApplication {
+        testApplicationWithH2 {
             val jsonClient = createClient { install(ContentNegotiation) { json() } }
 
             jsonClient
@@ -36,7 +29,7 @@ class ContactRoutesTest {
 
     @Test
     fun `無効なメール形式で問い合わせすると400を返す`() =
-        testApplication {
+        testApplicationWithH2 {
             val jsonClient = createClient { install(ContentNegotiation) { json() } }
 
             jsonClient
@@ -55,7 +48,7 @@ class ContactRoutesTest {
 
     @Test
     fun `件名が3文字未満の場合は400を返す`() =
-        testApplication {
+        testApplicationWithH2 {
             val jsonClient = createClient { install(ContentNegotiation) { json() } }
 
             jsonClient
@@ -74,7 +67,7 @@ class ContactRoutesTest {
 
     @Test
     fun `メッセージが10文字未満の場合は400を返す`() =
-        testApplication {
+        testApplicationWithH2 {
             val jsonClient = createClient { install(ContentNegotiation) { json() } }
 
             jsonClient
