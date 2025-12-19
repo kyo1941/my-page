@@ -28,6 +28,13 @@ dependencies {
     // Koin BOM
     implementation(platform("io.insert-koin:koin-bom:${libs.versions.koin.get()}"))
 
+    // Database (MySQL & Connection Pool)
+    implementation(libs.mysql.connector)
+    implementation(libs.hikaricp)
+
+    // ORM (Exposed)
+    implementation(libs.bundles.exposed)
+
     // Ktor Server
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
