@@ -4,4 +4,4 @@
 # OS files
 .DS_Store
 
-.env.local
+.env
