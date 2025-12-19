@@ -70,6 +70,7 @@ dependencies {
     implementation("org.yaml:snakeyaml:2.5")
 
     // Testing
+    testImplementation(libs.h2)
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("io.ktor:ktor-client-mock")
     testImplementation("io.insert-koin:koin-test")

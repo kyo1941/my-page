@@ -9,19 +9,8 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object DatabaseFactory {
+class DatabaseFactory(private val config: HikariConfig) {
     fun init() {
-        val config =
-            HikariConfig().apply {
-                driverClassName = System.getenv("DB_DRIVER")
-                jdbcUrl = System.getenv("DB_URL")
-                username = System.getenv("DB_USER")
-                password = System.getenv("DB_PASSWORD")
-                maximumPoolSize = 3
-                isAutoCommit = false
-                transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-                validate()
-            }
         val dataSource = HikariDataSource(config)
         Database.connect(dataSource)
 

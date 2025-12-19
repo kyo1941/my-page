@@ -6,6 +6,13 @@ ktor:
     modules:
       - my.backend.ApplicationKt.module
 
+# Database configuration
+storage:
+    driverClassName: ${DB_DRIVER}
+    jdbcURL: ${DB_URL}
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
+
 # Application-specific configuration
 # Copy this file to application.yaml and fill in the values
 app:
