@@ -1,6 +1,7 @@
 package my.backend.db.schema
 
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.javatime.datetime
 
 object BlogTable : Table("blogs") {
     val id = integer("id").autoIncrement()
@@ -9,7 +10,7 @@ object BlogTable : Table("blogs") {
     val description = text("description")
     val content = text("content")
     val coverImage = varchar("cover_image", 255).nullable()
-    val date = varchar("date", 50)
+    val date = datetime("date")
 
     override val primaryKey = PrimaryKey(id)
 }
