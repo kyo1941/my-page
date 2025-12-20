@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS blogs (
+CREATE TABLE blogs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     slug VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
@@ -9,13 +9,13 @@ CREATE TABLE IF NOT EXISTS blogs (
     CONSTRAINT uk_blogs_slug UNIQUE (slug)
 );
 
-CREATE TABLE IF NOT EXISTS tags (
+CREATE TABLE tags (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     CONSTRAINT uk_tags_name UNIQUE (name)
 );
 
-CREATE TABLE IF NOT EXISTS blog_tags (
+CREATE TABLE blog_tags (
     blog_id INT NOT NULL,
     tag_id INT NOT NULL,
     PRIMARY KEY (blog_id, tag_id),
