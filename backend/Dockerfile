@@ -1,9 +1,21 @@
-FROM gradle:8.5-jdk21 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
+FROM gradle:8.5-jdk21 AS builder
 WORKDIR /home/gradle/src
-RUN gradle buildFatJar --no-daemon
+
+COPY --chown=gradle:gradle gradle/ gradle/
+COPY --chown=gradle:gradle gradlew gradlew
+COPY --chown=gradle:gradle settings.gradle.kts settings.gradle.kts
+COPY --chown=gradle:gradle gradle/libs.versions.toml gradle/libs.versions.toml
+COPY --chown=gradle:gradle app/build.gradle.kts app/build.gradle.kts
+
+RUN --mount=type=cache,target=/home/gradle/.gradle \
+    chmod +x gradlew && ./gradlew --no-daemon assemble -x test
+
+COPY --chown=gradle:gradle . .
+
+RUN --mount=type=cache,target=/home/gradle/.gradle \
+    ./gradlew --no-daemon buildFatJar -x test
 
 FROM eclipse-temurin:21-jre
-RUN mkdir /app
-COPY --from=build /home/gradle/src/app/build/libs/app-all.jar /app/app.jar
+WORKDIR /app
+COPY --from=builder /home/gradle/src/app/build/libs/app-all.jar /app/app.jar
 ENTRYPOINT ["java","-jar","/app/app.jar"]
