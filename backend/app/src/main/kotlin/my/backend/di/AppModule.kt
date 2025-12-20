@@ -2,6 +2,7 @@ package my.backend.di
 
 import com.resend.Resend
 import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -31,7 +32,10 @@ fun appModule(config: ApplicationConfig) =
             }
         }
 
-        // DatabaseFactory の登録
+        // HikariDataSource
+        single { HikariDataSource(get()) } onClose { it?.close() }
+
+        // DatabaseFactory
         single { DatabaseFactory(get()) }
 
         // Config

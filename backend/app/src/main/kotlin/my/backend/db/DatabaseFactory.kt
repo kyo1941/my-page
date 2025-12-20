@@ -6,9 +6,8 @@ import org.flywaydb.core.Flyway
 import org.jetbrains.exposed.sql.Database
 import javax.sql.DataSource
 
-class DatabaseFactory(private val config: HikariConfig) {
+class DatabaseFactory(private val dataSource: DataSource) {
     fun init() {
-        val dataSource = HikariDataSource(config)
         Database.connect(dataSource)
 
         runFlyway(dataSource)
