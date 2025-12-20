@@ -1,13 +1,13 @@
 package my.backend.plugins
 
 import io.ktor.server.application.*
-import my.backend.di.appModule
+import org.koin.core.module.Module
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
 
-fun Application.configureKoin() {
+fun Application.configureKoin(koinModules: List<Module>) {
     install(Koin) {
         slf4jLogger()
-        modules(appModule(environment.config))
+        modules(koinModules)
     }
 }

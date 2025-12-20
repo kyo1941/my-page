@@ -1,12 +1,15 @@
 package my.backend.di
 
 import com.resend.Resend
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.config.*
 import kotlinx.serialization.json.Json
+import my.backend.db.DatabaseFactory
 import my.backend.service.BlogService
 import my.backend.service.ContactService
 import my.backend.service.PortfolioService
@@ -15,6 +18,26 @@ import org.koin.dsl.onClose
 
 fun appModule(config: ApplicationConfig) =
     module {
+        // 本番用DB設定
+        single {
+            HikariConfig().apply {
+                driverClassName = config.property("storage.driverClassName").getString()
+                jdbcUrl = config.property("storage.jdbcURL").getString()
+                username = config.property("storage.user").getString()
+                password = config.property("storage.password").getString()
+                maximumPoolSize = config.property("storage.maxPoolSize").getString().toInt()
+                isAutoCommit = false
+                transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+                validate()
+            }
+        }
+
+        // HikariDataSource
+        single { HikariDataSource(get()) } onClose { it?.close() }
+
+        // DatabaseFactory
+        single { DatabaseFactory(get<HikariDataSource>()) }
+
         // Config
         single { config }
 

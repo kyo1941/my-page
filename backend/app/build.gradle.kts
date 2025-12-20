@@ -28,6 +28,17 @@ dependencies {
     // Koin BOM
     implementation(platform("io.insert-koin:koin-bom:${libs.versions.koin.get()}"))
 
+    // Database (MySQL & Connection Pool)
+    implementation(libs.mysql.connector)
+    implementation(libs.hikaricp)
+
+    // ORM (Exposed)
+    implementation(libs.bundles.exposed)
+
+    // Flyway
+    implementation(libs.flyway.core)
+    implementation(libs.flyway.mysql)
+
     // Ktor Server
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
@@ -63,6 +74,7 @@ dependencies {
     implementation("org.yaml:snakeyaml:2.5")
 
     // Testing
+    testImplementation(libs.h2)
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("io.ktor:ktor-client-mock")
     testImplementation("io.insert-koin:koin-test")
@@ -83,6 +95,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         jvmTarget = "21"
     }
+}
+
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+    mergeServiceFiles()
 }
 
 tasks.withType<Test> {
