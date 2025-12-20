@@ -37,7 +37,7 @@ export default function WelcomeSection() {
         transition={{ delay: 3, duration: 0.8 }}
         className="text-sm sm:text-lg text-gray-500 mt-4 font-mono"
       >
-        Android Engineer / Web Developer
+        Android Engineer / Mapo tofu Developer
       </motion.p>
     </div>
   );
