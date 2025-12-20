@@ -35,6 +35,10 @@ dependencies {
     // ORM (Exposed)
     implementation(libs.bundles.exposed)
 
+    // Flyway
+    implementation(libs.flyway.core)
+    implementation(libs.flyway.mysql)
+
     // Ktor Server
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
@@ -91,6 +95,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         jvmTarget = "21"
     }
+}
+
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+    mergeServiceFiles()
 }
 
 tasks.withType<Test> {
