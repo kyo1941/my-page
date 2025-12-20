@@ -17,10 +17,6 @@ class DatabaseFactory(private val config: HikariConfig) {
         Database.connect(dataSource)
 
         runFlyway(dataSource)
-
-        transaction {
-            SchemaUtils.create(BlogTable, TagTable, BlogTagsTable)
-        }
     }
 
     private fun runFlyway(dataSource: DataSource) {
