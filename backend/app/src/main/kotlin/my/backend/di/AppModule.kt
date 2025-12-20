@@ -36,7 +36,7 @@ fun appModule(config: ApplicationConfig) =
         single { HikariDataSource(get()) } onClose { it?.close() }
 
         // DatabaseFactory
-        single { DatabaseFactory(get()) }
+        single { DatabaseFactory(get<HikariDataSource>()) }
 
         // Config
         single { config }
