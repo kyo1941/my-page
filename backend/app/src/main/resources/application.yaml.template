@@ -8,10 +8,11 @@ ktor:
 
 # Database configuration
 storage:
-    driverClassName: ${DB_DRIVER}
-    jdbcURL: ${DB_URL}
-    user: ${DB_USER}
-    password: ${DB_PASSWORD}
+    driverClassName: $DB_DRIVER
+    jdbcURL: $DB_URL
+    user: $DB_USER
+    password: $DB_PASSWORD
+    maximumPoolSize: $DB_MAX_POOL_SIZE
 
 # Application-specific configuration
 # Copy this file to application.yaml and fill in the values
