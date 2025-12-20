@@ -24,7 +24,7 @@ fun appModule(config: ApplicationConfig) =
                 jdbcUrl = config.property("storage.jdbcURL").getString()
                 username = config.property("storage.user").getString()
                 password = config.property("storage.password").getString()
-                maximumPoolSize = 3
+                maximumPoolSize = config.property("storage.maxPoolSize").getString().toInt()
                 isAutoCommit = false
                 transactionIsolation = "TRANSACTION_REPEATABLE_READ"
                 validate()

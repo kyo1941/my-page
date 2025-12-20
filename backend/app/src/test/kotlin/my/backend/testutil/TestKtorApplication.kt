@@ -39,6 +39,7 @@ private fun h2TestConfig(): MapApplicationConfig =
         put("storage.jdbcURL", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL")
         put("storage.user", "root")
         put("storage.password", "")
+        put("storage.maxPoolSize", "2")
 
         // DI 解決に必要な値（外部通信は routes テストでは行わない想定）
         put("app.resend.api-key", "dummy_key")
