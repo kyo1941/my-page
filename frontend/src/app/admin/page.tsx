@@ -1,53 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-
-interface Blog {
-  slug: string;
-  title: string;
-  date: string;
-  description: string;
-  tags: string[];
-}
+import { useAdminBlogList } from '@/app/hooks/admin/useAdminBlogList';
+import { UnauthorizedError } from '@/app/types/errors';
+import type { AdminBlogListItem } from '@/app/types/blog';
 
 export default function AdminDashboard() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
-
-  const fetchBlogs = async () => {
-    try {
-      const res = await fetch('/api/blogs');
-      if (res.ok) {
-        const data = await res.json();
-        setBlogs(data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch blogs', error);
-    }
-  };
+  const {
+    state: { blogs, isLoading },
+    actions: { deleteBlog },
+  } = useAdminBlogList();
 
   const handleDelete = async (slug: string) => {
     if (!confirm('Are you sure you want to delete this blog?')) return;
 
     try {
-      const res = await fetch(`/api/blogs/delete/${slug}`, {
-        method: 'DELETE',
-      });
-
-      if (res.ok) {
-        fetchBlogs();
-      } else if (res.status === 401) {
+      await deleteBlog(slug);
+    } catch (error) {
+      if (error instanceof UnauthorizedError) {
         router.push('/admin/login');
       } else {
         alert('Failed to delete blog');
       }
-    } catch (error) {
       console.error('Failed to delete blog', error);
     }
   };
@@ -65,7 +42,7 @@ export default function AdminDashboard() {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <table className="min-w-full overflow-hidden rounded-lg bg-white shadow-md">
           <thead className="bg-gray-200 text-gray-700">
             <tr>
               <th className="px-4 py-3 text-left">Title</th>
@@ -75,7 +52,7 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {blogs.map((blog) => (
+            {(blogs as AdminBlogListItem[]).map((blog) => (
               <tr key={blog.slug} className="border-b hover:bg-gray-50">
                 <td className="px-4 py-3">{blog.title}</td>
                 <td className="px-4 py-3">{blog.date}</td>
@@ -90,6 +67,7 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => handleDelete(blog.slug)}
                     className="text-red-500 hover:text-red-700"
+                    disabled={isLoading}
                   >
                     Delete
                   </button>
@@ -102,4 +80,3 @@ export default function AdminDashboard() {
     </div>
   );
 }
-

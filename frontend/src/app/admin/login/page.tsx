@@ -1,35 +1,26 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAdminLogin } from '@/app/hooks/admin/useAdminLogin';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const router = useRouter();
+
+  const {
+    form: { username, setUsername, password, setPassword },
+    state: { error, isSubmitting },
+    actions: { submit, setError },
+  } = useAdminLogin();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (res.ok) {
-        router.push('/admin');
-      } else {
-        const errorText = await res.text();
-        setError(errorText || 'Invalid credentials');
-      }
+      await submit();
+      router.push('/admin');
     } catch (error) {
-      setError('Something went wrong');
+      // error message is already set in hook
       console.error('Login error:', error);
     }
   };
@@ -68,8 +59,9 @@ export default function LoginPage() {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+              className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none disabled:opacity-50"
               type="submit"
+              disabled={isSubmitting}
             >
               Sign In
             </button>
@@ -79,4 +71,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

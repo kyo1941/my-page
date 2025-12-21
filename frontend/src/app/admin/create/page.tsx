@@ -1,52 +1,45 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { UnauthorizedError } from '@/app/types/errors';
+import { useAdminBlogCreate } from '@/app/hooks/admin/useAdminBlogCreate';
 
 export default function CreateBlogPage() {
-  const [title, setTitle] = useState('');
-  const [slug, setSlug] = useState('');
-  const [description, setDescription] = useState('');
-  const [content, setContent] = useState('');
-  const [tags, setTags] = useState('');
-  const [coverImage, setCoverImage] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const router = useRouter();
 
-  useEffect(() => {
-    // Cookie check is handled by middleware or API response
-  }, [router]);
+  const {
+    form: {
+      title,
+      setTitle,
+      slug,
+      setSlug,
+      description,
+      setDescription,
+      content,
+      setContent,
+      tags,
+      setTags,
+      coverImage,
+      setCoverImage,
+      date,
+      setDate,
+    },
+    state: { isLoading },
+    actions: { submitCreate },
+  } = useAdminBlogCreate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const blogData = {
-      title,
-      slug,
-      description,
-      content,
-      tags: tags.split(',').map((tag) => tag.trim()),
-      coverImage,
-      date: new Date(date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }),
-    };
-
     try {
-      const res = await fetch('/api/blogs/post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(blogData),
-      });
-
-      if (res.ok) {
-        router.push('/admin');
-      } else if (res.status === 401) {
+      await submitCreate();
+      router.push('/admin');
+    } catch (error) {
+      if (error instanceof UnauthorizedError) {
         router.push('/admin/login');
       } else {
         alert('Failed to create blog');
       }
-    } catch (error) {
       console.error('Failed to create blog', error);
     }
   };
@@ -122,8 +115,9 @@ export default function CreateBlogPage() {
           />
         </div>
         <button
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:opacity-50"
           type="submit"
+          disabled={isLoading}
         >
           Create Blog
         </button>

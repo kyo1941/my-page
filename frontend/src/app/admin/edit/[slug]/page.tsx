@@ -1,82 +1,47 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { UnauthorizedError } from '@/app/types/errors';
+import { useAdminBlogEdit } from '@/app/hooks/admin/useAdminBlogEdit';
 
 export default function EditBlogPage() {
-  const [title, setTitle] = useState('');
-  const [slug, setSlug] = useState('');
-  const [description, setDescription] = useState('');
-  const [content, setContent] = useState('');
-  const [tags, setTags] = useState('');
-  const [coverImage, setCoverImage] = useState('');
-  const [date, setDate] = useState('');
   const router = useRouter();
   const params = useParams();
   const originalSlug = params.slug as string;
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const res = await fetch(`/api/blogs/${originalSlug}`);
-        if (res.ok) {
-          const data = await res.json();
-          setTitle(data.title);
-          setSlug(data.slug);
-          setDescription(data.description);
-          setContent(data.content);
-          setTags(data.tags.join(', '));
-          setCoverImage(data.coverImage || '');
-
-          // Convert date format "yyyy年M月d日" to "yyyy-MM-dd" for input type="date"
-          const dateMatch = data.date.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-          if (dateMatch) {
-            const year = dateMatch[1];
-            const month = dateMatch[2].padStart(2, '0');
-            const day = dateMatch[3].padStart(2, '0');
-            setDate(`${year}-${month}-${day}`);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to fetch blog', error);
-      }
-    };
-
-    if (originalSlug) {
-      fetchBlog();
-    }
-  }, [originalSlug]);
+  const {
+    form: {
+      title,
+      setTitle,
+      slug,
+      setSlug,
+      description,
+      setDescription,
+      content,
+      setContent,
+      tags,
+      setTags,
+      coverImage,
+      setCoverImage,
+      date,
+      setDate,
+    },
+    state: { isLoading },
+    actions: { submitUpdate },
+  } = useAdminBlogEdit(originalSlug);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const blogData = {
-      title,
-      slug,
-      description,
-      content,
-      tags: tags.split(',').map((tag) => tag.trim()),
-      coverImage,
-      date: new Date(date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }),
-    };
-
     try {
-      const res = await fetch(`/api/blogs/edit/${originalSlug}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(blogData),
-      });
-
-      if (res.ok) {
-        router.push('/admin');
-      } else if (res.status === 401) {
+      await submitUpdate();
+      router.push('/admin');
+    } catch (error) {
+      if (error instanceof UnauthorizedError) {
         router.push('/admin/login');
       } else {
         alert('Failed to update blog');
       }
-    } catch (error) {
       console.error('Failed to update blog', error);
     }
   };
@@ -152,8 +117,9 @@ export default function EditBlogPage() {
           />
         </div>
         <button
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:opacity-50"
           type="submit"
+          disabled={isLoading}
         >
           Update Blog
         </button>
