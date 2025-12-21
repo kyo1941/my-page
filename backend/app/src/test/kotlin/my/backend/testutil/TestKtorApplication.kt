@@ -35,11 +35,16 @@ fun testApplicationWithH2(test: suspend ApplicationTestBuilder.() -> Unit) {
 private fun h2TestConfig(): MapApplicationConfig =
     MapApplicationConfig().apply {
         put("storage.driverClassName", "org.h2.Driver")
-        // MODE=MYSQL は本番が MySQL のため。互換不要なら外してOK。
-        put("storage.jdbcURL", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL")
+        put("storage.jdbcURL", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL;DATABASE_TO_LOWER=TRUE")
         put("storage.user", "root")
         put("storage.password", "")
         put("storage.maxPoolSize", "2")
+
+        // JWT 関連設定
+        put("jwt.secret", "test_secret_key_1234567890")
+        put("jwt.issuer", "test_issuer")
+        put("jwt.audience", "test_audience")
+        put("jwt.realm", "test_realm")
 
         // DI 解決に必要な値（外部通信は routes テストでは行わない想定）
         put("app.resend.api-key", "dummy_key")
