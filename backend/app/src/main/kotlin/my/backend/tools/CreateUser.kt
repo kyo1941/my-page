@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import my.backend.db.schema.UserTable
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
@@ -26,13 +27,13 @@ fun main() {
     val username = System.getenv("ADMIN_USERNAME") ?: error("ADMIN_USERNAME is not set")
     val password = System.getenv("ADMIN_PASSWORD") ?: error("ADMIN_PASSWORD is not set")
 
-    val hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt())
-
     try {
         transaction {
+            SchemaUtils.create(UserTable)
+
             UserTable.insert {
                 it[UserTable.username] = username
-                it[UserTable.password] = hashedPassword
+                it[UserTable.password] = BCrypt.hashpw(password, BCrypt.gensalt())
             }
         }
         println("User created successfully!")
