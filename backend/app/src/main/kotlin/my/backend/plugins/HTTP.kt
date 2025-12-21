@@ -14,6 +14,8 @@ fun Application.configureHTTP() {
         allowMethod(HttpMethod.Options)
         allowMethod(HttpMethod.Post)
         allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Put)
+        allowMethod(HttpMethod.Delete)
         allowHeader(HttpHeaders.ContentType)
         allowCredentials = true
 
