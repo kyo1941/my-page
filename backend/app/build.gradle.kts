@@ -1,4 +1,3 @@
-
 plugins {
     application
     alias(libs.plugins.kotlin.jvm)
@@ -48,6 +47,8 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages-jvm")
     implementation("io.ktor:ktor-server-request-validation")
     implementation("io.ktor:ktor-server-config-yaml")
+    implementation("io.ktor:ktor-server-auth")
+    implementation("io.ktor:ktor-server-auth-jwt")
 
     // Ktor Client (Turnstile認証用)
     implementation("io.ktor:ktor-client-core")
@@ -72,6 +73,9 @@ dependencies {
 
     // SnakeYaml
     implementation("org.yaml:snakeyaml:2.5")
+
+    // BCrypt
+    implementation(libs.jbcrypt)
 
     // Testing
     testImplementation(libs.h2)
@@ -103,4 +107,12 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+task<JavaExec>("createUser") {
+    group = "application"
+    description = "Creates a new admin user"
+    mainClass.set("my.backend.tools.CreateUserKt")
+    classpath = sourceSets["main"].runtimeClasspath
+    standardInput = System.`in`
 }
