@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useRouter, useParams } from 'next/navigation';
-import { UnauthorizedError } from '@/app/types/errors';
-import { useAdminBlogEdit } from '@/app/hooks/admin/useAdminBlogEdit';
+import { useRouter, useParams } from "next/navigation";
+import { UnauthorizedError } from "@/app/types/errors";
+import { useAdminBlogEdit } from "@/app/hooks/admin/useAdminBlogEdit";
 
 export default function EditBlogPage() {
   const router = useRouter();
@@ -35,14 +35,14 @@ export default function EditBlogPage() {
 
     try {
       await submitUpdate();
-      router.push('/admin');
+      router.push("/admin");
     } catch (error) {
       if (error instanceof UnauthorizedError) {
-        router.push('/admin/login');
+        router.push("/admin/login");
       } else {
-        alert('Failed to update blog');
+        alert("Failed to update blog");
       }
-      console.error('Failed to update blog', error);
+      console.error("Failed to update blog", error);
     }
   };
 
@@ -51,7 +51,9 @@ export default function EditBlogPage() {
       <h1 className="mb-6 text-3xl font-bold">Edit Blog</h1>
       <form onSubmit={handleSubmit} className="max-w-2xl">
         <div className="mb-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">Title</label>
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            Title
+          </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
             type="text"
@@ -61,7 +63,9 @@ export default function EditBlogPage() {
           />
         </div>
         <div className="mb-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">Slug</label>
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            Slug
+          </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
             type="text"
@@ -71,7 +75,9 @@ export default function EditBlogPage() {
           />
         </div>
         <div className="mb-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">Date</label>
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            Date
+          </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
             type="date"
@@ -81,7 +87,9 @@ export default function EditBlogPage() {
           />
         </div>
         <div className="mb-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">Description</label>
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            Description
+          </label>
           <textarea
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
             value={description}
@@ -90,7 +98,9 @@ export default function EditBlogPage() {
           />
         </div>
         <div className="mb-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">Tags (comma separated)</label>
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            Tags (comma separated)
+          </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
             type="text"
@@ -99,7 +109,9 @@ export default function EditBlogPage() {
           />
         </div>
         <div className="mb-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">Cover Image URL</label>
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            Cover Image URL
+          </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
             type="text"
@@ -108,7 +120,9 @@ export default function EditBlogPage() {
           />
         </div>
         <div className="mb-6">
-          <label className="mb-2 block text-sm font-bold text-gray-700">Content (Markdown)</label>
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            Content (Markdown)
+          </label>
           <textarea
             className="h-64 w-full rounded border px-3 py-2 shadow focus:outline-none"
             value={content}

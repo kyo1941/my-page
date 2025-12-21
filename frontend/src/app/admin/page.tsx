@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useAdminBlogList } from '@/app/hooks/admin/useAdminBlogList';
-import { UnauthorizedError } from '@/app/types/errors';
-import type { AdminBlogListItem } from '@/app/types/blog';
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useAdminBlogList } from "@/app/hooks/admin/useAdminBlogList";
+import { UnauthorizedError } from "@/app/types/errors";
+import type { AdminBlogListItem } from "@/app/types/blog";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -15,17 +15,17 @@ export default function AdminDashboard() {
   } = useAdminBlogList();
 
   const handleDelete = async (slug: string) => {
-    if (!confirm('Are you sure you want to delete this blog?')) return;
+    if (!confirm("Are you sure you want to delete this blog?")) return;
 
     try {
       await deleteBlog(slug);
     } catch (error) {
       if (error instanceof UnauthorizedError) {
-        router.push('/admin/login');
+        router.push("/admin/login");
       } else {
-        alert('Failed to delete blog');
+        alert("Failed to delete blog");
       }
-      console.error('Failed to delete blog', error);
+      console.error("Failed to delete blog", error);
     }
   };
 
@@ -56,7 +56,7 @@ export default function AdminDashboard() {
               <tr key={blog.slug} className="border-b hover:bg-gray-50">
                 <td className="px-4 py-3">{blog.title}</td>
                 <td className="px-4 py-3">{blog.date}</td>
-                <td className="px-4 py-3">{blog.tags.join(', ')}</td>
+                <td className="px-4 py-3">{blog.tags.join(", ")}</td>
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/edit/${blog.slug}`}

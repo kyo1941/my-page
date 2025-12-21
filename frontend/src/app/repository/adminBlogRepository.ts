@@ -1,11 +1,18 @@
 import { ApiError, NotFoundError, UnauthorizedError } from "@/app/types/errors";
-import type { AdminBlogListItem, Blog, BlogUpsertInput } from "@/app/types/blog";
+import type {
+  AdminBlogListItem,
+  Blog,
+  BlogUpsertInput,
+} from "@/app/types/blog";
 
 function getApiUrl(path: string) {
   return path;
 }
 
-async function requestOrThrow(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+async function requestOrThrow(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+): Promise<Response> {
   const res = await fetch(input, {
     credentials: "include",
     ...init,
@@ -25,7 +32,10 @@ async function requestOrThrow(input: RequestInfo | URL, init?: RequestInit): Pro
   return res;
 }
 
-async function fetchJsonOrThrow<T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> {
+async function fetchJsonOrThrow<T>(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+): Promise<T> {
   const res = await requestOrThrow(input, init);
   return (await res.json()) as T;
 }
@@ -36,7 +46,9 @@ export class AdminBlogRepository {
   }
 
   async get(slug: string): Promise<Blog> {
-    return await fetchJsonOrThrow<Blog>(getApiUrl(`/api/blogs/${encodeURIComponent(slug)}`));
+    return await fetchJsonOrThrow<Blog>(
+      getApiUrl(`/api/blogs/${encodeURIComponent(slug)}`),
+    );
   }
 
   async create(input: BlogUpsertInput): Promise<void> {
@@ -48,17 +60,23 @@ export class AdminBlogRepository {
   }
 
   async update(originalSlug: string, input: BlogUpsertInput): Promise<void> {
-    await requestOrThrow(getApiUrl(`/api/blogs/edit/${encodeURIComponent(originalSlug)}`), {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(input),
-    });
+    await requestOrThrow(
+      getApiUrl(`/api/blogs/edit/${encodeURIComponent(originalSlug)}`),
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      },
+    );
   }
 
   async delete(slug: string): Promise<void> {
-    await requestOrThrow(getApiUrl(`/api/blogs/delete/${encodeURIComponent(slug)}`), {
-      method: "DELETE",
-    });
+    await requestOrThrow(
+      getApiUrl(`/api/blogs/delete/${encodeURIComponent(slug)}`),
+      {
+        method: "DELETE",
+      },
+    );
   }
 }
 

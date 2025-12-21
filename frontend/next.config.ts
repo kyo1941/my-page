@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 import type { RemotePattern } from "next/dist/shared/lib/image-config";
 
-const apiUrl = new URL(process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost");
+const apiUrl = new URL(
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost",
+);
 
 const remotePattern: RemotePattern = {
   protocol: apiUrl.protocol.replace(":", "") as "http" | "https",

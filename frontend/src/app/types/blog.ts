@@ -8,7 +8,10 @@ export type Blog = {
   content: string;
 };
 
-export type AdminBlogListItem = Pick<Blog, "slug" | "title" | "date" | "description"> & {
+export type AdminBlogListItem = Pick<
+  Blog,
+  "slug" | "title" | "date" | "description"
+> & {
   tags: string[];
 };
 

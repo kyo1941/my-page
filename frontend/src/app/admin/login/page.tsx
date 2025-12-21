@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useAdminLogin } from '@/app/hooks/admin/useAdminLogin';
+import { useRouter } from "next/navigation";
+import { useAdminLogin } from "@/app/hooks/admin/useAdminLogin";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,14 +14,14 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
       await submit();
-      router.push('/admin');
+      router.push("/admin");
     } catch (error) {
       // error message is already set in hook
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     }
   };
 
@@ -32,7 +32,10 @@ export default function LoginPage() {
         {error && <p className="mb-4 text-center text-red-500">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="username">
+            <label
+              className="mb-2 block text-sm font-bold text-gray-700"
+              htmlFor="username"
+            >
               Username
             </label>
             <input
@@ -45,7 +48,10 @@ export default function LoginPage() {
             />
           </div>
           <div className="mb-6">
-            <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="password">
+            <label
+              className="mb-2 block text-sm font-bold text-gray-700"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
