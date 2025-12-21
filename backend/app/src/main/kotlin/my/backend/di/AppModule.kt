@@ -10,6 +10,11 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.config.*
 import kotlinx.serialization.json.Json
 import my.backend.db.DatabaseFactory
+import my.backend.repository.BlogRepository
+import my.backend.repository.BlogRepositoryImpl
+import my.backend.repository.UserRepository
+import my.backend.repository.UserRepositoryImpl
+import my.backend.service.AuthService
 import my.backend.service.BlogService
 import my.backend.service.ContactService
 import my.backend.service.PortfolioService
@@ -49,8 +54,13 @@ fun appModule(config: ApplicationConfig) =
         // Resend (メール送信用)
         single { Resend(config.property("app.resend.api-key").getString()) }
 
+        // Repositories
+        single<BlogRepository> { BlogRepositoryImpl() }
+        single<UserRepository> { UserRepositoryImpl() }
+
         // Services
-        single { BlogService() }
+        single { BlogService(get()) }
         single { ContactService(get(), get(), get()) }
         single { PortfolioService() }
+        single { AuthService(get(), get()) }
     }
