@@ -4,7 +4,6 @@ import my.backend.dto.BlogDto
 import my.backend.repository.BlogRepository
 
 class BlogService(private val blogRepository: BlogRepository) {
-
     suspend fun getBlogs(
         limit: Int?,
         tags: List<String>?,
@@ -21,7 +20,10 @@ class BlogService(private val blogRepository: BlogRepository) {
         return blogRepository.create(blog)
     }
 
-    suspend fun updateBlog(slug: String, blog: BlogDto): BlogDto? {
+    suspend fun updateBlog(
+        slug: String,
+        blog: BlogDto,
+    ): BlogDto? {
         return blogRepository.update(slug, blog)
     }
 

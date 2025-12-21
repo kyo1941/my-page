@@ -2,11 +2,10 @@ package my.backend.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import io.ktor.http.auth.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-
-import io.ktor.http.auth.*
 
 fun Application.configureSecurity() {
     val jwtSecret = environment.config.property("jwt.secret").getString()
@@ -22,7 +21,7 @@ fun Application.configureSecurity() {
                     .require(Algorithm.HMAC256(jwtSecret))
                     .withAudience(jwtAudience)
                     .withIssuer(jwtIssuer)
-                    .build()
+                    .build(),
             )
             authHeader { call ->
                 val cookieValue = call.request.cookies["auth_token"] ?: return@authHeader null
@@ -42,4 +41,3 @@ fun Application.configureSecurity() {
         }
     }
 }
-

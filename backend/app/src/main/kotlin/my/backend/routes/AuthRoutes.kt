@@ -27,10 +27,11 @@ fun Route.authRoutes(authService: AuthService) {
                             name = "auth_token",
                             value = token,
                             httpOnly = true,
-                            secure = false, // TODO: Set to true in production
+                            // TODO: Set to true in production
+                            secure = false,
                             path = "/",
-                            maxAge = 3600
-                        )
+                            maxAge = 3600,
+                        ),
                     )
                     call.respond(HttpStatusCode.OK)
                 } else {
@@ -42,4 +43,3 @@ fun Route.authRoutes(authService: AuthService) {
         }
     }
 }
-

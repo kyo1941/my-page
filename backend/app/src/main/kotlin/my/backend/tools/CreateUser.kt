@@ -14,12 +14,13 @@ fun main() {
     val dbUser = System.getenv("DB_USER") ?: error("DB_USER is not set")
     val dbPassword = System.getenv("DB_PASSWORD") ?: error("DB_PASSWORD is not set")
 
-    val config = HikariConfig().apply {
-        jdbcUrl = dbUrl
-        username = dbUser
-        password = dbPassword
-        driverClassName = "com.mysql.cj.jdbc.Driver"
-    }
+    val config =
+        HikariConfig().apply {
+            jdbcUrl = dbUrl
+            username = dbUser
+            password = dbPassword
+            driverClassName = "com.mysql.cj.jdbc.Driver"
+        }
 
     val dataSource = HikariDataSource(config)
     Database.connect(dataSource)
@@ -41,4 +42,3 @@ fun main() {
         println("Failed to create user: ${e.message}")
     }
 }
-

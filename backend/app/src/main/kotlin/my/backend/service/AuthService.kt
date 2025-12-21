@@ -9,9 +9,12 @@ import java.util.*
 
 class AuthService(
     private val userRepository: UserRepository,
-    private val config: ApplicationConfig
+    private val config: ApplicationConfig,
 ) {
-    suspend fun authenticate(username: String, password: String): String? {
+    suspend fun authenticate(
+        username: String,
+        password: String,
+    ): String? {
         val user = userRepository.findByUsername(username)
         if (user == null) {
             return null
@@ -37,4 +40,3 @@ class AuthService(
             .sign(Algorithm.HMAC256(secret))
     }
 }
-
