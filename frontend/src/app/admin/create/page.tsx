@@ -46,11 +46,11 @@ export default function CreateBlogPage() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="mb-6 text-3xl font-bold">Create New Blog</h1>
+      <h1 className="mb-6 text-3xl font-bold">新規作成</h1>
       <form onSubmit={handleSubmit} className="max-w-2xl">
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Title
+            タイトル
           </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -74,7 +74,7 @@ export default function CreateBlogPage() {
         </div>
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Date
+            日付
           </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -86,7 +86,7 @@ export default function CreateBlogPage() {
         </div>
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Description
+            説明文
           </label>
           <textarea
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -97,7 +97,7 @@ export default function CreateBlogPage() {
         </div>
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Tags (comma separated)
+            タグ
           </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -108,7 +108,7 @@ export default function CreateBlogPage() {
         </div>
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Cover Image URL
+            画像URL
           </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -119,7 +119,7 @@ export default function CreateBlogPage() {
         </div>
         <div className="mb-6">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Content (Markdown)
+            内容
           </label>
           <textarea
             className="h-64 w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -133,7 +133,7 @@ export default function CreateBlogPage() {
           type="submit"
           disabled={isLoading}
         >
-          Create Blog
+          ブログを投稿する
         </button>
       </form>
     </div>

@@ -37,7 +37,7 @@ export default function AdminDashboard() {
           href="/admin/create"
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
         >
-          Create New Blog
+          ブログを投稿する
         </Link>
       </div>
 
@@ -62,14 +62,14 @@ export default function AdminDashboard() {
                     href={`/admin/edit/${blog.slug}`}
                     className="mr-2 text-blue-500 hover:text-blue-700"
                   >
-                    Edit
+                    編集
                   </Link>
                   <button
                     onClick={() => handleDelete(blog.slug)}
-                    className="text-red-500 hover:text-red-700"
+                    className="ml-2 text-red-500 hover:text-red-700"
                     disabled={isLoading}
                   >
-                    Delete
+                    削除
                   </button>
                 </td>
               </tr>

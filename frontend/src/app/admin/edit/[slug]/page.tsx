@@ -52,7 +52,7 @@ export default function EditBlogPage() {
       <form onSubmit={handleSubmit} className="max-w-2xl">
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Title
+            タイトル
           </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -76,7 +76,7 @@ export default function EditBlogPage() {
         </div>
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Date
+            日付
           </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -88,7 +88,7 @@ export default function EditBlogPage() {
         </div>
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Description
+            説明文
           </label>
           <textarea
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -99,7 +99,7 @@ export default function EditBlogPage() {
         </div>
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Tags (comma separated)
+            タグ
           </label>
           <input
             className="w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -121,7 +121,7 @@ export default function EditBlogPage() {
         </div>
         <div className="mb-6">
           <label className="mb-2 block text-sm font-bold text-gray-700">
-            Content (Markdown)
+            本文
           </label>
           <textarea
             className="h-64 w-full rounded border px-3 py-2 shadow focus:outline-none"
@@ -135,7 +135,7 @@ export default function EditBlogPage() {
           type="submit"
           disabled={isLoading}
         >
-          Update Blog
+          ブログを更新する
         </button>
       </form>
     </div>
