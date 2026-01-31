@@ -27,7 +27,7 @@ interface UserRepository {
 class UserRepositoryImpl : UserRepository {
     override suspend fun findByUsername(username: String): User? =
         newSuspendedTransaction {
-            UserTable.select { UserTable.username eq username }
+            UserTable.selectAll().where { UserTable.username eq username }
                 .singleOrNull()
                 ?.let { toUser(it) }
         }

@@ -5,26 +5,26 @@ import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.config.*
 import my.backend.repository.UserRepository
 import org.mindrot.jbcrypt.BCrypt
+import org.slf4j.LoggerFactory
 import java.util.*
 
 class AuthService(
     private val userRepository: UserRepository,
     private val config: ApplicationConfig,
 ) {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     suspend fun authenticate(
         username: String,
         password: String,
     ): String? {
-        val user = userRepository.findByUsername(username)
-        if (user == null) {
-            return null
-        }
-
-        if (BCrypt.checkpw(password, user.passwordHash)) {
-            return generateToken(user.username)
-        }
-
-        return null
+        return userRepository.findByUsername(username)
+            ?.takeIf { BCrypt.checkpw(password, it.passwordHash) }
+            ?.let { generateToken(it.username) }
+            ?: run {
+                logger.warn("Authentication failed for user: $username")
+                null
+            }
     }
 
     private fun generateToken(username: String): String {
