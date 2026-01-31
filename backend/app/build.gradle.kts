@@ -108,11 +108,3 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-task<JavaExec>("createUser") {
-    group = "application"
-    description = "Creates a new admin user"
-    mainClass.set("my.backend.tools.CreateUserKt")
-    classpath = sourceSets["main"].runtimeClasspath
-    standardInput = System.`in`
-}
