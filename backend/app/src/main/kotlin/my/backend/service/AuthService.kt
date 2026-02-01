@@ -36,7 +36,7 @@ class AuthService(
             .withAudience(audience)
             .withIssuer(issuer)
             .withClaim("username", username)
-            .withExpiresAt(Date(System.currentTimeMillis() + 3600000)) // 1 hour
+            .withExpiresAt(Date(System.currentTimeMillis() + 60 * 60 * 1000))
             .sign(Algorithm.HMAC256(secret))
     }
 }
