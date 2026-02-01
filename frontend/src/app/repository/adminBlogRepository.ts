@@ -71,12 +71,9 @@ export class AdminBlogRepository {
   }
 
   async delete(slug: string): Promise<void> {
-    await requestOrThrow(
-      getApiUrl(`/api/blogs/${encodeURIComponent(slug)}`),
-      {
-        method: "DELETE",
-      },
-    );
+    await requestOrThrow(getApiUrl(`/api/blogs/${encodeURIComponent(slug)}`), {
+      method: "DELETE",
+    });
   }
 }
 
