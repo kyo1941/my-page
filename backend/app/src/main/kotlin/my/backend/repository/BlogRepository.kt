@@ -45,7 +45,7 @@ class BlogRepositoryImpl : BlogRepository {
             if (!tags.isNullOrEmpty()) {
                 val blogIdsWithTags =
                     (BlogTagsTable innerJoin TagTable)
-                        .select { TagTable.name inList tags }
+                        .selectAll().where { TagTable.name inList tags }
                         .map { it[BlogTagsTable.blogId] }
 
                 query.andWhere { BlogTable.id inList blogIdsWithTags }
@@ -66,7 +66,7 @@ class BlogRepositoryImpl : BlogRepository {
 
     override suspend fun findBySlug(slug: String): BlogDto? =
         newSuspendedTransaction {
-            BlogTable.select { BlogTable.slug eq slug }
+            BlogTable.selectAll().where { BlogTable.slug eq slug }
                 .singleOrNull()
                 ?.let { toBlogDto(it) }
         }
@@ -94,7 +94,7 @@ class BlogRepositoryImpl : BlogRepository {
     ): BlogDto? =
         newSuspendedTransaction {
             val existing =
-                BlogTable.select { BlogTable.slug eq slug }
+                BlogTable.selectAll().where { BlogTable.slug eq slug }
                     .singleOrNull() ?: return@newSuspendedTransaction null
             val id = existing[BlogTable.id]
 
@@ -114,7 +114,7 @@ class BlogRepositoryImpl : BlogRepository {
     override suspend fun delete(slug: String): Boolean =
         newSuspendedTransaction {
             val existing =
-                BlogTable.select { BlogTable.slug eq slug }
+                BlogTable.selectAll().where { BlogTable.slug eq slug }
                     .singleOrNull() ?: return@newSuspendedTransaction false
             val id = existing[BlogTable.id]
 
@@ -127,7 +127,7 @@ class BlogRepositoryImpl : BlogRepository {
         val blogId = row[BlogTable.id]
         val tags =
             (BlogTagsTable innerJoin TagTable)
-                .select { BlogTagsTable.blogId eq blogId }
+                .selectAll().where { BlogTagsTable.blogId eq blogId }
                 .map { it[TagTable.name] }
 
         return BlogDto(
@@ -148,7 +148,7 @@ class BlogRepositoryImpl : BlogRepository {
         BlogTagsTable.deleteWhere { BlogTagsTable.blogId eq blogId }
 
         tags.forEach { tagName ->
-            var tagId = TagTable.select { TagTable.name eq tagName }.singleOrNull()?.get(TagTable.id)
+            var tagId = TagTable.selectAll().where { TagTable.name eq tagName }.singleOrNull()?.get(TagTable.id)
             if (tagId == null) {
                 tagId = TagTable.insert { it[name] = tagName } get TagTable.id
             }
