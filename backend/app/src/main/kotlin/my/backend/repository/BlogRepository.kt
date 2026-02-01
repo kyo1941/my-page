@@ -147,16 +147,17 @@ class BlogRepositoryImpl : BlogRepository {
     ) {
         BlogTagsTable.deleteWhere { BlogTagsTable.blogId eq blogId }
 
-        tags.forEach { tagName ->
-            var tagId = TagTable.selectAll().where { TagTable.name eq tagName }.singleOrNull()?.get(TagTable.id)
-            if (tagId == null) {
-                tagId = TagTable.insert { it[name] = tagName } get TagTable.id
-            }
+        if (tags.isEmpty()) return
 
-            BlogTagsTable.insert {
-                it[this.blogId] = blogId
-                it[this.tagId] = tagId
-            }
+        TagTable.batchInsert(tags, ignore = true) { tagName ->
+            this[TagTable.name] = tagName
+        }
+
+        val tagIds = TagTable.selectAll().where { TagTable.name inList tags }.map { it[TagTable.id] }
+
+        BlogTagsTable.batchInsert(tagIds) { tagId ->
+            this[BlogTagsTable.blogId] = blogId
+            this[BlogTagsTable.tagId] = tagId
         }
     }
 
