@@ -31,13 +31,13 @@ fun Route.blogRoutes(blogService: BlogService) {
         }
 
         authenticate("auth-jwt") {
-            post("/post") {
+            post {
                 val blog = call.receive<BlogDto>()
                 val created = blogService.createBlog(blog)
                 call.respond(HttpStatusCode.Created, created)
             }
 
-            put("/edit/{slug}") {
+            put("/{slug}") {
                 val slug = call.parameters["slug"] ?: return@put call.respond(HttpStatusCode.BadRequest)
                 val blog = call.receive<BlogDto>()
                 val updated = blogService.updateBlog(slug, blog)
@@ -48,7 +48,7 @@ fun Route.blogRoutes(blogService: BlogService) {
                 }
             }
 
-            delete("/delete/{slug}") {
+            delete("/{slug}") {
                 val slug = call.parameters["slug"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
                 val deleted = blogService.deleteBlog(slug)
                 if (deleted) {

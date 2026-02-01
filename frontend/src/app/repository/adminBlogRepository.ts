@@ -52,7 +52,7 @@ export class AdminBlogRepository {
   }
 
   async create(input: BlogUpsertInput): Promise<void> {
-    await requestOrThrow(getApiUrl("/api/blogs/post"), {
+    await requestOrThrow(getApiUrl("/api/blogs"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
@@ -61,7 +61,7 @@ export class AdminBlogRepository {
 
   async update(originalSlug: string, input: BlogUpsertInput): Promise<void> {
     await requestOrThrow(
-      getApiUrl(`/api/blogs/edit/${encodeURIComponent(originalSlug)}`),
+      getApiUrl(`/api/blogs/${encodeURIComponent(originalSlug)}`),
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -72,7 +72,7 @@ export class AdminBlogRepository {
 
   async delete(slug: string): Promise<void> {
     await requestOrThrow(
-      getApiUrl(`/api/blogs/delete/${encodeURIComponent(slug)}`),
+      getApiUrl(`/api/blogs/${encodeURIComponent(slug)}`),
       {
         method: "DELETE",
       },
