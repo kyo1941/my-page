@@ -12,7 +12,6 @@ function toJaLongDateFromInput(date: string): string {
 
 export function useAdminBlogCreate() {
   const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
@@ -28,7 +27,6 @@ export function useAdminBlogCreate() {
 
     const payload: BlogUpsertInput = {
       title,
-      slug,
       description,
       content,
       tags: tags
@@ -47,14 +45,12 @@ export function useAdminBlogCreate() {
     } finally {
       setIsLoading(false);
     }
-  }, [title, slug, description, content, tags, coverImage, date]);
+  }, [title, description, content, tags, coverImage, date]);
 
   return {
     form: {
       title,
       setTitle,
-      slug,
-      setSlug,
       description,
       setDescription,
       content,
