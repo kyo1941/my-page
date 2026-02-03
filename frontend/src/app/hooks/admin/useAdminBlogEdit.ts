@@ -20,7 +20,6 @@ function toJaLongDateFromInput(date: string): string {
 
 export function useAdminBlogEdit(originalSlug: string | undefined) {
   const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
@@ -41,7 +40,6 @@ export function useAdminBlogEdit(originalSlug: string | undefined) {
         const data: Blog = await adminBlogRepository.get(originalSlug);
         if (cancelled) return;
         setTitle(data.title);
-        setSlug(data.slug);
         setDescription(data.description);
         setContent(data.content);
         setTags((data.tags || []).join(", "));
@@ -67,7 +65,6 @@ export function useAdminBlogEdit(originalSlug: string | undefined) {
   const buildPayload = useCallback((): BlogUpsertInput => {
     return {
       title,
-      slug,
       description,
       content,
       tags: tags
@@ -77,7 +74,7 @@ export function useAdminBlogEdit(originalSlug: string | undefined) {
       coverImage,
       date: toJaLongDateFromInput(date),
     };
-  }, [title, slug, description, content, tags, coverImage, date]);
+  }, [title, description, content, tags, coverImage, date]);
 
   const submitUpdate = useCallback(async () => {
     if (!originalSlug) {
@@ -99,8 +96,6 @@ export function useAdminBlogEdit(originalSlug: string | undefined) {
     form: {
       title,
       setTitle,
-      slug,
-      setSlug,
       description,
       setDescription,
       content,
@@ -112,12 +107,7 @@ export function useAdminBlogEdit(originalSlug: string | undefined) {
       date,
       setDate,
     },
-    state: {
-      isLoading,
-      error,
-    },
-    actions: {
-      submitUpdate,
-    },
+    state: { isLoading, error },
+    actions: { submitUpdate },
   };
 }

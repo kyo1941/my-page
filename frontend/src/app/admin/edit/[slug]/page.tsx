@@ -13,8 +13,6 @@ export default function EditBlogPage() {
     form: {
       title,
       setTitle,
-      slug,
-      setSlug,
       description,
       setDescription,
       content,
@@ -59,18 +57,6 @@ export default function EditBlogPage() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">
-            Slug
-          </label>
-          <input
-            className="w-full rounded border px-3 py-2 shadow focus:outline-none"
-            type="text"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
             required
           />
         </div>
