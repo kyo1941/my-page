@@ -38,6 +38,9 @@ dependencies {
     implementation(libs.flyway.core)
     implementation(libs.flyway.mysql)
 
+    // NanoID
+    implementation(libs.jnanoid)
+
     // Ktor Server
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
