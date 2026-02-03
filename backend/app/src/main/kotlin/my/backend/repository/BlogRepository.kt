@@ -4,6 +4,7 @@ import my.backend.db.schema.BlogTable
 import my.backend.db.schema.BlogTagsTable
 import my.backend.db.schema.TagTable
 import my.backend.dto.BlogDto
+import my.backend.util.SlugGenerator
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -73,9 +74,10 @@ class BlogRepositoryImpl : BlogRepository {
 
     override suspend fun create(blog: BlogDto): BlogDto =
         newSuspendedTransaction {
+            val newSlug = SlugGenerator.generate()
             val blogId =
                 BlogTable.insert {
-                    it[slug] = blog.slug
+                    it[slug] = newSlug
                     it[title] = blog.title
                     it[description] = blog.description
                     it[content] = blog.content
@@ -85,7 +87,7 @@ class BlogRepositoryImpl : BlogRepository {
 
             updateTags(blogId, blog.tags)
 
-            blog
+            blog.copy(slug = newSlug)
         }
 
     override suspend fun update(
@@ -108,7 +110,7 @@ class BlogRepositoryImpl : BlogRepository {
 
             updateTags(id, blog.tags)
 
-            blog
+            blog.copy(slug = slug)
         }
 
     override suspend fun delete(slug: String): Boolean =
