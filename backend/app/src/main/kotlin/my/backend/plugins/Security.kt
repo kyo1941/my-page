@@ -32,15 +32,11 @@ fun Application.configureSecurity() {
                 }
             }
             validate { credential ->
-                val userName = credential.payload.getClaim("user_name").asString()
-                if (userName.isNullOrEmpty()) return@validate null
-
-                credential.payload.getClaim("username").asString()?.let { userName ->
-                    if (userName.isNotEmpty()) {
-                        JWTPrincipal(credential.payload)
-                    } else {
-                        null
-                    }
+                val userName = credential.payload.getClaim("username").asString()
+                if (!userName.isNullOrEmpty()) {
+                    JWTPrincipal(credential.payload)
+                } else {
+                    null
                 }
             }
         }
