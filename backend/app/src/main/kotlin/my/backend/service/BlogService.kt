@@ -1,6 +1,7 @@
 package my.backend.service
 
-import my.backend.dto.BlogDto
+import my.backend.dto.BlogRequestDto
+import my.backend.dto.BlogResponseDto
 import my.backend.repository.BlogRepository
 
 class BlogService(private val blogRepository: BlogRepository) {
@@ -8,22 +9,22 @@ class BlogService(private val blogRepository: BlogRepository) {
         limit: Int?,
         tags: List<String>?,
         keyword: String?,
-    ): List<BlogDto> {
+    ): List<BlogResponseDto> {
         return blogRepository.findAll(limit, tags, keyword)
     }
 
-    suspend fun getBlogBySlug(slug: String): BlogDto? {
+    suspend fun getBlogBySlug(slug: String): BlogResponseDto? {
         return blogRepository.findBySlug(slug)
     }
 
-    suspend fun createBlog(blog: BlogDto): BlogDto {
+    suspend fun createBlog(blog: BlogRequestDto): BlogResponseDto {
         return blogRepository.create(blog)
     }
 
     suspend fun updateBlog(
         slug: String,
-        blog: BlogDto,
-    ): BlogDto? {
+        blog: BlogRequestDto,
+    ): BlogResponseDto? {
         return blogRepository.update(slug, blog)
     }
 
