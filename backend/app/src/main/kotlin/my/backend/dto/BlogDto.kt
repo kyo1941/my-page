@@ -44,4 +44,21 @@ data class BlogResponseDto(
     val coverImage: String? = null,
     val tags: List<String>,
     val content: String,
-)
+) {
+    companion object {
+        fun fromRequestDto(
+            request: BlogRequestDto,
+            slug: String,
+        ): BlogResponseDto {
+            return BlogResponseDto(
+                slug = slug,
+                title = request.title,
+                date = request.date,
+                description = request.description,
+                coverImage = request.coverImage,
+                tags = request.tags,
+                content = request.content,
+            )
+        }
+    }
+}

@@ -88,15 +88,7 @@ class BlogRepositoryImpl : BlogRepository {
 
             updateTags(blogId, blog.tags)
 
-            BlogResponseDto(
-                slug = newSlug,
-                title = blog.title,
-                date = blog.date,
-                description = blog.description,
-                coverImage = blog.coverImage,
-                tags = blog.tags,
-                content = blog.content
-            )
+            BlogResponseDto.fromRequestDto(blog, newSlug)
         }
 
     override suspend fun update(
@@ -119,15 +111,7 @@ class BlogRepositoryImpl : BlogRepository {
 
             updateTags(id, blog.tags)
 
-            BlogResponseDto(
-                slug = slug,
-                title = blog.title,
-                date = blog.date,
-                description = blog.description,
-                coverImage = blog.coverImage,
-                tags = blog.tags,
-                content = blog.content
-            )
+            BlogResponseDto.fromRequestDto(blog, slug)
         }
 
     override suspend fun delete(slug: String): Boolean =
