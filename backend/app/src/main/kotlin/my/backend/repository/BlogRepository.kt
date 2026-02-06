@@ -3,7 +3,8 @@ package my.backend.repository
 import my.backend.db.schema.BlogTable
 import my.backend.db.schema.BlogTagsTable
 import my.backend.db.schema.TagTable
-import my.backend.dto.BlogDto
+import my.backend.dto.BlogRequestDto
+import my.backend.dto.BlogResponseDto
 import my.backend.util.SlugGenerator
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -18,16 +19,16 @@ interface BlogRepository {
         limit: Int? = null,
         tags: List<String>? = null,
         keyword: String? = null,
-    ): List<BlogDto>
+    ): List<BlogResponseDto>
 
-    suspend fun findBySlug(slug: String): BlogDto?
+    suspend fun findBySlug(slug: String): BlogResponseDto?
 
-    suspend fun create(blog: BlogDto): BlogDto
+    suspend fun create(blog: BlogRequestDto): BlogResponseDto
 
     suspend fun update(
         slug: String,
-        blog: BlogDto,
-    ): BlogDto?
+        blog: BlogRequestDto,
+    ): BlogResponseDto?
 
     suspend fun delete(slug: String): Boolean
 }
@@ -39,7 +40,7 @@ class BlogRepositoryImpl : BlogRepository {
         limit: Int?,
         tags: List<String>?,
         keyword: String?,
-    ): List<BlogDto> =
+    ): List<BlogResponseDto> =
         newSuspendedTransaction {
             val query = BlogTable.selectAll()
 
@@ -62,17 +63,17 @@ class BlogRepositoryImpl : BlogRepository {
 
             val resultQuery = if (limit != null) query.limit(limit) else query
 
-            resultQuery.map { toBlogDto(it) }
+            resultQuery.map { toBlogResponseDto(it) }
         }
 
-    override suspend fun findBySlug(slug: String): BlogDto? =
+    override suspend fun findBySlug(slug: String): BlogResponseDto? =
         newSuspendedTransaction {
             BlogTable.selectAll().where { BlogTable.slug eq slug }
                 .singleOrNull()
-                ?.let { toBlogDto(it) }
+                ?.let { toBlogResponseDto(it) }
         }
 
-    override suspend fun create(blog: BlogDto): BlogDto =
+    override suspend fun create(blog: BlogRequestDto): BlogResponseDto =
         newSuspendedTransaction {
             val newSlug = SlugGenerator.generate()
             val blogId =
@@ -87,13 +88,21 @@ class BlogRepositoryImpl : BlogRepository {
 
             updateTags(blogId, blog.tags)
 
-            blog.copy(slug = newSlug)
+            BlogResponseDto(
+                slug = newSlug,
+                title = blog.title,
+                date = blog.date,
+                description = blog.description,
+                coverImage = blog.coverImage,
+                tags = blog.tags,
+                content = blog.content
+            )
         }
 
     override suspend fun update(
         slug: String,
-        blog: BlogDto,
-    ): BlogDto? =
+        blog: BlogRequestDto,
+    ): BlogResponseDto? =
         newSuspendedTransaction {
             val existing =
                 BlogTable.selectAll().where { BlogTable.slug eq slug }
@@ -110,7 +119,15 @@ class BlogRepositoryImpl : BlogRepository {
 
             updateTags(id, blog.tags)
 
-            blog.copy(slug = slug)
+            BlogResponseDto(
+                slug = slug,
+                title = blog.title,
+                date = blog.date,
+                description = blog.description,
+                coverImage = blog.coverImage,
+                tags = blog.tags,
+                content = blog.content
+            )
         }
 
     override suspend fun delete(slug: String): Boolean =
@@ -125,14 +142,14 @@ class BlogRepositoryImpl : BlogRepository {
             BlogTable.deleteWhere { BlogTable.id eq id } > 0
         }
 
-    private fun toBlogDto(row: ResultRow): BlogDto {
+    private fun toBlogResponseDto(row: ResultRow): BlogResponseDto {
         val blogId = row[BlogTable.id]
         val tags =
             (BlogTagsTable innerJoin TagTable)
                 .selectAll().where { BlogTagsTable.blogId eq blogId }
                 .map { it[TagTable.name] }
 
-        return BlogDto(
+        return BlogResponseDto(
             slug = row[BlogTable.slug],
             title = row[BlogTable.title],
             date = row[BlogTable.date].format(dateFormatter),

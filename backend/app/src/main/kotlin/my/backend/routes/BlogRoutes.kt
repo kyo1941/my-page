@@ -6,7 +6,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import my.backend.dto.BlogDto
+import my.backend.dto.BlogRequestDto
 import my.backend.service.BlogService
 
 fun Route.blogRoutes(blogService: BlogService) {
@@ -32,14 +32,14 @@ fun Route.blogRoutes(blogService: BlogService) {
 
         authenticate("auth-jwt") {
             post {
-                val blog = call.receive<BlogDto>()
+                val blog = call.receive<BlogRequestDto>()
                 val created = blogService.createBlog(blog)
                 call.respond(HttpStatusCode.Created, created)
             }
 
             put("/{slug}") {
                 val slug = call.parameters["slug"] ?: return@put call.respond(HttpStatusCode.BadRequest)
-                val blog = call.receive<BlogDto>()
+                val blog = call.receive<BlogRequestDto>()
                 val updated = blogService.updateBlog(slug, blog)
                 if (updated != null) {
                     call.respond(updated)
