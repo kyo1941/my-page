@@ -38,6 +38,7 @@ fun Route.authRoutes(authService: AuthService) {
                     call.respond(HttpStatusCode.Unauthorized, "Invalid credentials")
                 }
             } catch (e: Exception) {
+                call.application.log.error("Failed to process login", e)
                 call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
             }
         }
