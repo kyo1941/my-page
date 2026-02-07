@@ -11,9 +11,6 @@ import my.backend.service.AuthService
 @Serializable
 data class LoginRequest(val username: String, val password: String)
 
-@Serializable
-data class LoginResponse(val token: String)
-
 fun Route.authRoutes(authService: AuthService) {
     route("/api/auth") {
         post("/login") {
