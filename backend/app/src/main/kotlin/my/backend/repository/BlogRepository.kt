@@ -62,15 +62,34 @@ class BlogRepositoryImpl : BlogRepository {
             query.orderBy(BlogTable.date to SortOrder.DESC)
 
             val resultQuery = if (limit != null) query.limit(limit) else query
+            val resultRows = resultQuery.toList()
 
-            resultQuery.map { toBlogResponseDto(it) }
+            if (resultRows.isEmpty()) return@newSuspendedTransaction emptyList()
+
+            val blogIds = resultRows.map { it[BlogTable.id] }
+            val tagsMap =
+                (BlogTagsTable innerJoin TagTable)
+                    .selectAll()
+                    .where { BlogTagsTable.blogId inList blogIds }
+                    .groupBy { it[BlogTagsTable.blogId] }
+                    .mapValues { entry -> entry.value.map { it[TagTable.name] } }
+
+            resultRows.map { toBlogResponseDto(it, tagsMap[it[BlogTable.id]] ?: emptyList()) }
         }
 
     override suspend fun findBySlug(slug: String): BlogResponseDto? =
         newSuspendedTransaction {
-            BlogTable.selectAll().where { BlogTable.slug eq slug }
-                .singleOrNull()
-                ?.let { toBlogResponseDto(it) }
+            val row =
+                BlogTable.selectAll().where { BlogTable.slug eq slug }
+                    .singleOrNull() ?: return@newSuspendedTransaction null
+
+            val blogId = row[BlogTable.id]
+            val tags =
+                (BlogTagsTable innerJoin TagTable)
+                    .selectAll().where { BlogTagsTable.blogId eq blogId }
+                    .map { it[TagTable.name] }
+
+            toBlogResponseDto(row, tags)
         }
 
     override suspend fun create(blog: BlogRequestDto): BlogResponseDto =
@@ -126,13 +145,10 @@ class BlogRepositoryImpl : BlogRepository {
             BlogTable.deleteWhere { BlogTable.id eq id } > 0
         }
 
-    private fun toBlogResponseDto(row: ResultRow): BlogResponseDto {
-        val blogId = row[BlogTable.id]
-        val tags =
-            (BlogTagsTable innerJoin TagTable)
-                .selectAll().where { BlogTagsTable.blogId eq blogId }
-                .map { it[TagTable.name] }
-
+    private fun toBlogResponseDto(
+        row: ResultRow,
+        tags: List<String>,
+    ): BlogResponseDto {
         return BlogResponseDto(
             slug = row[BlogTable.slug],
             title = row[BlogTable.title],
