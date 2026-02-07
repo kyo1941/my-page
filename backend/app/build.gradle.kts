@@ -1,4 +1,3 @@
-
 plugins {
     application
     alias(libs.plugins.kotlin.jvm)
@@ -39,6 +38,9 @@ dependencies {
     implementation(libs.flyway.core)
     implementation(libs.flyway.mysql)
 
+    // NanoID
+    implementation(libs.jnanoid)
+
     // Ktor Server
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
@@ -48,6 +50,8 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages-jvm")
     implementation("io.ktor:ktor-server-request-validation")
     implementation("io.ktor:ktor-server-config-yaml")
+    implementation("io.ktor:ktor-server-auth")
+    implementation("io.ktor:ktor-server-auth-jwt")
 
     // Ktor Client (Turnstile認証用)
     implementation("io.ktor:ktor-client-core")
@@ -73,6 +77,9 @@ dependencies {
     // SnakeYaml
     implementation("org.yaml:snakeyaml:2.5")
 
+    // BCrypt
+    implementation(libs.jbcrypt)
+
     // Testing
     testImplementation(libs.h2)
     testImplementation("io.ktor:ktor-server-test-host")
@@ -83,6 +90,12 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+}
+
+tasks.named<Test>("test") {
+    environment("ADMIN_USERNAME", "admin")
+    environment("ADMIN_PASSWORD", "password")
+    useJUnitPlatform()
 }
 
 java {

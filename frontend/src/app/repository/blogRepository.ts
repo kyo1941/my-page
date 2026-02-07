@@ -1,14 +1,7 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export type Blog = {
-  slug: string; // ファイル名から自動で生成する
-  title: string;
-  date: string;
-  description: string;
-  coverImage?: string | undefined;
-  tags?: string[];
-  content: string;
-};
+export type { Blog } from "@/app/types/blog";
+import type { Blog } from "@/app/types/blog";
 
 export type BlogSearchParams = {
   limit?: number;

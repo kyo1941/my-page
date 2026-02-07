@@ -1,0 +1,44 @@
+package my.backend.plugins
+
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import io.ktor.http.auth.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
+
+fun Application.configureSecurity() {
+    val jwtSecret = environment.config.property("jwt.secret").getString()
+    val jwtIssuer = environment.config.property("jwt.issuer").getString()
+    val jwtAudience = environment.config.property("jwt.audience").getString()
+    val jwtRealm = environment.config.property("jwt.realm").getString()
+
+    install(Authentication) {
+        jwt("auth-jwt") {
+            realm = jwtRealm
+            verifier(
+                JWT
+                    .require(Algorithm.HMAC256(jwtSecret))
+                    .withAudience(jwtAudience)
+                    .withIssuer(jwtIssuer)
+                    .build(),
+            )
+            authHeader { call ->
+                val cookieValue = call.request.cookies["auth_token"] ?: return@authHeader null
+                try {
+                    parseAuthorizationHeader("Bearer $cookieValue")
+                } catch (cause: IllegalArgumentException) {
+                    null
+                }
+            }
+            validate { credential ->
+                val userName = credential.payload.getClaim("username").asString()
+                if (!userName.isNullOrEmpty()) {
+                    JWTPrincipal(credential.payload)
+                } else {
+                    null
+                }
+            }
+        }
+    }
+}
