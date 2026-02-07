@@ -54,8 +54,9 @@ class BlogRepositoryImpl : BlogRepository {
             }
 
             if (!keyword.isNullOrBlank()) {
+                val escapedKeyword = escapeLikePattern(keyword)
                 query.andWhere {
-                    (BlogTable.title like "%$keyword%") or (BlogTable.description like "%$keyword%")
+                    (BlogTable.title like "%$escapedKeyword%") or (BlogTable.description like "%$escapedKeyword%")
                 }
             }
 
@@ -186,5 +187,12 @@ class BlogRepositoryImpl : BlogRepository {
         } catch (e: Exception) {
             LocalDateTime.now()
         }
+    }
+
+    private fun escapeLikePattern(keyword: String): String {
+        return keyword
+            .replace("\\", "\\\\")
+            .replace("%", "\\%")
+            .replace("_", "\\_")
     }
 }
