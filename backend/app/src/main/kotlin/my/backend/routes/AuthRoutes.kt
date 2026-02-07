@@ -24,8 +24,7 @@ fun Route.authRoutes(authService: AuthService) {
                             name = "auth_token",
                             value = token,
                             httpOnly = true,
-                            // TODO: Set to true in production
-                            secure = false,
+                            secure = System.getenv("KTOR_ENV") == "production",
                             path = "/",
                             maxAge = 3600,
                         ),
