@@ -4,6 +4,7 @@ import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import my.backend.module
+import org.flywaydb.core.Flyway
 import org.koin.core.context.stopKoin
 
 /**
@@ -52,3 +53,22 @@ private fun h2TestConfig(): MapApplicationConfig =
         put("app.turnstile.secret-key", "dummy_secret")
         put("app.contact.recipient-email", "recipient@example.com")
     }
+
+/**
+ * H2データベースを強制的にクリーン(全消去)するためのヘルパー関数。
+ *
+ * 通常のCI/CD環境やテスト実行では不要だが、ローカル開発時にマイグレーションファイルを変更し、
+ * チェックサムエラー等のDB整合性問題が発生した場合に、testApplicationWithH2内で一時的に呼び出して使用する。
+ */
+@Suppress("unused")
+private fun cleanH2Database() {
+    Flyway.configure()
+        .dataSource(
+            "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL;DATABASE_TO_LOWER=TRUE",
+            "root",
+            "",
+        )
+        .cleanDisabled(false)
+        .load()
+        .clean()
+}

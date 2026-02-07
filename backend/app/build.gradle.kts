@@ -92,6 +92,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
+tasks.named<Test>("test") {
+    environment("ADMIN_USERNAME", "admin")
+    environment("ADMIN_PASSWORD", "password")
+    useJUnitPlatform()
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
