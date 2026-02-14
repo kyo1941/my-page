@@ -4,21 +4,50 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export default function WelcomeSection() {
-  const text = "Hello, I'm kyo1941.";
   const [displayText, setDisplayText] = useState("");
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
 
   useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      if (index < text.length) {
-        const char = text.charAt(index);
-        setDisplayText((prev) => prev + char);
-        index++;
-      } else {
-        clearInterval(timer);
+    /**
+     * NOTE: 再レンダリング時に一文字目が重複されて表示されたため明示的にリセットする
+     */
+    setDisplayText("");
+
+    const texts = ["Hello,", " I'm kyo1941."];
+    const abortController = new AbortController();
+
+    const typeText = async () => {
+      const wait = (ms: number, signal: AbortSignal) =>
+        new Promise<void>((resolve, reject) => {
+          const timeout = setTimeout(resolve, ms);
+          signal.addEventListener("abort", () => {
+            clearTimeout(timeout);
+            reject(new DOMException("Aborted", "AbortError"));
+          });
+        });
+
+      try {
+        for (const segment of texts) {
+          for (const char of segment) {
+            setDisplayText((prev) => prev + char);
+            await wait(120, abortController.signal);
+          }
+          await wait(65, abortController.signal);
+        }
+        setIsTypingComplete(true);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        console.error("Typing animation error:", error);
       }
-    }, 100);
-    return () => clearInterval(timer);
+    };
+
+    typeText();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (
@@ -33,8 +62,8 @@ export default function WelcomeSection() {
       </h2>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 3, duration: 0.8 }}
+        animate={isTypingComplete ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, delay: 0.4 }}
         className="text-sm sm:text-lg text-gray-500 mt-4 font-mono"
       >
         Android Engineer / Mapo tofu Developer
