@@ -14,29 +14,39 @@ export default function WelcomeSection() {
     setDisplayText("");
 
     const texts = ["Hello,", " I'm kyo1941."];
-    let isMounted = true;
+    const abortController = new AbortController();
 
     const typeText = async () => {
-      const wait = (ms: number) =>
-        new Promise((resolve) => setTimeout(resolve, ms));
+      const wait = (ms: number, signal: AbortSignal) =>
+        new Promise<void>((resolve, reject) => {
+          const timeout = setTimeout(resolve, ms);
+          signal.addEventListener("abort", () => {
+            clearTimeout(timeout);
+            reject(new DOMException("Aborted", "AbortError"));
+          });
+        });
 
-      for (const segment of texts) {
-        for (const char of segment) {
-          if (!isMounted) return;
-          setDisplayText((prev) => prev + char);
-          await wait(120);
+      try {
+        for (const segment of texts) {
+          for (const char of segment) {
+            setDisplayText((prev) => prev + char);
+            await wait(120, abortController.signal);
+          }
+          await wait(65, abortController.signal);
         }
-
-        if (!isMounted) return;
-        await wait(65);
+        setIsTypingComplete(true);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        throw error;
       }
-      if (isMounted) setIsTypingComplete(true);
     };
 
     typeText();
 
     return () => {
-      isMounted = false;
+      abortController.abort();
     };
   }, []);
 
