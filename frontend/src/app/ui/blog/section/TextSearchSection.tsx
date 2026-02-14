@@ -6,14 +6,17 @@ import { useBlogSearchContext } from "@/app/hooks/blog/useBlogSearchContext";
 export default function TextSearchSection() {
   const { setKeyword } = useBlogSearchContext();
   const [inputValue, setInputValue] = useState("");
+  const [isComposing, setIsComposing] = useState(false);
 
   useEffect(() => {
+    if (isComposing) return;
+
     const timer = setTimeout(() => {
       setKeyword(inputValue);
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [inputValue, setKeyword]);
+  }, [inputValue, setKeyword, isComposing]);
 
   const handleClear = () => {
     setInputValue("");
@@ -29,6 +32,8 @@ export default function TextSearchSection() {
           className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          onCompositionStart={() => setIsComposing(true)}
+          onCompositionEnd={() => setIsComposing(false)}
         />
         {inputValue && (
           <button
