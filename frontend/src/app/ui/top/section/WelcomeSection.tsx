@@ -39,7 +39,7 @@ export default function WelcomeSection() {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
-        throw error;
+        console.error("Typing animation error:", error);
       }
     };
 
