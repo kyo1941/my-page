@@ -12,7 +12,9 @@ export default function AdminDashboard() {
   const {
     state: { blogs, isLoading },
     actions: { deleteBlog },
-  } = useAdminBlogList();
+  } = useAdminBlogList({
+    onUnauthorized: () => router.push("/admin/login"),
+  });
 
   const handleDelete = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this blog?")) return;
