@@ -29,7 +29,6 @@ export function useAdminBlogList({ onUnauthorized }: Options = {}) {
         return;
       }
       setError(e instanceof Error ? e.message : "Failed to fetch blogs");
-      throw e;
     } finally {
       setIsLoading(false);
     }
