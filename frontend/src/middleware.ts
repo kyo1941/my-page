@@ -2,30 +2,28 @@ import { jwtVerify } from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const secretStr = process.env.JWT_SECRET;
-if (!secretStr) {
-  throw new Error("JWT_SECRET environment variable is not set");
-}
-const JWT_SECRET = new TextEncoder().encode(secretStr);
-
-const JWT_ISSUER = process.env.JWT_ISSUER;
-if (!JWT_ISSUER) {
-  throw new Error("JWT_ISSUER environment variable is not set");
+function getEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`${name} environment variable is not set`);
+  }
+  return value;
 }
 
-const JWT_AUDIENCE = process.env.JWT_AUDIENCE;
-if (!JWT_AUDIENCE) {
-  throw new Error("JWT_AUDIENCE environment variable is not set");
-}
+const JWT_SECRET = new TextEncoder().encode(getEnvVar("JWT_SECRET"));
+const JWT_ISSUER = getEnvVar("JWT_ISSUER");
+const JWT_AUDIENCE = getEnvVar("JWT_AUDIENCE");
+
+const LOGIN_URL = "/admin/login";
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === "/admin/login") {
+  if (request.nextUrl.pathname === LOGIN_URL) {
     return NextResponse.next();
   }
 
   const token = request.cookies.get("auth_token")?.value;
   if (!token) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    return NextResponse.redirect(new URL(LOGIN_URL, request.url));
   }
 
   try {
@@ -34,9 +32,7 @@ export async function middleware(request: NextRequest) {
       audience: JWT_AUDIENCE,
     });
   } catch {
-    const response = NextResponse.redirect(
-      new URL("/admin/login", request.url),
-    );
+    const response = NextResponse.redirect(new URL(LOGIN_URL, request.url));
     response.cookies.delete("auth_token");
     return response;
   }
