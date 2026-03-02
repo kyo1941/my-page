@@ -13,6 +13,17 @@ export const CURRENT_TERM = "現在";
 
 export const careerData: Career[] = [
   {
+    company: "株式会社MIXI",
+    period: "2026年2月 - 2026年2月",
+    position: "みてね - Androidエンジニア",
+    tasks: [
+      "子供の写真共有アプリ「みてね」のAndroidエンジニアとして1ヶ月従事。",
+      "古いライブラリの更新に伴い、ADRの作成とPoCの実装による技術調査と選定を行った。",
+      "その他、レガシーな技術のリプレイスも担当",
+    ],
+    technologies: ["Kotlin", "RxJava", "Kotlin Coroutines", "Dagger", "Hilt"],
+  },
+  {
     icon: "/icon/dwango-logo.svg",
     company: "株式会社ドワンゴ",
     period: "2025年11月 - 2026年1月",
