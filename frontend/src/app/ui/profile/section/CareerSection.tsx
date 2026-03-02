@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { DEFAULT_COMPANY_ICON } from "@/app/data/careerData";
 import { useCareerSection } from "@/app/hooks/profile/useCareerSection";
 
 export default function CareerSection() {
@@ -12,7 +13,7 @@ export default function CareerSection() {
           <div key={index} className="mb-10 ml-6">
             <span className="absolute flex items-center justify-center w-13 h-13 bg-white p-0.5 rounded-full -left-6.5 ring-2 ring-gray-100 shadow-[0_0_0_6px_white]">
               <Image
-                src={career.icon}
+                src={career.icon ?? DEFAULT_COMPANY_ICON}
                 alt={`${career.company} icon`}
                 width={64}
                 height={64}
