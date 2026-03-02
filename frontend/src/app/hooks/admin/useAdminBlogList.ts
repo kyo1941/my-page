@@ -1,11 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { AdminBlogListItem } from "@/app/types/blog";
 import { adminBlogRepository } from "@/app/repository/adminBlogRepository";
+import { UnauthorizedError } from "@/app/types/errors";
 
-export function useAdminBlogList() {
+type Options = {
+  onUnauthorized?: () => void;
+};
+
+export function useAdminBlogList({ onUnauthorized }: Options = {}) {
   const [blogs, setBlogs] = useState<AdminBlogListItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
+
+  const onUnauthorizedRef = useRef(onUnauthorized);
+  useEffect(() => {
+    onUnauthorizedRef.current = onUnauthorized;
+  }, [onUnauthorized]);
 
   const reload = useCallback(async (): Promise<void> => {
     setIsLoading(true);
@@ -14,8 +24,11 @@ export function useAdminBlogList() {
       const data: AdminBlogListItem[] = await adminBlogRepository.list();
       setBlogs(data);
     } catch (e) {
+      if (e instanceof UnauthorizedError) {
+        onUnauthorizedRef.current?.();
+        return;
+      }
       setError(e instanceof Error ? e.message : "Failed to fetch blogs");
-      throw e;
     } finally {
       setIsLoading(false);
     }

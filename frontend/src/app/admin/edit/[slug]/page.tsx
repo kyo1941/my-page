@@ -26,7 +26,9 @@ export default function EditBlogPage() {
     },
     state: { isLoading },
     actions: { submitUpdate },
-  } = useAdminBlogEdit(originalSlug);
+  } = useAdminBlogEdit(originalSlug, {
+    onUnauthorized: () => router.push("/admin/login"),
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

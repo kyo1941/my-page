@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Blog, BlogUpsertInput } from "@/app/types/blog";
 import { adminBlogRepository } from "@/app/repository/adminBlogRepository";
+import { UnauthorizedError } from "@/app/types/errors";
 
 function toInputDateStringFromJaDate(dateText: string): string {
   // "yyyy年M月d日" -> "yyyy-MM-dd"
@@ -18,7 +19,10 @@ function toJaLongDateFromInput(date: string): string {
   });
 }
 
-export function useAdminBlogEdit(originalSlug: string | undefined) {
+export function useAdminBlogEdit(
+  originalSlug: string | undefined,
+  { onUnauthorized }: { onUnauthorized?: () => void } = {},
+) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
@@ -28,6 +32,11 @@ export function useAdminBlogEdit(originalSlug: string | undefined) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
+
+  const onUnauthorizedRef = useRef(onUnauthorized);
+  useEffect(() => {
+    onUnauthorizedRef.current = onUnauthorized;
+  }, [onUnauthorized]);
 
   useEffect(() => {
     if (!originalSlug) return;
@@ -47,6 +56,10 @@ export function useAdminBlogEdit(originalSlug: string | undefined) {
         setDate(toInputDateStringFromJaDate(data.date));
       } catch (e) {
         if (cancelled) return;
+        if (e instanceof UnauthorizedError) {
+          onUnauthorizedRef.current?.();
+          return;
+        }
         setError(e instanceof Error ? e.message : "Failed to fetch blog");
       } finally {
         // finally内のreturnはTS警告になるので避ける
