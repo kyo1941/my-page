@@ -20,7 +20,9 @@ export async function middleware(request: NextRequest) {
       audience: process.env.JWT_AUDIENCE,
     });
   } catch {
-    const response = NextResponse.redirect(new URL("/admin/login", request.url));
+    const response = NextResponse.redirect(
+      new URL("/admin/login", request.url),
+    );
     response.cookies.delete("auth_token");
     return response;
   }
