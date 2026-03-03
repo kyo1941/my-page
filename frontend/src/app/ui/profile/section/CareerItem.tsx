@@ -18,6 +18,15 @@ export default function CareerItem({
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const toggleButton = (open: boolean) => (
+    <button
+      onClick={() => setIsOpen(open)}
+      className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-800 mb-2 cursor-pointer"
+    >
+      {open ? "詳細を見る ▼" : "閉じる ▲"}
+    </button>
+  );
+
   return (
     <div className="mb-10 ml-6">
       <span className="absolute flex items-center justify-center w-13 h-13 bg-white p-0.5 rounded-full -left-6.5 ring-2 ring-gray-100 shadow-[0_0_0_6px_white]">
@@ -43,14 +52,7 @@ export default function CareerItem({
           {period} | {position}
         </p>
 
-        {!isOpen && (
-          <button
-            onClick={() => setIsOpen(true)}
-            className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-800 mb-2 cursor-pointer"
-          >
-            詳細を見る ▼
-          </button>
-        )}
+        {!isOpen && toggleButton(true)}
 
         {isOpen && (
           <>
@@ -71,12 +73,7 @@ export default function CareerItem({
                 </span>
               ))}
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-800 cursor-pointer"
-            >
-              閉じる ▲
-            </button>
+            {toggleButton(false)}
           </>
         )}
       </div>
