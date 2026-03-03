@@ -12,7 +12,7 @@ export const CURRENT_TERM = "現在";
 export const careerData: Career[] = [
   {
     company: "株式会社MIXI",
-    url: "https://mitene.us/",
+    url: "https://mixi.co.jp/",
     period: "2026年2月 - 2026年2月",
     position: "みてね - Androidエンジニア",
     tasks: [
