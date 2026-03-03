@@ -17,12 +17,12 @@ export default function CareerItem({
   const [isOpen, setIsOpen] = useState(false);
   const itemRef = useRef<HTMLDivElement>(null);
 
-  const toggleButton = (open: boolean) => (
+  const toggleButton = (isOpened: boolean) => (
     <button
-      onClick={() => setIsOpen(open)}
-      className={`flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 cursor-pointer hover:bg-gray-100 hover:rounded-full${!open ? " mt-5" : ""}`}
+      onClick={() => setIsOpen(!isOpened)}
+      className={`flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 cursor-pointer hover:bg-gray-100 hover:rounded-full${isOpened ? " mt-5" : ""}`}
     >
-      {open ? "詳細を見る ▼" : "閉じる ▲"}
+      {isOpened ? "閉じる ▲" : "詳細を見る ▼"}
     </button>
   );
 
@@ -60,7 +60,7 @@ export default function CareerItem({
           {period} | {position}
         </p>
 
-        {!isOpen && toggleButton(true)}
+        {!isOpen && toggleButton(false)}
 
         {isOpen && (
           <>
@@ -83,7 +83,7 @@ export default function CareerItem({
                 ))}
               </div>
             )}
-            {toggleButton(false)}
+            {toggleButton(true)}
           </>
         )}
       </div>
