@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Career } from "@/app/data/careerData";
 
 type Props = Career & { isCurrent: boolean };
@@ -15,6 +15,7 @@ export default function CareerItem({
   technologies,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const itemRef = useRef<HTMLDivElement>(null);
 
   const toggleButton = (open: boolean) => (
     <button
@@ -26,8 +27,11 @@ export default function CareerItem({
   );
 
   return (
-    <div className="mb-10 ml-6">
-      <span className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-4" />
+    <div ref={itemRef} className="mb-10 ml-6">
+      <span
+        onClick={() => itemRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+        className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-4 cursor-pointer hover:bg-gray-600"
+      />
 
       <div className="ml-4 pt-2">
         <div className="flex items-center mb-2">
