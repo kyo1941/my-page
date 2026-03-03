@@ -20,7 +20,7 @@ export default function CareerItem({
   const toggleButton = (open: boolean) => (
     <button
       onClick={() => setIsOpen(open)}
-      className="flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 cursor-pointer hover:bg-gray-100 hover:rounded-full"
+      className="flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 ml-3 cursor-pointer hover:bg-gray-100 hover:rounded-full"
     >
       {open ? "詳細を見る ▼" : "閉じる ▲"}
     </button>
@@ -71,7 +71,7 @@ export default function CareerItem({
                 </li>
               ))}
             </ul>
-            <div className="mt-3.5 mb-6 flex flex-wrap gap-2">
+            <div className="mt-3.5 mb-5 flex flex-wrap gap-2">
               {technologies.map((tech) => (
                 <span
                   key={tech}
