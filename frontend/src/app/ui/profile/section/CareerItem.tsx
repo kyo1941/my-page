@@ -28,7 +28,7 @@ export default function CareerItem({
 
   return (
     <div ref={itemRef} className="mb-10 ml-6">
-      <span
+      <button
         onClick={() =>
           itemRef.current?.scrollIntoView({
             behavior: "smooth",
