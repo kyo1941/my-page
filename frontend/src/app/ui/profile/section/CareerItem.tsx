@@ -55,14 +55,14 @@ export default function CareerItem({
 
         {isOpen && (
           <>
-            <ul className="list-disc list-outside text-gray-700 space-y-1.5">
+            <ul className="list-disc list-outside pl-5 text-gray-700 space-y-1.5">
               {tasks.map((task, taskIndex) => (
-                <li key={taskIndex} className="whitespace-pre-line my-3">
+                <li key={taskIndex} className="whitespace-pre-line my-3 pl-1">
                   {task}
                 </li>
               ))}
             </ul>
-            <div className="my-4 flex flex-wrap gap-2">
+            <div className="mt-3.5 mb-6 flex flex-wrap gap-2">
               {technologies.map((tech) => (
                 <span
                   key={tech}
