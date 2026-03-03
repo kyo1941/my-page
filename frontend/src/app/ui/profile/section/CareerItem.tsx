@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Career } from "@/app/data/careerData";
 
 type Props = Career & { isCurrent: boolean };
@@ -15,19 +15,28 @@ export default function CareerItem({
   technologies,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const itemRef = useRef<HTMLDivElement>(null);
 
   const toggleButton = (open: boolean) => (
     <button
       onClick={() => setIsOpen(open)}
-      className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-800 mb-2 ml-3 cursor-pointer"
+      className="flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 ml-3 cursor-pointer hover:bg-gray-100 hover:rounded-full"
     >
       {open ? "詳細を見る ▼" : "閉じる ▲"}
     </button>
   );
 
   return (
-    <div className="mb-10 ml-6">
-      <span className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-4" />
+    <div ref={itemRef} className="mb-10 ml-6">
+      <button
+        onClick={() =>
+          itemRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          })
+        }
+        className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-4 cursor-pointer transition-all duration-200 hover:bg-white hover:ring-black"
+      />
 
       <div className="ml-4 pt-2">
         <div className="flex items-center mb-2">
