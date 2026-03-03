@@ -17,12 +17,12 @@ export default function CareerItem({
   const [isOpen, setIsOpen] = useState(false);
   const itemRef = useRef<HTMLDivElement>(null);
 
-  const toggleButton = (open: boolean) => (
+  const toggleButton = (isOpened: boolean) => (
     <button
-      onClick={() => setIsOpen(open)}
-      className="flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 cursor-pointer hover:bg-gray-100 hover:rounded-full"
+      onClick={() => setIsOpen(!isOpened)}
+      className={`flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 cursor-pointer hover:bg-gray-100 hover:rounded-full${isOpened ? " mt-5" : ""}`}
     >
-      {open ? "詳細を見る ▼" : "閉じる ▲"}
+      {isOpened ? "閉じる ▲" : "詳細を見る ▼"}
     </button>
   );
 
@@ -60,28 +60,30 @@ export default function CareerItem({
           {period} | {position}
         </p>
 
-        {!isOpen && toggleButton(true)}
+        {!isOpen && toggleButton(false)}
 
         {isOpen && (
           <>
-            <ul className="list-disc list-outside pl-5 text-gray-700 space-y-1.5">
+            <ul className="list-disc list-outside pl-5 text-gray-700">
               {tasks.map((task, taskIndex) => (
-                <li key={taskIndex} className="whitespace-pre-line my-3 pl-1">
+                <li key={taskIndex} className="whitespace-pre-line mt-3 pl-1">
                   {task}
                 </li>
               ))}
             </ul>
-            <div className="mt-3.5 mb-5 flex flex-wrap gap-2">
-              {technologies.map((tech) => (
-                <span
-                  key={tech}
-                  className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-full"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-            {toggleButton(false)}
+            {technologies.length > 0 && (
+              <div className="mt-3.5 flex flex-wrap gap-2">
+                {technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-full"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            )}
+            {toggleButton(true)}
           </>
         )}
       </div>
