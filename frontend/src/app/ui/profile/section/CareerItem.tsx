@@ -1,15 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { DEFAULT_COMPANY_ICON } from "@/app/data/careerData";
 import { Career } from "@/app/data/careerData";
 
 type Props = Career & { isCurrent: boolean };
 
 export default function CareerItem({
-  icon,
   company,
+  url,
   isCurrent,
   period,
   position,
@@ -29,19 +27,20 @@ export default function CareerItem({
 
   return (
     <div className="mb-10 ml-6">
-      <span className="absolute flex items-center justify-center w-13 h-13 bg-white p-0.5 rounded-full -left-6.5 ring-2 ring-gray-100 shadow-[0_0_0_6px_white]">
-        <Image
-          src={icon ?? DEFAULT_COMPANY_ICON}
-          alt={`${company} icon`}
-          width={64}
-          height={64}
-          className="object-contain rounded-full"
-        />
-      </span>
+      <span className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-4" />
 
       <div className="ml-4 pt-2">
         <div className="flex items-center mb-2">
-          <h3 className="text-2xl font-semibold text-gray-900">{company}</h3>
+          <h3 className="text-2xl font-semibold text-gray-900">
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-700 hover:underline"
+            >
+              {company}
+            </a>
+          </h3>
           {isCurrent && (
             <span className="bg-blue-100 text-blue-800 text-sm font-medium ml-3 px-2.5 py-0.5 rounded-full">
               Now

@@ -1,19 +1,18 @@
 export type Career = {
-  icon?: string;
   company: string;
+  url: string;
   period: string;
   position: string;
   tasks: string[];
   technologies: string[];
 };
 
-export const DEFAULT_COMPANY_ICON = "/icon/company-icon.svg";
-
 export const CURRENT_TERM = "現在";
 
 export const careerData: Career[] = [
   {
     company: "株式会社MIXI",
+    url: "https://mitene.us/",
     period: "2026年2月 - 2026年2月",
     position: "みてね - Androidエンジニア",
     tasks: [
@@ -24,8 +23,8 @@ export const careerData: Career[] = [
     technologies: ["Kotlin", "RxJava", "Kotlin Coroutines", "Dagger", "Hilt"],
   },
   {
-    icon: "/icon/dwango-logo.svg",
     company: "株式会社ドワンゴ",
+    url: "https://dwango.co.jp/",
     period: "2025年11月 - 2026年1月",
     position: "ニコニコ事業本部 - Androidエンジニア",
     tasks: [
@@ -36,6 +35,7 @@ export const careerData: Career[] = [
   },
   {
     company: "株式会社ミラティブ",
+    url: "https://mirrativ.co.jp/",
     period: "2025年10月 - 2025年10月",
     position: "技術部 - Androidエンジニア",
     tasks: [
@@ -45,8 +45,8 @@ export const careerData: Career[] = [
     technologies: ["Kotlin", "Jetpack Compose", "Flux", "Koin"],
   },
   {
-    icon: "/icon/sansan-logo.svg",
     company: "Sansan株式会社",
+    url: "https://jp.corp-sansan.com/",
     period: "2025年8月 - 2025年9月",
     position: "Eight Engineering Unit - Androidエンジニア",
     tasks: [
@@ -64,8 +64,8 @@ export const careerData: Career[] = [
     ],
   },
   {
-    icon: "/icon/saitama-univ.png",
     company: "埼玉大学",
+    url: "https://www.saitama-u.ac.jp/",
     period: "2021年4月 - 2027年3月",
     position: "工学部 情報工学科 / 理工学研究科 数理電子情報専攻",
     tasks: [
