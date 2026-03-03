@@ -30,7 +30,7 @@ export default function CareerItem({
     <div ref={itemRef} className="mb-10 ml-6">
       <span
         onClick={() => itemRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-        className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-4 cursor-pointer hover:bg-gray-600"
+        className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-4 cursor-pointer transition-all duration-200 hover:bg-white hover:ring-black"
       />
 
       <div className="ml-4 pt-2">
