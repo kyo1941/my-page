@@ -20,7 +20,7 @@ export default function CareerItem({
   const toggleButton = (open: boolean) => (
     <button
       onClick={() => setIsOpen(open)}
-      className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-800 mb-2 cursor-pointer"
+      className="flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 cursor-pointer hover:bg-gray-100 hover:rounded-full"
     >
       {open ? "詳細を見る ▼" : "閉じる ▲"}
     </button>
@@ -29,7 +29,12 @@ export default function CareerItem({
   return (
     <div ref={itemRef} className="mb-10 ml-6">
       <span
-        onClick={() => itemRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+        onClick={() =>
+          itemRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          })
+        }
         className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-4 cursor-pointer transition-all duration-200 hover:bg-white hover:ring-black"
       />
 
