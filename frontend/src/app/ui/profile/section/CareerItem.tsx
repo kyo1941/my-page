@@ -20,7 +20,7 @@ export default function CareerItem({
   const toggleButton = (isOpened: boolean) => (
     <button
       onClick={() => setIsOpen(!isOpened)}
-      className={`flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 cursor-pointer hover:bg-gray-100 hover:rounded-full${isOpened ? " mt-5" : ""}`}
+      className={`flex items-center gap-1 text-sm text-gray-600 px-2.5 py-1 mb-2 cursor-pointer hover:bg-gray-100 hover:rounded-full ${isOpened ? " mt-5" : ""}`}
     >
       {isOpened ? "閉じる ▲" : "詳細を見る ▼"}
     </button>
