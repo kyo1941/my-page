@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
+import { ROUTES } from "@/app/routes";
 
 // ブログページの生成に必要なパスを事前に取得する関数
 export async function generateStaticParams() {
@@ -30,7 +31,7 @@ export default async function PostPage({
         <main className="max-w-4xl mx-auto px-4 py-12">
           <div className="bg-white rounded-lg shadow-sm p-8">
             <div className="mb-8">
-              <BackButton />
+              <BackButton fallbackPath={ROUTES.BLOG} />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 text-center py-40">
               記事が見つかりませんでした。
@@ -49,7 +50,7 @@ export default async function PostPage({
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-sm p-8">
           <div className="mb-8">
-            <BackButton />
+            <BackButton fallbackPath={ROUTES.BLOG} />
           </div>
 
           <article>
