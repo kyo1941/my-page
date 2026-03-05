@@ -3,14 +3,14 @@
 import { useRouter } from "next/navigation";
 
 type BackButtonProps = {
-  fallbackPath?: string;
+  fallbackPath: string;
 };
 
 export default function BackButton({ fallbackPath }: BackButtonProps) {
   const router = useRouter();
 
   const handleBack = () => {
-    if (fallbackPath && window.history.length <= 1) {
+    if (window.history.length <= 1) {
       router.push(fallbackPath);
     } else {
       router.back();
