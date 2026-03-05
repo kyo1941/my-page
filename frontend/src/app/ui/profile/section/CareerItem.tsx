@@ -69,8 +69,17 @@ export default function CareerItem({
           <>
             <ul className="list-disc list-outside pl-5 text-gray-700">
               {tasks.map((task, taskIndex) => (
-                <li key={taskIndex} className="whitespace-pre-line mt-3 pl-1">
-                  {task}
+                <li key={taskIndex} className="mt-3 pl-1">
+                  {task.content}
+                  {task.details && task.details.length > 0 && (
+                    <ul className="list-[circle] list-outside pl-5 mt-1 text-gray-700">
+                      {task.details.map((sub, subIndex) => (
+                        <li key={subIndex} className="mt-2 pl-1">
+                          {sub}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
