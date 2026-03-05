@@ -22,10 +22,12 @@ export const careerData: Career[] = [
     position: "みてね - Androidエンジニア（インターン）",
     tasks: [
       {
-        content: "子供の写真共有アプリ「みてね」のAndroidエンジニアとして1ヶ月従事",
+        content:
+          "子供の写真共有アプリ「みてね」のAndroidエンジニアとして1ヶ月従事",
       },
       {
-        content: "古いライブラリの改修に伴い、ADR の作成と PoC の実装による技術調査と技術選定を担当",
+        content:
+          "古いライブラリの改修に伴い、ADR の作成と PoC の実装による技術調査と技術選定を担当",
       },
       {
         content: "Splash Screen におけるロゴの差し替えを担当",
@@ -43,7 +45,9 @@ export const careerData: Career[] = [
     period: "2025年11月 - 2026年1月",
     position: "ニコニコ動画 - Androidエンジニア（インターン）",
     tasks: [
-      { content: "動画アプリ「ニコニコ動画」のAndroidエンジニアとして3ヶ月従事" },
+      {
+        content: "動画アプリ「ニコニコ動画」のAndroidエンジニアとして3ヶ月従事",
+      },
       {
         content: "ショート動画実装の大規模案件のメンバーとしてアサイン",
         details: [
@@ -53,7 +57,8 @@ export const careerData: Career[] = [
         ],
       },
       {
-        content: "不具合修正の保守・運用や、Java → Kotlin へのリプレイスなども担当",
+        content:
+          "不具合修正の保守・運用や、Java → Kotlin へのリプレイスなども担当",
       },
     ],
     technologies: ["Kotlin", "Jetpack Compose", "MVVM"],
@@ -65,7 +70,8 @@ export const careerData: Career[] = [
     position: "ミラティブ - Androidエンジニア（インターン）",
     tasks: [
       {
-        content: "ライブ配信アプリ「ミラティブ」のAndroidエンジニアとして1ヶ月従事",
+        content:
+          "ライブ配信アプリ「ミラティブ」のAndroidエンジニアとして1ヶ月従事",
       },
       {
         content: "既存のXMLベースのUIをJetpack Composeに置き換える作業を担当",
@@ -82,7 +88,9 @@ export const careerData: Career[] = [
     period: "2025年8月 - 2025年9月",
     position: "Eight- Androidエンジニア（インターン）",
     tasks: [
-      { content: "toC名刺管理アプリ「Eight」のAndroidエンジニアとして1ヶ月従事" },
+      {
+        content: "toC名刺管理アプリ「Eight」のAndroidエンジニアとして1ヶ月従事",
+      },
       {
         content: "名刺反転アニメーションを実装する新機能開発を担当",
         details: [
@@ -113,7 +121,8 @@ export const careerData: Career[] = [
     tasks: [
       { content: "授業での半年間のiOSアプリチーム開発" },
       {
-        content: "[修士研究] 音声強調における教師なし学習環境下での少量データ学習に関する研究",
+        content:
+          "[修士研究] 音声強調における教師なし学習環境下での少量データ学習に関する研究",
         details: [
           "GANをベースとした学習機構や分別器のモデル構成を提案",
           "2025年春季音響学会 ポスター発表",
@@ -122,7 +131,8 @@ export const careerData: Career[] = [
         ],
       },
       {
-        content: "[RA] 深層学習の物体検知モデル（YOLO）を用いた衣服の汚れ検知に関する共同研究",
+        content:
+          "[RA] 深層学習の物体検知モデル（YOLO）を用いた衣服の汚れ検知に関する共同研究",
         details: [
           "精度向上のためのデータ拡張/補正アルゴリズムの設計・実装",
           "データ拡張におけるセグメンテーション処理や、モデルの学習や評価のためのパイプラインの構築などを担当",
