@@ -19,10 +19,20 @@ export const careerData: Career[] = [
     company: "株式会社MIXI",
     url: "https://mixi.co.jp/",
     period: "2026年2月 - 2026年2月",
-    position: "みてね - Androidエンジニア",
+    position: "みてね - Androidエンジニア（インターン）",
     tasks: [
-      { text: "子供の写真共有アプリ「みてね」のAndroidエンジニアとして1ヶ月従事。" },
-      { text: "古いライブラリの更新に伴い、ADRの作成とPoCの実装による技術調査と選定を行った。" },
+      {
+        text: "子供の写真共有アプリ「みてね」のAndroidエンジニアとして1ヶ月従事",
+      },
+      {
+        text: "古いライブラリの改修に伴い、ADR の作成と PoC の実装による技術調査と技術選定を担当",
+      },
+      {
+        text: "Splash Screen におけるロゴの差し替えを担当",
+        subTasks: [
+          "ガイドラインや API 仕様でのデザイン調整や、試作を通した XFT での調整を行い実装",
+        ],
+      },
       { text: "その他、レガシーな技術のリプレイスも担当" },
     ],
     technologies: ["Kotlin", "RxJava", "Kotlin Coroutines", "Dagger", "Hilt"],
@@ -31,10 +41,20 @@ export const careerData: Career[] = [
     company: "株式会社ドワンゴ",
     url: "https://dwango.co.jp/",
     period: "2025年11月 - 2026年1月",
-    position: "ニコニコ事業本部 - Androidエンジニア",
+    position: "ニコニコ動画 - Androidエンジニア（インターン）",
     tasks: [
-      { text: "動画アプリ「ニコニコ動画」のAndroidエンジニアとして3ヶ月従事。" },
-      { text: "ショート動画実装の大規模案件のメンバーとしてアサインされ、画面の実装とAPI連携を担当。" },
+      { text: "動画アプリ「ニコニコ動画」のAndroidエンジニアとして3ヶ月従事" },
+      {
+        text: "ショート動画実装の大規模案件のメンバーとしてアサイン",
+        subTasks: [
+          "一画面でのUI実装から、API やデータ接続まで通して実装",
+          "数値分析の仕様調整やデザインの調整など、企画やデザイナーとのコミュニケーションも行いながら実装",
+          "プッシュ通知やディープリンクの外部動線の実装",
+        ],
+      },
+      {
+        text: "不具合修正の保守・運用や、Java → Kotlin へのリプレイスなども担当",
+      },
     ],
     technologies: ["Kotlin", "Jetpack Compose", "MVVM"],
   },
@@ -42,10 +62,17 @@ export const careerData: Career[] = [
     company: "株式会社ミラティブ",
     url: "https://mirrativ.co.jp/",
     period: "2025年10月 - 2025年10月",
-    position: "技術部 - Androidエンジニア",
+    position: "ミラティブ - Androidエンジニア（インターン）",
     tasks: [
-      { text: "ライブ配信アプリ「ミラティブ」のAndroidエンジニアとして1ヶ月従事。" },
-      { text: "既存のXMLベースのUIをJetpack Composeに置き換える作業を担当。\n触れたことのないFluxアーキテクチャでありながら、短期間でキャッチアップしていきながら実装を行った。" },
+      {
+        text: "ライブ配信アプリ「ミラティブ」のAndroidエンジニアとして1ヶ月従事",
+      },
+      {
+        text: "既存のXMLベースのUIをJetpack Composeに置き換える作業を担当",
+        subTasks: [
+          "Fluxアーキテクチャの設計や実装のキャッチアップをしながら実装",
+        ],
+      },
     ],
     technologies: ["Kotlin", "Jetpack Compose", "Flux", "Koin"],
   },
@@ -53,19 +80,29 @@ export const careerData: Career[] = [
     company: "Sansan株式会社",
     url: "https://jp.corp-sansan.com/",
     period: "2025年8月 - 2025年9月",
-    position: "Eight Engineering Unit - Androidエンジニア",
+    position: "Eight- Androidエンジニア（インターン）",
     tasks: [
-      { text: "toC名刺管理アプリ「Eight」のAndroidエンジニアとして1ヶ月従事。" },
-      { text: "スクラム開発を通した、新機能開発における設計書の作成や実装。\nAndroidチームメンバーだけでなく、PdMやデザイナーとの仕様・デザイン調整のコミュニケーションも行いつつ、初の実務経験ということもあり大規模なアーキテクチャについてキャッチアップしながら取り組んだ。" },
-      { text: "モーションセンサーを使用した名刺反転アニメーションを実装する新機能開発を担当。\nセンサーの制御を行い端末負荷を抑えつつ、ユーザー体験を向上させるアニメーションの実装を行った。" },
+      { text: "toC名刺管理アプリ「Eight」のAndroidエンジニアとして1ヶ月従事" },
+      {
+        text: "名刺反転アニメーションを実装する新機能開発を担当",
+        subTasks: [
+          "モーションセンサーを用いた端末角度の算出処理と、端末負荷を考慮したライフサイクル管理を実装",
+          "角度の閾値の調整やアニメーションの調整など、PdM とのコミュニケーションも行いながら実装",
+        ],
+      },
+      {
+        text: "名刺手動登録時でのダイアログによる動線の実装",
+        subTasks: [
+          "国際化対応におけるデザイン崩れでの調整や、共通コンポーネントの提案・実装なども担当",
+        ],
+      },
     ],
     technologies: [
       "Kotlin",
       "Jetpack Compose",
       "MVVM",
-      "Dagger Hilt",
-      "Glide",
-      "JUnit",
+      "Hilt",
+      "Kotlin Coroutines",
     ],
   },
   {
@@ -74,9 +111,24 @@ export const careerData: Career[] = [
     period: "2021年4月 - 2027年3月",
     position: "工学部 情報工学科 / 理工学研究科 数理電子情報専攻",
     tasks: [
-      { text: "半年間のiOSアプリチーム開発" },
-      { text: "[修士研究] 音声強調における教師なし学習環境下での少量データ学習に関する研究。\nGANをベースとした学習機構や分別器のモデル構成を提案。" },
-      { text: "[RA] 深層学習の物体検知モデルを用いた衣服の汚れ検知に関する研究。\n精度向上のためのデータ拡張/補正アルゴリズムの設計・実装からプレゼン資料の作成まで実質的にほとんどの作業を担当。" },
+      { text: "授業での半年間のiOSアプリチーム開発" },
+      {
+        text: "[修士研究] 音声強調における教師なし学習環境下での少量データ学習に関する研究",
+        subTasks: [
+          "GANをベースとした学習機構や分別器のモデル構成を提案",
+          "2025年春季音響学会 ポスター発表",
+          "2025年電子通信情報学会 口頭発表",
+          "ICICIC2025 口頭発表",
+        ],
+      },
+      {
+        text: "[RA] 深層学習の物体検知モデル（YOLO）を用いた衣服の汚れ検知に関する共同研究",
+        subTasks: [
+          "精度向上のためのデータ拡張/補正アルゴリズムの設計・実装",
+          "データ拡張におけるセグメンテーション処理や、モデルの学習や評価のためのパイプラインの構築などを担当",
+          "毎月の成果報告のために進捗の共有や課題の洗い出しなどを行い、プレゼン資料の作成まで担当（プレゼン自体はしていません）",
+        ],
+      },
     ],
     technologies: [],
   },
