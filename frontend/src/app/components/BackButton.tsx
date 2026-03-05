@@ -2,13 +2,25 @@
 
 import { useRouter } from "next/navigation";
 
-export default function BackButton() {
+type BackButtonProps = {
+  fallbackPath?: string;
+};
+
+export default function BackButton({ fallbackPath }: BackButtonProps) {
   const router = useRouter();
+
+  const handleBack = () => {
+    if (fallbackPath && window.history.length <= 1) {
+      router.push(fallbackPath);
+    } else {
+      router.back();
+    }
+  };
 
   return (
     <button
       type="button"
-      onClick={() => router.back()}
+      onClick={handleBack}
       className="text-base text-blue-600 hover:text-blue-700 hover:underline"
     >
       &lt; 戻る
