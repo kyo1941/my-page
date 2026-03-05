@@ -1,30 +1,32 @@
 export const skills = [
   {
+    name: "Android™",
+    icon: "/icon/android-head_3D.svg",
+    description:
+      "本業です。オープンソースなので、やりこみ要素がたくさんあって楽しいです。",
+  },
+  {
     name: "Kotlin",
     icon: "/icon/kotlin-1.svg",
     description:
-      "Android開発の標準装備なのでそれなりには使えます。\nバックエンドもKotlinを使って勉強中です。",
-  },
-  {
-    name: "Jetpack Compose",
-    icon: "/icon/jetpack-compose.svg",
-    description: "大好きです。\nあとJetpackライブラリもおおよそ使えます。",
+      "Androidはもちろんのこと、バックエンド開発でも使用しています。",
   },
   {
     name: "Ktor",
     icon: "/icon/ktor.svg",
     description:
-      "Kotlinでのバックエンド開発に使用しています。このサイトにも使っています。",
+      "Kotlinでのバックエンド開発に使用しています。\nこのサイトにも使っています。",
   },
   {
     name: "TypeScript",
     icon: "/icon/typescript.svg",
-    description: "あんま書くことないな",
+    description: "フロントエンドで使用することが多いです。",
   },
   {
     name: "React",
     icon: "/icon/react-2.svg",
-    description: "関数型プログラミングがいまだに慣れないです。難しい...",
+    description:
+      "Jetpack Composeに慣れているので、Reactもすんなり入ってきました。",
   },
   {
     name: "Next.js",
@@ -34,23 +36,24 @@ export const skills = [
   {
     name: "Tailwind CSS",
     icon: "/icon/tailwind-css-2.svg",
-    description: "Composeに慣れているので一番しっくりきます。",
+    description: "Jetpack Composeに慣れているので一番これがしっくりきます。",
   },
   {
     name: "Python",
     icon: "/icon/python-5.svg",
-    description: "深層学習系の研究で使用しています。好きではない。",
+    description:
+      "機械学習系の研究で使用しています。言語自体はあまり好きではないですが。",
   },
   {
     name: "C++",
     icon: "/icon/c++.svg",
     description:
-      "競プロに使っています。もはやそれ専用の言語と化しています。\n（最近やってないな...）",
+      "競プロに使っています。もはやそれ専用の言語と化しています。\n（最近競プロやってない...）",
   },
   {
     name: "Git",
     icon: "/icon/git.svg",
     description:
-      "バージョン管理ツールとして使用しています。多分1割も使いこなせていません。",
+      "バージョン管理ツールとして使用しています。多分2割ぐらいしか使えていない気がする。",
   },
 ];

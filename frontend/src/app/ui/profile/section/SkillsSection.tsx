@@ -35,6 +35,21 @@ export default function SkillsSection() {
           </div>
         ))}
       </div>
+
+      {/* 注釈 */}
+      <p className="text-xs text-gray-400 mt-6 leading-relaxed">
+        Android ロボットは、Google
+        が作成および提供している作品から複製または変更したものであり、{" "}
+        <a
+          href="https://creativecommons.org/licenses/by/3.0/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-gray-600"
+        >
+          クリエイティブ・コモンズ
+        </a>
+        表示 3.0 ライセンスに記載された条件に従って使用しています。
+      </p>
     </div>
   );
 }
