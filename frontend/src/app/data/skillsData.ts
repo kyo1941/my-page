@@ -1,6 +1,6 @@
 export const skills = [
   {
-    name: "Android™",
+    name: "Android*",
     icon: "/icon/android-head_3D.svg",
     description:
       "本業です。オープンソースなので、やりこみ要素がたくさんあって楽しいです。",
