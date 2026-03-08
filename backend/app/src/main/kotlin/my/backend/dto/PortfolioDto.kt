@@ -12,7 +12,6 @@ data class PortfolioRequestDto(
     val date: String,
     val description: String,
     val coverImage: String? = null,
-    val tags: List<String>,
     val content: String,
 )
 
@@ -27,7 +26,6 @@ data class PortfolioResponseDto(
     val date: String,
     val description: String,
     val coverImage: String? = null,
-    val tags: List<String>,
     val content: String,
 ) {
     companion object {
@@ -41,7 +39,6 @@ data class PortfolioResponseDto(
                 date = request.date,
                 description = request.description,
                 coverImage = request.coverImage,
-                tags = request.tags,
                 content = request.content,
             )
         }

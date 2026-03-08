@@ -13,10 +13,7 @@ fun Route.portfolioRoutes(portfolioService: PortfolioService) {
     route("/api/portfolios") {
         get {
             val limit = call.request.queryParameters["limit"]?.toIntOrNull()
-            val tags = call.request.queryParameters.getAll("tags")
-            val keyword = call.request.queryParameters["keyword"]
-
-            val portfolios = portfolioService.getPortfolios(limit, tags, keyword)
+            val portfolios = portfolioService.getPortfolios(limit)
             call.respond(portfolios)
         }
 

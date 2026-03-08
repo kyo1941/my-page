@@ -6,7 +6,6 @@ export type Portfolio = {
   date: string;
   description: string;
   coverImage?: string | undefined;
-  tags?: string[];
   content: string;
 };
 

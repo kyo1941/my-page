@@ -14,17 +14,3 @@ object PortfolioTable : Table("portfolios") {
 
     override val primaryKey = PrimaryKey(id)
 }
-
-object PortfolioTagNameTable : Table("portfolio_tag_names") {
-    val id = integer("id").autoIncrement()
-    val name = varchar("name", 50).uniqueIndex()
-
-    override val primaryKey = PrimaryKey(id)
-}
-
-object PortfolioTagsTable : Table("portfolio_tags") {
-    val portfolioId = reference("portfolio_id", PortfolioTable.id)
-    val tagId = reference("tag_id", PortfolioTagNameTable.id)
-
-    override val primaryKey = PrimaryKey(portfolioId, tagId)
-}

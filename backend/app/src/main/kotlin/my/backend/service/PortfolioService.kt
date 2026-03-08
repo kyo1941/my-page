@@ -5,12 +5,8 @@ import my.backend.dto.PortfolioResponseDto
 import my.backend.repository.PortfolioRepository
 
 class PortfolioService(private val portfolioRepository: PortfolioRepository) {
-    suspend fun getPortfolios(
-        limit: Int?,
-        tags: List<String>? = null,
-        keyword: String? = null,
-    ): List<PortfolioResponseDto> {
-        return portfolioRepository.findAll(limit, tags, keyword)
+    suspend fun getPortfolios(limit: Int?): List<PortfolioResponseDto> {
+        return portfolioRepository.findAll(limit)
     }
 
     suspend fun getPortfolioBySlug(slug: String): PortfolioResponseDto? {
