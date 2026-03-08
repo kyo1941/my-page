@@ -97,7 +97,7 @@ routes/<Feature>Routes.kt     ← Ktor route definitions, injects service
 - Custom exceptions are in `exception/CustomExceptions.kt`, handled by `plugins/StatusPages.kt`
 
 ### Content Storage
-- Blog posts and portfolios are Markdown files in `app/src/main/resources/blogs/` and `portfolios/`
+- Blog posts and portfolios are Markdown files in `app/src/main/resources/blogs/` and `app/src/main/resources/portfolios/`
 - An `index.txt` in each directory lists the filenames to serve
 - Markdown is converted to HTML server-side using flexmark
 
@@ -107,5 +107,5 @@ routes/<Feature>Routes.kt     ← Ktor route definitions, injects service
 - Exposed DSL for queries; `DatabaseFactory` manages the HikariCP connection pool
 
 ### Environment / Config
-- `application.yaml` (gitignored) — copy from `application.yaml.template` and fill in values
-- Env vars injected via `docker-compose.yml` override the YAML at runtime
+- `application.yaml` (gitignored) — uses `$VAR_NAME` placeholders that Ktor substitutes from environment variables at runtime
+- Env vars are injected via `docker-compose.yml` into the container and referenced directly in `application.yaml`
