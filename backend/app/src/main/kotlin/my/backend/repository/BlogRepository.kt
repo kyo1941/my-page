@@ -5,9 +5,8 @@ import my.backend.db.schema.BlogTagsTable
 import my.backend.db.schema.TagTable
 import my.backend.dto.BlogRequestDto
 import my.backend.dto.BlogResponseDto
+import my.backend.util.DateParser
 import my.backend.util.SlugGenerator
-import my.backend.util.formatLocalDateTime
-import my.backend.util.parseDateToLocalDateTime
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -92,7 +91,6 @@ class BlogRepositoryImpl : BlogRepository {
     override suspend fun create(blog: BlogRequestDto): BlogResponseDto =
         newSuspendedTransaction {
             val newSlug = SlugGenerator.generate()
-            val parsedDate = parseDateToLocalDateTime(blog.date)
             val blogId =
                 BlogTable.insert {
                     it[slug] = newSlug
@@ -100,20 +98,12 @@ class BlogRepositoryImpl : BlogRepository {
                     it[description] = blog.description
                     it[content] = blog.content
                     it[coverImage] = blog.coverImage
-                    it[date] = parsedDate
+                    it[date] = DateParser.parseDateToLocalDateTime(blog.date)
                 } get BlogTable.id
 
             updateTags(blogId, blog.tags)
 
-            BlogResponseDto(
-                slug = newSlug,
-                title = blog.title,
-                date = formatLocalDateTime(parsedDate),
-                description = blog.description,
-                coverImage = blog.coverImage,
-                tags = blog.tags,
-                content = blog.content,
-            )
+            BlogResponseDto.fromRequestDto(blog, newSlug)
         }
 
     override suspend fun update(
@@ -131,7 +121,7 @@ class BlogRepositoryImpl : BlogRepository {
                 it[description] = blog.description
                 it[content] = blog.content
                 it[coverImage] = blog.coverImage
-                it[date] = parseDateToLocalDateTime(blog.date)
+                it[date] = DateParser.parseDateToLocalDateTime(blog.date)
             }
 
             updateTags(id, blog.tags)
@@ -158,7 +148,7 @@ class BlogRepositoryImpl : BlogRepository {
         return BlogResponseDto(
             slug = row[BlogTable.slug],
             title = row[BlogTable.title],
-            date = formatLocalDateTime(row[BlogTable.date]),
+            date = row[BlogTable.date].format(DateParser.dateFormatter),
             description = row[BlogTable.description],
             coverImage = row[BlogTable.coverImage],
             tags = tags,

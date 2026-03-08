@@ -3,9 +3,8 @@ package my.backend.repository
 import my.backend.db.schema.PortfolioTable
 import my.backend.dto.PortfolioRequestDto
 import my.backend.dto.PortfolioResponseDto
+import my.backend.util.DateParser
 import my.backend.util.SlugGenerator
-import my.backend.util.formatLocalDateTime
-import my.backend.util.parseDateToLocalDateTime
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -46,24 +45,16 @@ class PortfolioRepositoryImpl : PortfolioRepository {
     override suspend fun create(portfolio: PortfolioRequestDto): PortfolioResponseDto =
         newSuspendedTransaction {
             val newSlug = SlugGenerator.generate()
-            val parsedDate = parseDateToLocalDateTime(portfolio.date)
             PortfolioTable.insert {
                 it[slug] = newSlug
                 it[title] = portfolio.title
                 it[description] = portfolio.description
                 it[content] = portfolio.content
                 it[coverImage] = portfolio.coverImage
-                it[date] = parsedDate
+                it[date] = DateParser.parseDateToLocalDateTime(portfolio.date)
             }
 
-            PortfolioResponseDto(
-                slug = newSlug,
-                title = portfolio.title,
-                date = formatLocalDateTime(parsedDate),
-                description = portfolio.description,
-                coverImage = portfolio.coverImage,
-                content = portfolio.content,
-            )
+            PortfolioResponseDto.fromRequestDto(portfolio, newSlug)
         }
 
     override suspend fun update(
@@ -71,25 +62,17 @@ class PortfolioRepositoryImpl : PortfolioRepository {
         portfolio: PortfolioRequestDto,
     ): PortfolioResponseDto? =
         newSuspendedTransaction {
-            val parsedDate = parseDateToLocalDateTime(portfolio.date)
             val updatedRows =
                 PortfolioTable.update({ PortfolioTable.slug eq slug }) {
                     it[title] = portfolio.title
                     it[description] = portfolio.description
                     it[content] = portfolio.content
                     it[coverImage] = portfolio.coverImage
-                    it[date] = parsedDate
+                    it[date] = DateParser.parseDateToLocalDateTime(portfolio.date)
                 }
 
             if (updatedRows > 0) {
-                PortfolioResponseDto(
-                    slug = slug,
-                    title = portfolio.title,
-                    date = formatLocalDateTime(parsedDate),
-                    description = portfolio.description,
-                    coverImage = portfolio.coverImage,
-                    content = portfolio.content,
-                )
+                PortfolioResponseDto.fromRequestDto(portfolio, slug)
             } else {
                 null
             }
@@ -104,7 +87,7 @@ class PortfolioRepositoryImpl : PortfolioRepository {
         return PortfolioResponseDto(
             slug = row[PortfolioTable.slug],
             title = row[PortfolioTable.title],
-            date = formatLocalDateTime(row[PortfolioTable.date]),
+            date = row[PortfolioTable.date].format(DateParser.dateFormatter),
             description = row[PortfolioTable.description],
             coverImage = row[PortfolioTable.coverImage],
             content = row[PortfolioTable.content],
