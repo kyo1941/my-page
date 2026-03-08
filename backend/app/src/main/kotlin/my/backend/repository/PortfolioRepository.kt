@@ -4,13 +4,11 @@ import my.backend.db.schema.PortfolioTable
 import my.backend.dto.PortfolioRequestDto
 import my.backend.dto.PortfolioResponseDto
 import my.backend.util.SlugGenerator
+import my.backend.util.formatLocalDateTime
+import my.backend.util.parseDateToLocalDateTime
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 interface PortfolioRepository {
     suspend fun findAll(limit: Int? = null): List<PortfolioResponseDto>
@@ -28,8 +26,6 @@ interface PortfolioRepository {
 }
 
 class PortfolioRepositoryImpl : PortfolioRepository {
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy年M月d日", Locale.JAPAN)
-
     override suspend fun findAll(limit: Int?): List<PortfolioResponseDto> =
         newSuspendedTransaction {
             val query =
@@ -50,16 +46,24 @@ class PortfolioRepositoryImpl : PortfolioRepository {
     override suspend fun create(portfolio: PortfolioRequestDto): PortfolioResponseDto =
         newSuspendedTransaction {
             val newSlug = SlugGenerator.generate()
+            val parsedDate = parseDateToLocalDateTime(portfolio.date)
             PortfolioTable.insert {
                 it[slug] = newSlug
                 it[title] = portfolio.title
                 it[description] = portfolio.description
                 it[content] = portfolio.content
                 it[coverImage] = portfolio.coverImage
-                it[date] = parseDate(portfolio.date)
+                it[date] = parsedDate
             }
 
-            PortfolioResponseDto.fromRequestDto(portfolio, newSlug)
+            PortfolioResponseDto(
+                slug = newSlug,
+                title = portfolio.title,
+                date = formatLocalDateTime(parsedDate),
+                description = portfolio.description,
+                coverImage = portfolio.coverImage,
+                content = portfolio.content,
+            )
         }
 
     override suspend fun update(
@@ -67,20 +71,28 @@ class PortfolioRepositoryImpl : PortfolioRepository {
         portfolio: PortfolioRequestDto,
     ): PortfolioResponseDto? =
         newSuspendedTransaction {
-            val existing =
-                PortfolioTable.selectAll().where { PortfolioTable.slug eq slug }
-                    .singleOrNull() ?: return@newSuspendedTransaction null
-            val id = existing[PortfolioTable.id]
+            val parsedDate = parseDateToLocalDateTime(portfolio.date)
+            val updatedRows =
+                PortfolioTable.update({ PortfolioTable.slug eq slug }) {
+                    it[title] = portfolio.title
+                    it[description] = portfolio.description
+                    it[content] = portfolio.content
+                    it[coverImage] = portfolio.coverImage
+                    it[date] = parsedDate
+                }
 
-            PortfolioTable.update({ PortfolioTable.id eq id }) {
-                it[title] = portfolio.title
-                it[description] = portfolio.description
-                it[content] = portfolio.content
-                it[coverImage] = portfolio.coverImage
-                it[date] = parseDate(portfolio.date)
+            if (updatedRows > 0) {
+                PortfolioResponseDto(
+                    slug = slug,
+                    title = portfolio.title,
+                    date = formatLocalDateTime(parsedDate),
+                    description = portfolio.description,
+                    coverImage = portfolio.coverImage,
+                    content = portfolio.content,
+                )
+            } else {
+                null
             }
-
-            PortfolioResponseDto.fromRequestDto(portfolio, slug)
         }
 
     override suspend fun delete(slug: String): Boolean =
@@ -92,18 +104,10 @@ class PortfolioRepositoryImpl : PortfolioRepository {
         return PortfolioResponseDto(
             slug = row[PortfolioTable.slug],
             title = row[PortfolioTable.title],
-            date = row[PortfolioTable.date].format(dateFormatter),
+            date = formatLocalDateTime(row[PortfolioTable.date]),
             description = row[PortfolioTable.description],
             coverImage = row[PortfolioTable.coverImage],
             content = row[PortfolioTable.content],
         )
-    }
-
-    private fun parseDate(dateString: String): LocalDateTime {
-        return try {
-            LocalDate.parse(dateString, dateFormatter).atStartOfDay()
-        } catch (e: Exception) {
-            LocalDateTime.now()
-        }
     }
 }
