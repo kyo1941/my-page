@@ -6,13 +6,11 @@ import my.backend.db.schema.TagTable
 import my.backend.dto.BlogRequestDto
 import my.backend.dto.BlogResponseDto
 import my.backend.util.SlugGenerator
+import my.backend.util.formatLocalDateTime
+import my.backend.util.parseDateToLocalDateTime
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 interface BlogRepository {
     suspend fun findAll(
@@ -34,8 +32,6 @@ interface BlogRepository {
 }
 
 class BlogRepositoryImpl : BlogRepository {
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy年M月d日", Locale.JAPAN)
-
     override suspend fun findAll(
         limit: Int?,
         tags: List<String>?,
@@ -96,6 +92,7 @@ class BlogRepositoryImpl : BlogRepository {
     override suspend fun create(blog: BlogRequestDto): BlogResponseDto =
         newSuspendedTransaction {
             val newSlug = SlugGenerator.generate()
+            val parsedDate = parseDateToLocalDateTime(blog.date)
             val blogId =
                 BlogTable.insert {
                     it[slug] = newSlug
@@ -103,12 +100,20 @@ class BlogRepositoryImpl : BlogRepository {
                     it[description] = blog.description
                     it[content] = blog.content
                     it[coverImage] = blog.coverImage
-                    it[date] = parseDate(blog.date)
+                    it[date] = parsedDate
                 } get BlogTable.id
 
             updateTags(blogId, blog.tags)
 
-            BlogResponseDto.fromRequestDto(blog, newSlug)
+            BlogResponseDto(
+                slug = newSlug,
+                title = blog.title,
+                date = formatLocalDateTime(parsedDate),
+                description = blog.description,
+                coverImage = blog.coverImage,
+                tags = blog.tags,
+                content = blog.content,
+            )
         }
 
     override suspend fun update(
@@ -126,7 +131,7 @@ class BlogRepositoryImpl : BlogRepository {
                 it[description] = blog.description
                 it[content] = blog.content
                 it[coverImage] = blog.coverImage
-                it[date] = parseDate(blog.date)
+                it[date] = parseDateToLocalDateTime(blog.date)
             }
 
             updateTags(id, blog.tags)
@@ -153,7 +158,7 @@ class BlogRepositoryImpl : BlogRepository {
         return BlogResponseDto(
             slug = row[BlogTable.slug],
             title = row[BlogTable.title],
-            date = row[BlogTable.date].format(dateFormatter),
+            date = formatLocalDateTime(row[BlogTable.date]),
             description = row[BlogTable.description],
             coverImage = row[BlogTable.coverImage],
             tags = tags,
@@ -178,14 +183,6 @@ class BlogRepositoryImpl : BlogRepository {
         BlogTagsTable.batchInsert(tagIds) { tagId ->
             this[BlogTagsTable.blogId] = blogId
             this[BlogTagsTable.tagId] = tagId
-        }
-    }
-
-    private fun parseDate(dateString: String): LocalDateTime {
-        return try {
-            LocalDate.parse(dateString, dateFormatter).atStartOfDay()
-        } catch (e: Exception) {
-            LocalDateTime.now()
         }
     }
 
