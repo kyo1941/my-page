@@ -43,6 +43,15 @@ fun Application.configureStatusPages() {
             )
         }
 
+        // 不正な日付フォーマットエラー
+        exception<IllegalArgumentException> { call, cause ->
+            logger.warn("Invalid argument: ${cause.message}")
+            call.respond(
+                HttpStatusCode.BadRequest,
+                ApiResponse(error = cause.message ?: "不正なリクエストです。"),
+            )
+        }
+
         // Turnstile認証エラー
         exception<TurnstileVerificationException> { call, cause ->
             logger.error("Turnstile verification failed:", cause)
