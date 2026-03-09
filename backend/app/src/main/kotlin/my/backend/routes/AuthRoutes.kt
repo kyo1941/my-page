@@ -27,6 +27,7 @@ fun Route.authRoutes(authService: AuthService) {
                             secure = System.getenv("KTOR_ENV") == "production",
                             path = "/",
                             maxAge = 3600,
+                            extensions = mapOf("SameSite" to "Strict"),
                         ),
                     )
                     call.respond(HttpStatusCode.OK)

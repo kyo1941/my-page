@@ -13,6 +13,7 @@ exposed = "0.50.0"
 hikaricp = "5.1.0"
 flyway = "11.19.0"
 h2 = "2.2.224"
+jsoup = "1.18.1"
 jbcrypt = "0.4"
 jnanoid = "2.0.0"
 
@@ -34,6 +35,7 @@ exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", versio
 
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 jnanoid = { module = "com.aventrix.jnanoid:jnanoid", version.ref = "jnanoid" }
 
 [plugins]

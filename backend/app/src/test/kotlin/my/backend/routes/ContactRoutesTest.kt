@@ -19,6 +19,7 @@ class ContactRoutesTest {
             jsonClient
                 .post("/api/contact") {
                     contentType(ContentType.Application.Json)
+                    header(HttpHeaders.Origin, "http://localhost:3000")
                     setBody("""{"email":"","subject":"","message":"","turnstileToken":""}""")
                 }
                 .apply {
@@ -35,6 +36,7 @@ class ContactRoutesTest {
             jsonClient
                 .post("/api/contact") {
                     contentType(ContentType.Application.Json)
+                    header(HttpHeaders.Origin, "http://localhost:3000")
                     setBody(
                         """{"email":"invalid-email","subject":"テスト件名",""" +
                             """"message":"これはテストメッセージです。","turnstileToken":"test-token"}""",
@@ -54,6 +56,7 @@ class ContactRoutesTest {
             jsonClient
                 .post("/api/contact") {
                     contentType(ContentType.Application.Json)
+                    header(HttpHeaders.Origin, "http://localhost:3000")
                     setBody(
                         """{"email":"test@example.com","subject":"ab",""" +
                             """"message":"これはテストメッセージです。","turnstileToken":"test-token"}""",
@@ -73,6 +76,7 @@ class ContactRoutesTest {
             jsonClient
                 .post("/api/contact") {
                     contentType(ContentType.Application.Json)
+                    header(HttpHeaders.Origin, "http://localhost:3000")
                     setBody(
                         """{"email":"test@example.com","subject":"テスト件名",""" +
                             """"message":"短い","turnstileToken":"test-token"}""",

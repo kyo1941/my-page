@@ -12,7 +12,7 @@ import my.backend.service.BlogService
 fun Route.blogRoutes(blogService: BlogService) {
     route("/api/blogs") {
         get {
-            val limit = call.request.queryParameters["limit"]?.toIntOrNull()
+            val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: BlogService.MAX_LIMIT
             val tags = call.request.queryParameters.getAll("tags")
             val keyword = call.request.queryParameters["keyword"]
 

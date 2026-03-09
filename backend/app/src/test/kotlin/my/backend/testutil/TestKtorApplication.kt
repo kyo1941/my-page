@@ -52,6 +52,7 @@ private fun h2TestConfig(): MapApplicationConfig =
         put("app.resend.from-email", "no-reply@example.com")
         put("app.turnstile.secret-key", "dummy_secret")
         put("app.contact.recipient-email", "recipient@example.com")
+        put("app.cors.allowed-origins", "http://localhost:3000")
     }
 
 /**
