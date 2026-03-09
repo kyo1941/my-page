@@ -3,6 +3,7 @@ package my.backend.service
 import my.backend.dto.PortfolioRequestDto
 import my.backend.dto.PortfolioResponseDto
 import my.backend.repository.PortfolioRepository
+import my.backend.util.stripHtmlTags
 
 class PortfolioService(private val portfolioRepository: PortfolioRepository) {
     companion object {
@@ -21,15 +22,21 @@ class PortfolioService(private val portfolioRepository: PortfolioRepository) {
     }
 
     suspend fun createPortfolio(portfolio: PortfolioRequestDto): PortfolioResponseDto {
-        return portfolioRepository.create(portfolio)
+        return portfolioRepository.create(portfolio.sanitized())
     }
 
     suspend fun updatePortfolio(
         slug: String,
         portfolio: PortfolioRequestDto,
     ): PortfolioResponseDto? {
-        return portfolioRepository.update(slug, portfolio)
+        return portfolioRepository.update(slug, portfolio.sanitized())
     }
+
+    private fun PortfolioRequestDto.sanitized() =
+        copy(
+            title = title.stripHtmlTags(),
+            description = description.stripHtmlTags(),
+        )
 
     suspend fun deletePortfolio(slug: String): Boolean {
         return portfolioRepository.delete(slug)
