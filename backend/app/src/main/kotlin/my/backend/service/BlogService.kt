@@ -5,11 +5,18 @@ import my.backend.dto.BlogResponseDto
 import my.backend.repository.BlogRepository
 
 class BlogService(private val blogRepository: BlogRepository) {
+    companion object {
+        const val MAX_LIMIT = 100
+    }
+
     suspend fun getBlogs(
-        limit: Int?,
-        tags: List<String>?,
-        keyword: String?,
+        limit: Int = MAX_LIMIT,
+        tags: List<String>? = null,
+        keyword: String? = null,
     ): List<BlogResponseDto> {
+        if (limit > MAX_LIMIT) {
+            throw IllegalArgumentException("limit の最大値は $MAX_LIMIT です。")
+        }
         return blogRepository.findAll(limit, tags, keyword)
     }
 

@@ -12,7 +12,7 @@ import my.backend.service.PortfolioService
 fun Route.portfolioRoutes(portfolioService: PortfolioService) {
     route("/api/portfolios") {
         get {
-            val limit = call.request.queryParameters["limit"]?.toIntOrNull()
+            val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: PortfolioService.MAX_LIMIT
             val portfolios = portfolioService.getPortfolios(limit)
             call.respond(portfolios)
         }

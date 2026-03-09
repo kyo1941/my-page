@@ -5,7 +5,14 @@ import my.backend.dto.PortfolioResponseDto
 import my.backend.repository.PortfolioRepository
 
 class PortfolioService(private val portfolioRepository: PortfolioRepository) {
-    suspend fun getPortfolios(limit: Int?): List<PortfolioResponseDto> {
+    companion object {
+        const val MAX_LIMIT = 100
+    }
+
+    suspend fun getPortfolios(limit: Int = MAX_LIMIT): List<PortfolioResponseDto> {
+        if (limit > MAX_LIMIT) {
+            throw IllegalArgumentException("limit の最大値は $MAX_LIMIT です。")
+        }
         return portfolioRepository.findAll(limit)
     }
 
