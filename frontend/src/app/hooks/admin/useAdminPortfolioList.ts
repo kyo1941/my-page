@@ -47,9 +47,7 @@ export function useAdminPortfolioList({ onUnauthorized }: Options = {}) {
         await adminPortfolioRepository.delete(slug);
         await reload();
       } catch (e) {
-        setError(
-          e instanceof Error ? e.message : "Failed to delete portfolio",
-        );
+        setError(e instanceof Error ? e.message : "Failed to delete portfolio");
         throw e;
       } finally {
         setIsLoading(false);

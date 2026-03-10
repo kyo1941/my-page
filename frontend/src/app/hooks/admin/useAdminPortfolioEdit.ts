@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Portfolio, PortfolioUpsertInput } from "@/app/types/portfolio";
 import { adminPortfolioRepository } from "@/app/repository/adminPortfolioRepository";
+import { toJaLongDateFromInput } from "@/app/hooks/admin/portfolioDate";
 import { UnauthorizedError } from "@/app/types/errors";
 
 function toInputDateStringFromJaDate(dateText: string): string {
@@ -9,14 +10,6 @@ function toInputDateStringFromJaDate(dateText: string): string {
   if (!match) return "";
   const [, y, m, d] = match;
   return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
-}
-
-function toJaLongDateFromInput(date: string): string {
-  return new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 }
 
 export function useAdminPortfolioEdit(
@@ -45,7 +38,8 @@ export function useAdminPortfolioEdit(
       setIsLoading(true);
       setError("");
       try {
-        const data: Portfolio = await adminPortfolioRepository.get(originalSlug);
+        const data: Portfolio =
+          await adminPortfolioRepository.get(originalSlug);
         if (cancelled) return;
         setTitle(data.title);
         setDescription(data.description);
@@ -58,9 +52,7 @@ export function useAdminPortfolioEdit(
           onUnauthorizedRef.current?.();
           return;
         }
-        setError(
-          e instanceof Error ? e.message : "Failed to fetch portfolio",
-        );
+        setError(e instanceof Error ? e.message : "Failed to fetch portfolio");
       } finally {
         if (!cancelled) {
           setIsLoading(false);
@@ -93,9 +85,7 @@ export function useAdminPortfolioEdit(
     try {
       await adminPortfolioRepository.update(originalSlug, buildPayload());
     } catch (e) {
-      setError(
-        e instanceof Error ? e.message : "Failed to update portfolio",
-      );
+      setError(e instanceof Error ? e.message : "Failed to update portfolio");
       throw e;
     } finally {
       setIsLoading(false);
