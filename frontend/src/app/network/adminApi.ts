@@ -5,8 +5,8 @@ export async function requestOrThrow(
   init?: RequestInit,
 ): Promise<Response> {
   const res = await fetch(input, {
-    credentials: "include",
     ...init,
+    credentials: "include",
   });
 
   if (res.status === 401) {
