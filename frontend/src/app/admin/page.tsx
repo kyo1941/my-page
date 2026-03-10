@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useAdminBlogList } from "@/app/hooks/admin/useAdminBlogList";
 import { useAdminPortfolioList } from "@/app/hooks/admin/useAdminPortfolioList";
 import { UnauthorizedError } from "@/app/types/errors";
-import type { AdminBlogListItem } from "@/app/types/blog";
-import type { AdminPortfolioListItem } from "@/app/types/portfolio";
+import AdminBlogTab from "@/app/admin/AdminBlogTab";
+import AdminPortfolioTab from "@/app/admin/AdminPortfolioTab";
 
 type Tab = "blog" | "portfolio";
 
@@ -87,102 +86,19 @@ export default function AdminDashboard() {
       </div>
 
       {activeTab === "blog" && (
-        <>
-          <div className="mb-4 flex justify-end">
-            <Link
-              href="/admin/create"
-              className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
-            >
-              ブログを投稿する
-            </Link>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full overflow-hidden rounded-lg bg-white shadow-md">
-              <thead className="bg-gray-200 text-gray-700">
-                <tr>
-                  <th className="px-4 py-3 text-left">Title</th>
-                  <th className="px-4 py-3 text-left">Date</th>
-                  <th className="px-4 py-3 text-left">Tags</th>
-                  <th className="px-4 py-3 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(blogs as AdminBlogListItem[]).map((blog) => (
-                  <tr key={blog.slug} className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-3">{blog.title}</td>
-                    <td className="px-4 py-3">{blog.date}</td>
-                    <td className="px-4 py-3">{blog.tags.join(", ")}</td>
-                    <td className="px-4 py-3">
-                      <Link
-                        href={`/admin/edit/${blog.slug}`}
-                        className="mr-2 text-blue-500 hover:text-blue-700"
-                      >
-                        編集
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteBlog(blog.slug)}
-                        className="ml-2 text-red-500 hover:text-red-700"
-                        disabled={blogLoading}
-                      >
-                        削除
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
+        <AdminBlogTab
+          blogs={blogs}
+          isLoading={blogLoading}
+          onDelete={handleDeleteBlog}
+        />
       )}
 
       {activeTab === "portfolio" && (
-        <>
-          <div className="mb-4 flex justify-end">
-            <Link
-              href="/admin/portfolio/create"
-              className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
-            >
-              ポートフォリオを投稿する
-            </Link>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full overflow-hidden rounded-lg bg-white shadow-md">
-              <thead className="bg-gray-200 text-gray-700">
-                <tr>
-                  <th className="px-4 py-3 text-left">Title</th>
-                  <th className="px-4 py-3 text-left">Date</th>
-                  <th className="px-4 py-3 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(portfolios as AdminPortfolioListItem[]).map((portfolio) => (
-                  <tr
-                    key={portfolio.slug}
-                    className="border-b hover:bg-gray-50"
-                  >
-                    <td className="px-4 py-3">{portfolio.title}</td>
-                    <td className="px-4 py-3">{portfolio.date}</td>
-                    <td className="px-4 py-3">
-                      <Link
-                        href={`/admin/portfolio/edit/${portfolio.slug}`}
-                        className="mr-2 text-blue-500 hover:text-blue-700"
-                      >
-                        編集
-                      </Link>
-                      <button
-                        onClick={() => handleDeletePortfolio(portfolio.slug)}
-                        className="ml-2 text-red-500 hover:text-red-700"
-                        disabled={portfolioLoading}
-                      >
-                        削除
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
+        <AdminPortfolioTab
+          portfolios={portfolios}
+          isLoading={portfolioLoading}
+          onDelete={handleDeletePortfolio}
+        />
       )}
     </div>
   );
