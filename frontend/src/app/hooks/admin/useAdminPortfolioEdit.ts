@@ -2,22 +2,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { Portfolio, PortfolioUpsertInput } from "@/app/types/portfolio";
 import { adminPortfolioRepository } from "@/app/repository/adminPortfolioRepository";
 import { UnauthorizedError } from "@/app/types/errors";
-
-function toInputDateStringFromJaDate(dateText: string): string {
-  // "yyyy年M月d日" -> "yyyy-MM-dd"
-  const match = dateText.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-  if (!match) return "";
-  const [, y, m, d] = match;
-  return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
-}
-
-function toJaLongDateFromInput(date: string): string {
-  return new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+import {
+  toInputDateStringFromJaDate,
+  toJaLongDateFromInput,
+} from "@/app/hooks/admin/adminDate";
 
 export function useAdminPortfolioEdit(
   originalSlug: string | undefined,

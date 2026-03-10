@@ -1,14 +1,10 @@
 import { useCallback, useState } from "react";
 import type { BlogUpsertInput } from "@/app/types/blog";
 import { adminBlogRepository } from "@/app/repository/adminBlogRepository";
-
-function toJaLongDateFromInput(date: string): string {
-  return new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+import {
+  getTodayInputDate,
+  toJaLongDateFromInput,
+} from "@/app/hooks/admin/adminDate";
 
 export function useAdminBlogCreate() {
   const [title, setTitle] = useState("");
@@ -16,7 +12,7 @@ export function useAdminBlogCreate() {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [coverImage, setCoverImage] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(getTodayInputDate());
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");

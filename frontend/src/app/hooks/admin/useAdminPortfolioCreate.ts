@@ -1,21 +1,17 @@
 import { useCallback, useState } from "react";
 import type { PortfolioUpsertInput } from "@/app/types/portfolio";
 import { adminPortfolioRepository } from "@/app/repository/adminPortfolioRepository";
-
-function toJaLongDateFromInput(date: string): string {
-  return new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+import {
+  getTodayInputDate,
+  toJaLongDateFromInput,
+} from "@/app/hooks/admin/adminDate";
 
 export function useAdminPortfolioCreate() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(getTodayInputDate());
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
