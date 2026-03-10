@@ -33,7 +33,8 @@ export function useAdminPortfolioEdit(
       setIsLoading(true);
       setError("");
       try {
-        const data: Portfolio = await adminPortfolioRepository.get(originalSlug);
+        const data: Portfolio =
+          await adminPortfolioRepository.get(originalSlug);
         if (cancelled) return;
         setTitle(data.title);
         setDescription(data.description);
@@ -46,9 +47,7 @@ export function useAdminPortfolioEdit(
           onUnauthorizedRef.current?.();
           return;
         }
-        setError(
-          e instanceof Error ? e.message : "Failed to fetch portfolio",
-        );
+        setError(e instanceof Error ? e.message : "Failed to fetch portfolio");
       } finally {
         if (!cancelled) {
           setIsLoading(false);
@@ -81,9 +80,7 @@ export function useAdminPortfolioEdit(
     try {
       await adminPortfolioRepository.update(originalSlug, buildPayload());
     } catch (e) {
-      setError(
-        e instanceof Error ? e.message : "Failed to update portfolio",
-      );
+      setError(e instanceof Error ? e.message : "Failed to update portfolio");
       throw e;
     } finally {
       setIsLoading(false);

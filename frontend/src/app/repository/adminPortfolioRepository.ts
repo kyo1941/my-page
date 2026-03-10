@@ -3,10 +3,7 @@ import type {
   Portfolio,
   PortfolioUpsertInput,
 } from "@/app/types/portfolio";
-import {
-  requestOrThrow,
-  fetchJsonOrThrow,
-} from "@/app/network/adminApi";
+import { requestOrThrow, fetchJsonOrThrow } from "@/app/network/adminApi";
 
 class AdminPortfolioRepository {
   async list(): Promise<AdminPortfolioListItem[]> {
@@ -42,12 +39,9 @@ class AdminPortfolioRepository {
   }
 
   async delete(slug: string): Promise<void> {
-    await requestOrThrow(
-      `/api/portfolios/${encodeURIComponent(slug)}`,
-      {
-        method: "DELETE",
-      },
-    );
+    await requestOrThrow(`/api/portfolios/${encodeURIComponent(slug)}`, {
+      method: "DELETE",
+    });
   }
 }
 

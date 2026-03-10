@@ -3,10 +3,7 @@ import type {
   Blog,
   BlogUpsertInput,
 } from "@/app/types/blog";
-import {
-  requestOrThrow,
-  fetchJsonOrThrow,
-} from "@/app/network/adminApi";
+import { requestOrThrow, fetchJsonOrThrow } from "@/app/network/adminApi";
 
 class AdminBlogRepository {
   async list(): Promise<AdminBlogListItem[]> {
@@ -28,14 +25,11 @@ class AdminBlogRepository {
   }
 
   async update(originalSlug: string, input: BlogUpsertInput): Promise<void> {
-    await requestOrThrow(
-      `/api/blogs/${encodeURIComponent(originalSlug)}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(input),
-      },
-    );
+    await requestOrThrow(`/api/blogs/${encodeURIComponent(originalSlug)}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+    });
   }
 
   async delete(slug: string): Promise<void> {
