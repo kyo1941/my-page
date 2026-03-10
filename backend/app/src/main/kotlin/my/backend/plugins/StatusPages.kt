@@ -8,6 +8,7 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import my.backend.dto.ApiResponse
 import my.backend.dto.ValidationErrors
+import my.backend.exception.InvalidOriginException
 import my.backend.exception.TurnstileVerificationException
 import org.slf4j.LoggerFactory
 
@@ -49,6 +50,15 @@ fun Application.configureStatusPages() {
             call.respond(
                 HttpStatusCode.BadRequest,
                 ApiResponse(error = cause.message ?: "不正なリクエストです。"),
+            )
+        }
+
+        // 不正なオリジンからのリクエスト
+        exception<InvalidOriginException> { call, cause ->
+            logger.warn("CSRF protection blocked request: ${cause.message}")
+            call.respond(
+                HttpStatusCode.Forbidden,
+                ApiResponse(error = "不正なオリジンからのリクエストは許可されていません。"),
             )
         }
 
