@@ -5,14 +5,11 @@ import my.backend.db.schema.BlogTagsTable
 import my.backend.db.schema.TagTable
 import my.backend.dto.BlogRequestDto
 import my.backend.dto.BlogResponseDto
+import my.backend.util.DateParser
 import my.backend.util.SlugGenerator
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 interface BlogRepository {
     suspend fun findAll(
@@ -34,8 +31,6 @@ interface BlogRepository {
 }
 
 class BlogRepositoryImpl : BlogRepository {
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy年M月d日", Locale.JAPAN)
-
     override suspend fun findAll(
         limit: Int?,
         tags: List<String>?,
@@ -103,7 +98,7 @@ class BlogRepositoryImpl : BlogRepository {
                     it[description] = blog.description
                     it[content] = blog.content
                     it[coverImage] = blog.coverImage
-                    it[date] = parseDate(blog.date)
+                    it[date] = DateParser.parseDateToLocalDateTime(blog.date)
                 } get BlogTable.id
 
             updateTags(blogId, blog.tags)
@@ -126,7 +121,7 @@ class BlogRepositoryImpl : BlogRepository {
                 it[description] = blog.description
                 it[content] = blog.content
                 it[coverImage] = blog.coverImage
-                it[date] = parseDate(blog.date)
+                it[date] = DateParser.parseDateToLocalDateTime(blog.date)
             }
 
             updateTags(id, blog.tags)
@@ -153,7 +148,7 @@ class BlogRepositoryImpl : BlogRepository {
         return BlogResponseDto(
             slug = row[BlogTable.slug],
             title = row[BlogTable.title],
-            date = row[BlogTable.date].format(dateFormatter),
+            date = row[BlogTable.date].format(DateParser.dateFormatter),
             description = row[BlogTable.description],
             coverImage = row[BlogTable.coverImage],
             tags = tags,
@@ -178,14 +173,6 @@ class BlogRepositoryImpl : BlogRepository {
         BlogTagsTable.batchInsert(tagIds) { tagId ->
             this[BlogTagsTable.blogId] = blogId
             this[BlogTagsTable.tagId] = tagId
-        }
-    }
-
-    private fun parseDate(dateString: String): LocalDateTime {
-        return try {
-            LocalDate.parse(dateString, dateFormatter).atStartOfDay()
-        } catch (e: Exception) {
-            LocalDateTime.now()
         }
     }
 

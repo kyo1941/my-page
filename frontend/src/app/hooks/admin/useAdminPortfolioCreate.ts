@@ -1,16 +1,15 @@
 import { useCallback, useState } from "react";
-import type { BlogUpsertInput } from "@/app/types/blog";
-import { adminBlogRepository } from "@/app/repository/adminBlogRepository";
+import type { PortfolioUpsertInput } from "@/app/types/portfolio";
+import { adminPortfolioRepository } from "@/app/repository/adminPortfolioRepository";
 import {
   getTodayInputDate,
   toJaLongDateFromInput,
 } from "@/app/hooks/admin/adminDate";
 
-export function useAdminBlogCreate() {
+export function useAdminPortfolioCreate() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [date, setDate] = useState(getTodayInputDate());
 
@@ -21,27 +20,23 @@ export function useAdminBlogCreate() {
     setIsLoading(true);
     setError("");
 
-    const payload: BlogUpsertInput = {
+    const payload: PortfolioUpsertInput = {
       title,
       description,
       content,
-      tags: tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
       coverImage,
       date: toJaLongDateFromInput(date),
     };
 
     try {
-      await adminBlogRepository.create(payload);
+      await adminPortfolioRepository.create(payload);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to create blog");
+      setError(e instanceof Error ? e.message : "Failed to create portfolio");
       throw e;
     } finally {
       setIsLoading(false);
     }
-  }, [title, description, content, tags, coverImage, date]);
+  }, [title, description, content, coverImage, date]);
 
   return {
     form: {
@@ -51,8 +46,6 @@ export function useAdminBlogCreate() {
       setDescription,
       content,
       setContent,
-      tags,
-      setTags,
       coverImage,
       setCoverImage,
       date,

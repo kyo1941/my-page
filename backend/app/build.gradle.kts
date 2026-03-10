@@ -80,6 +80,9 @@ dependencies {
     // BCrypt
     implementation(libs.jbcrypt)
 
+    // HTML Sanitization
+    implementation(libs.jsoup)
+
     // Testing
     testImplementation(libs.h2)
     testImplementation("io.ktor:ktor-server-test-host")

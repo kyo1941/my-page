@@ -18,6 +18,7 @@ fun Application.module() {
     configureSerialization()
     configureHTTP()
     configureSecurity()
+    configureCsrfProtection()
     configureValidation()
     configureStatusPages()
     configureRouting()

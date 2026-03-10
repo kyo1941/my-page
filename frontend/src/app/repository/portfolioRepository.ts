@@ -1,14 +1,7 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export type Portfolio = {
-  slug: string;
-  title: string;
-  date: string;
-  description: string;
-  coverImage?: string | undefined;
-  tags?: string[];
-  content: string;
-};
+export type { Portfolio } from "@/app/types/portfolio";
+import type { Portfolio } from "@/app/types/portfolio";
 
 export type PortfolioSearchParams = {
   limit?: number;

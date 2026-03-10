@@ -12,6 +12,8 @@ import kotlinx.serialization.json.Json
 import my.backend.db.DatabaseFactory
 import my.backend.repository.BlogRepository
 import my.backend.repository.BlogRepositoryImpl
+import my.backend.repository.PortfolioRepository
+import my.backend.repository.PortfolioRepositoryImpl
 import my.backend.repository.UserRepository
 import my.backend.repository.UserRepositoryImpl
 import my.backend.service.AuthService
@@ -57,10 +59,11 @@ fun appModule(config: ApplicationConfig) =
         // Repositories
         single<BlogRepository> { BlogRepositoryImpl() }
         single<UserRepository> { UserRepositoryImpl() }
+        single<PortfolioRepository> { PortfolioRepositoryImpl() }
 
         // Services
         single { BlogService(get()) }
         single { ContactService(get(), get(), get()) }
-        single { PortfolioService() }
+        single { PortfolioService(get()) }
         single { AuthService(get(), get()) }
     }
