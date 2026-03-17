@@ -1,7 +1,6 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 export type { Blog } from "@/app/types/blog";
 import type { Blog } from "@/app/types/blog";
+import { API_BASE_URL, fetchJsonOrNull } from "@/app/network/publicApi";
 
 export type BlogSearchParams = {
   limit?: number;
@@ -27,7 +26,7 @@ export class BlogRepository {
     const url = queryString
       ? `${API_BASE_URL}/api/blogs?${queryString}`
       : `${API_BASE_URL}/api/blogs`;
-    const blogs = await fetchApi<Blog[]>(url);
+    const blogs = await fetchJsonOrNull<Blog[]>(url);
     return blogs || [];
   }
 
@@ -44,21 +43,7 @@ export class BlogRepository {
   }
 
   async getPostData(slug: string): Promise<Blog | null> {
-    return await fetchApi<Blog>(`${API_BASE_URL}/api/blogs/${slug}`);
-  }
-}
-
-async function fetchApi<T>(url: string): Promise<T | null> {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      console.error(`Failed to fetch from API: ${res.status} for ${url}`);
-      return null;
-    }
-    return await res.json();
-  } catch (error) {
-    console.error(`Error fetching from ${url}:`, error);
-    return null;
+    return await fetchJsonOrNull<Blog>(`${API_BASE_URL}/api/blogs/${slug}`);
   }
 }
 

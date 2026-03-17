@@ -1,7 +1,6 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 export type { Portfolio } from "@/app/types/portfolio";
 import type { Portfolio } from "@/app/types/portfolio";
+import { API_BASE_URL, fetchJsonOrNull } from "@/app/network/publicApi";
 
 export type PortfolioSearchParams = {
   limit?: number;
@@ -21,7 +20,7 @@ export class PortfolioRepository {
     const url = queryString
       ? `${API_BASE_URL}/api/portfolios?${queryString}`
       : `${API_BASE_URL}/api/portfolios`;
-    const portfolios = await fetchApi<Portfolio[]>(url);
+    const portfolios = await fetchJsonOrNull<Portfolio[]>(url);
 
     if (portfolios) {
       return portfolios.map((portfolio) => {
@@ -51,7 +50,7 @@ export class PortfolioRepository {
   }
 
   async getPostData(slug: string): Promise<Portfolio | null> {
-    const portfolio = await fetchApi<Portfolio>(
+    const portfolio = await fetchJsonOrNull<Portfolio>(
       `${API_BASE_URL}/api/portfolios/${slug}`,
     );
     if (
@@ -62,20 +61,6 @@ export class PortfolioRepository {
       portfolio.coverImage = `${API_BASE_URL}${portfolio.coverImage}`;
     }
     return portfolio;
-  }
-}
-
-async function fetchApi<T>(url: string): Promise<T | null> {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      console.error(`Failed to fetch from API: ${res.status} for ${url}`);
-      return null;
-    }
-    return await res.json();
-  } catch (error) {
-    console.error(`Error fetching from ${url}:`, error);
-    return null;
   }
 }
 
