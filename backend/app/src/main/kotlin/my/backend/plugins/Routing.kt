@@ -7,10 +7,12 @@ import my.backend.routes.authRoutes
 import my.backend.routes.blogRoutes
 import my.backend.routes.contactRoutes
 import my.backend.routes.portfolioRoutes
+import my.backend.routes.tagRoutes
 import my.backend.service.AuthService
 import my.backend.service.BlogService
 import my.backend.service.ContactService
 import my.backend.service.PortfolioService
+import my.backend.service.TagService
 import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
@@ -18,12 +20,14 @@ fun Application.configureRouting() {
     val contactService by inject<ContactService>()
     val portfolioService by inject<PortfolioService>()
     val authService by inject<AuthService>()
+    val tagService by inject<TagService>()
 
     routing {
         blogRoutes(blogService)
         contactRoutes(contactService)
         portfolioRoutes(portfolioService)
         authRoutes(authService)
+        tagRoutes(tagService)
 
         staticResources("/images", "static/images")
     }

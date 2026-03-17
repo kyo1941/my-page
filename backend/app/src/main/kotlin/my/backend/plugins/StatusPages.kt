@@ -8,6 +8,7 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import my.backend.dto.ApiResponse
 import my.backend.dto.ValidationErrors
+import my.backend.exception.DuplicateTagException
 import my.backend.exception.InvalidOriginException
 import my.backend.exception.TurnstileVerificationException
 import org.slf4j.LoggerFactory
@@ -33,6 +34,15 @@ fun Application.configureStatusPages() {
     val logger = LoggerFactory.getLogger("StatusPages")
 
     install(StatusPages) {
+        // タグ重複エラー
+        exception<DuplicateTagException> { call, cause ->
+            logger.warn("Duplicate tag: ${cause.message}")
+            call.respond(
+                HttpStatusCode.Conflict,
+                ApiResponse(error = cause.message ?: "タグが重複しています。"),
+            )
+        }
+
         // バリデーションエラー
         exception<RequestValidationException> { call, cause ->
             val errors = cause.reasons
