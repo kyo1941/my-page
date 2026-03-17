@@ -3,7 +3,6 @@ export type Blog = {
   title: string;
   date: string;
   description: string;
-  coverImage?: string | undefined;
   tags?: string[];
   content: string;
 };
@@ -21,5 +20,4 @@ export type BlogUpsertInput = {
   description: string;
   content: string;
   tags: string[];
-  coverImage?: string;
 };

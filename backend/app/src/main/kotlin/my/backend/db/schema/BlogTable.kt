@@ -9,7 +9,6 @@ object BlogTable : Table("blogs") {
     val title = varchar("title", 255)
     val description = text("description")
     val content = text("content")
-    val coverImage = varchar("cover_image", 255).nullable()
     val date = datetime("date")
 
     override val primaryKey = PrimaryKey(id)

@@ -11,7 +11,6 @@ export function useAdminBlogCreate() {
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
-  const [coverImage, setCoverImage] = useState("");
   const [date, setDate] = useState(getTodayInputDate());
 
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +28,6 @@ export function useAdminBlogCreate() {
         .split(",")
         .map((t) => t.trim())
         .filter(Boolean),
-      coverImage,
       date: toJaLongDateFromInput(date),
     };
 
@@ -41,7 +39,7 @@ export function useAdminBlogCreate() {
     } finally {
       setIsLoading(false);
     }
-  }, [title, description, content, tags, coverImage, date]);
+  }, [title, description, content, tags, date]);
 
   return {
     form: {
@@ -53,8 +51,6 @@ export function useAdminBlogCreate() {
       setContent,
       tags,
       setTags,
-      coverImage,
-      setCoverImage,
       date,
       setDate,
     },

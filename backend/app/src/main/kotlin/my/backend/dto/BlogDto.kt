@@ -9,7 +9,6 @@ import kotlinx.serialization.Serializable
  * @property title 記事のタイトル
  * @property date 記事の公開日
  * @property description 記事の概要
- * @property coverImage 記事のカバー画像のパスまたはURL（nullable）
  * @property tags 記事に関連付けられたタグのリスト
  * @property content 記事の本文
  */
@@ -18,7 +17,6 @@ data class BlogRequestDto(
     val title: String,
     val date: String,
     val description: String,
-    val coverImage: String? = null,
     val tags: List<String>,
     val content: String,
 )
@@ -31,7 +29,6 @@ data class BlogRequestDto(
  * @property title 記事のタイトル
  * @property date 記事の公開日
  * @property description 記事の概要
- * @property coverImage 記事のカバー画像のパスまたはURL（nullable）
  * @property tags 記事に関連付けられたタグのリスト
  * @property content 記事の本文
  */
@@ -41,7 +38,6 @@ data class BlogResponseDto(
     val title: String,
     val date: String,
     val description: String,
-    val coverImage: String? = null,
     val tags: List<String>,
     val content: String,
 ) {
@@ -55,7 +51,6 @@ data class BlogResponseDto(
                 title = request.title,
                 date = request.date,
                 description = request.description,
-                coverImage = request.coverImage,
                 tags = request.tags,
                 content = request.content,
             )

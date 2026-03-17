@@ -19,8 +19,6 @@ export default function EditBlogPage() {
       setContent,
       tags,
       setTags,
-      coverImage,
-      setCoverImage,
       date,
       setDate,
     },
@@ -94,17 +92,6 @@ export default function EditBlogPage() {
             type="text"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">
-            Cover Image URL
-          </label>
-          <input
-            className="w-full rounded border px-3 py-2 shadow focus:outline-none"
-            type="text"
-            value={coverImage}
-            onChange={(e) => setCoverImage(e.target.value)}
           />
         </div>
         <div className="mb-6">
