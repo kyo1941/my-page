@@ -18,6 +18,22 @@ export default function AdminDashboard() {
 
   const handleUnauthorized = () => router.push("/admin/login");
 
+  const withAdminAction = async (
+    fn: () => Promise<void>,
+    errorMessage: string,
+  ) => {
+    try {
+      await fn();
+    } catch (error) {
+      if (error instanceof UnauthorizedError) {
+        handleUnauthorized();
+      } else {
+        alert(errorMessage);
+      }
+      console.error(errorMessage, error);
+    }
+  };
+
   const {
     state: { blogs, isLoading: blogLoading },
     actions: { deleteBlog },
@@ -35,73 +51,28 @@ export default function AdminDashboard() {
 
   const handleDeleteBlog = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this blog?")) return;
-
-    try {
-      await deleteBlog(slug);
-    } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        router.push("/admin/login");
-      } else {
-        alert("Failed to delete blog");
-      }
-      console.error("Failed to delete blog", error);
-    }
+    await withAdminAction(() => deleteBlog(slug), "Failed to delete blog");
   };
 
   const handleDeletePortfolio = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this portfolio?")) return;
-
-    try {
-      await deletePortfolio(slug);
-    } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        router.push("/admin/login");
-      } else {
-        alert("Failed to delete portfolio");
-      }
-      console.error("Failed to delete portfolio", error);
-    }
+    await withAdminAction(
+      () => deletePortfolio(slug),
+      "Failed to delete portfolio",
+    );
   };
 
   const handleCreateTag = async (name: string) => {
-    try {
-      await createTag(name);
-    } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        router.push("/admin/login");
-      } else {
-        alert("Failed to create tag");
-      }
-      console.error("Failed to create tag", error);
-    }
+    await withAdminAction(() => createTag(name), "Failed to create tag");
   };
 
   const handleUpdateTag = async (id: number, name: string) => {
-    try {
-      await updateTag(id, name);
-    } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        router.push("/admin/login");
-      } else {
-        alert("Failed to update tag");
-      }
-      console.error("Failed to update tag", error);
-    }
+    await withAdminAction(() => updateTag(id, name), "Failed to update tag");
   };
 
   const handleDeleteTag = async (id: number) => {
     if (!confirm("このタグを削除しますか？")) return;
-
-    try {
-      await deleteTag(id);
-    } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        router.push("/admin/login");
-      } else {
-        alert("Failed to delete tag");
-      }
-      console.error("Failed to delete tag", error);
-    }
+    await withAdminAction(() => deleteTag(id), "Failed to delete tag");
   };
 
   return (
