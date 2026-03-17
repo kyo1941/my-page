@@ -2,16 +2,17 @@ package my.backend.repository
 
 import my.backend.db.schema.TagTable
 import my.backend.dto.TagResponseDto
-import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.update
 
 interface TagRepository {
     suspend fun findAll(): List<TagResponseDto>
+
+    suspend fun existsByName(
+        name: String,
+        excludeId: Int? = null,
+    ): Boolean
 
     suspend fun create(name: String): TagResponseDto
 
@@ -29,6 +30,22 @@ class TagRepositoryImpl : TagRepository {
             TagTable.selectAll()
                 .orderBy(TagTable.name to SortOrder.ASC)
                 .map { TagResponseDto(it[TagTable.id], it[TagTable.name]) }
+        }
+
+    override suspend fun existsByName(
+        name: String,
+        excludeId: Int?,
+    ): Boolean =
+        newSuspendedTransaction {
+            TagTable.selectAll()
+                .where {
+                    if (excludeId != null) {
+                        (TagTable.name eq name) and (TagTable.id neq excludeId)
+                    } else {
+                        TagTable.name eq name
+                    }
+                }
+                .count() > 0
         }
 
     override suspend fun create(name: String): TagResponseDto =
