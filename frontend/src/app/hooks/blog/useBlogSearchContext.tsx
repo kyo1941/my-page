@@ -5,16 +5,18 @@ import {
   useContext,
   useState,
   useCallback,
+  useEffect,
   ReactNode,
 } from "react";
-import { Tag } from "@/app/data/tagData";
+import { tagRepository } from "@/app/repository/tagRepository";
 
 interface BlogSearchContextType {
-  selectedTags: Tag[];
+  availableTags: string[];
+  selectedTags: string[];
   keyword: string;
-  setSelectedTags: (tags: Tag[]) => void;
+  setSelectedTags: (tags: string[]) => void;
   setKeyword: (keyword: string) => void;
-  toggleTag: (tag: Tag) => void;
+  toggleTag: (tag: string) => void;
 }
 
 const BlogSearchContext = createContext<BlogSearchContextType | undefined>(
@@ -22,10 +24,17 @@ const BlogSearchContext = createContext<BlogSearchContextType | undefined>(
 );
 
 export function BlogSearchProvider({ children }: { children: ReactNode }) {
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [keyword, setKeyword] = useState<string>("");
 
-  const toggleTag = useCallback((tag: Tag) => {
+  useEffect(() => {
+    tagRepository
+      .getAll()
+      .then((tags) => setAvailableTags(tags.map((t) => t.name)));
+  }, []);
+
+  const toggleTag = useCallback((tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
@@ -34,6 +43,7 @@ export function BlogSearchProvider({ children }: { children: ReactNode }) {
   return (
     <BlogSearchContext.Provider
       value={{
+        availableTags,
         selectedTags,
         keyword,
         setSelectedTags,
