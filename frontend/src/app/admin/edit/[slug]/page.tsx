@@ -3,11 +3,14 @@
 import { useRouter, useParams } from "next/navigation";
 import { UnauthorizedError } from "@/app/types/errors";
 import { useAdminBlogEdit } from "@/app/hooks/admin/useAdminBlogEdit";
+import { useAdminTags } from "@/app/hooks/admin/useAdminTags";
 
 export default function EditBlogPage() {
   const router = useRouter();
   const params = useParams();
   const originalSlug = params.slug as string;
+
+  const handleUnauthorized = () => router.push("/admin/login");
 
   const {
     form: {
@@ -18,15 +21,17 @@ export default function EditBlogPage() {
       content,
       setContent,
       tags,
-      setTags,
+      toggleTag,
       date,
       setDate,
     },
     state: { isLoading },
     actions: { submitUpdate },
-  } = useAdminBlogEdit(originalSlug, {
-    onUnauthorized: () => router.push("/admin/login"),
-  });
+  } = useAdminBlogEdit(originalSlug, { onUnauthorized: handleUnauthorized });
+
+  const {
+    state: { tags: availableTags },
+  } = useAdminTags({ onUnauthorized: handleUnauthorized });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,12 +92,21 @@ export default function EditBlogPage() {
           <label className="mb-2 block text-sm font-bold text-gray-700">
             タグ
           </label>
-          <input
-            className="w-full rounded border px-3 py-2 shadow focus:outline-none"
-            type="text"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
+          <div className="flex flex-wrap gap-2">
+            {availableTags.map((tag) => (
+              <label
+                key={tag.id}
+                className="flex items-center gap-1 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={tags.includes(tag.name)}
+                  onChange={() => toggleTag(tag.name)}
+                />
+                <span>{tag.name}</span>
+              </label>
+            ))}
+          </div>
         </div>
         <div className="mb-6">
           <label className="mb-2 block text-sm font-bold text-gray-700">

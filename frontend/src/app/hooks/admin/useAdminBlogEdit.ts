@@ -14,7 +14,7 @@ export function useAdminBlogEdit(
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const [date, setDate] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,7 @@ export function useAdminBlogEdit(
         setTitle(data.title);
         setDescription(data.description);
         setContent(data.content);
-        setTags((data.tags || []).join(", "));
+        setTags(data.tags || []);
         setDate(toInputDateStringFromJaDate(data.date));
       } catch (e) {
         if (cancelled) return;
@@ -48,7 +48,6 @@ export function useAdminBlogEdit(
         }
         setError(e instanceof Error ? e.message : "Failed to fetch blog");
       } finally {
-        // finally内のreturnはTS警告になるので避ける
         if (!cancelled) {
           setIsLoading(false);
         }
@@ -61,15 +60,18 @@ export function useAdminBlogEdit(
     };
   }, [originalSlug]);
 
+  const toggleTag = useCallback((tag: string) => {
+    setTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
+  }, []);
+
   const buildPayload = useCallback((): BlogUpsertInput => {
     return {
       title,
       description,
       content,
-      tags: tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
+      tags,
       date: toJaLongDateFromInput(date),
     };
   }, [title, description, content, tags, date]);
@@ -99,7 +101,7 @@ export function useAdminBlogEdit(
       content,
       setContent,
       tags,
-      setTags,
+      toggleTag,
       date,
       setDate,
     },

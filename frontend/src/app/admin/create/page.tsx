@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { UnauthorizedError } from "@/app/types/errors";
 import { useAdminBlogCreate } from "@/app/hooks/admin/useAdminBlogCreate";
+import { useAdminTags } from "@/app/hooks/admin/useAdminTags";
 
 export default function CreateBlogPage() {
   const router = useRouter();
@@ -16,13 +17,17 @@ export default function CreateBlogPage() {
       content,
       setContent,
       tags,
-      setTags,
+      toggleTag,
       date,
       setDate,
     },
     state: { isLoading },
     actions: { submitCreate },
   } = useAdminBlogCreate();
+
+  const {
+    state: { tags: availableTags },
+  } = useAdminTags({ onUnauthorized: () => router.push("/admin/login") });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,12 +88,21 @@ export default function CreateBlogPage() {
           <label className="mb-2 block text-sm font-bold text-gray-700">
             タグ
           </label>
-          <input
-            className="w-full rounded border px-3 py-2 shadow focus:outline-none"
-            type="text"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
+          <div className="flex flex-wrap gap-2">
+            {availableTags.map((tag) => (
+              <label
+                key={tag.id}
+                className="flex items-center gap-1 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={tags.includes(tag.name)}
+                  onChange={() => toggleTag(tag.name)}
+                />
+                <span>{tag.name}</span>
+              </label>
+            ))}
+          </div>
         </div>
         <div className="mb-6">
           <label className="mb-2 block text-sm font-bold text-gray-700">
