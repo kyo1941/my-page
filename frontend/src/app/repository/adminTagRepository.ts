@@ -1,0 +1,36 @@
+import { fetchJsonOrThrow, requestOrThrow } from "@/app/network/adminApi";
+
+export type Tag = {
+  id: number;
+  name: string;
+};
+
+class AdminTagRepository {
+  async list(): Promise<Tag[]> {
+    return await fetchJsonOrThrow<Tag[]>("/api/tags");
+  }
+
+  async create(name: string): Promise<Tag> {
+    const res = await requestOrThrow("/api/tags", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
+    return (await res.json()) as Tag;
+  }
+
+  async update(id: number, name: string): Promise<Tag> {
+    const res = await requestOrThrow(`/api/tags/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
+    return (await res.json()) as Tag;
+  }
+
+  async delete(id: number): Promise<void> {
+    await requestOrThrow(`/api/tags/${id}`, { method: "DELETE" });
+  }
+}
+
+export const adminTagRepository = new AdminTagRepository();
