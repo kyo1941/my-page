@@ -10,11 +10,17 @@ export function useAdminBlogCreate() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const [date, setDate] = useState(getTodayInputDate());
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
+
+  const toggleTag = useCallback((tag: string) => {
+    setTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
+  }, []);
 
   const submitCreate = useCallback(async () => {
     setIsLoading(true);
@@ -24,10 +30,7 @@ export function useAdminBlogCreate() {
       title,
       description,
       content,
-      tags: tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
+      tags,
       date: toJaLongDateFromInput(date),
     };
 
@@ -50,7 +53,7 @@ export function useAdminBlogCreate() {
       content,
       setContent,
       tags,
-      setTags,
+      toggleTag,
       date,
       setDate,
     },

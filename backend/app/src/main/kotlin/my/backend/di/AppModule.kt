@@ -14,12 +14,15 @@ import my.backend.repository.BlogRepository
 import my.backend.repository.BlogRepositoryImpl
 import my.backend.repository.PortfolioRepository
 import my.backend.repository.PortfolioRepositoryImpl
+import my.backend.repository.TagRepository
+import my.backend.repository.TagRepositoryImpl
 import my.backend.repository.UserRepository
 import my.backend.repository.UserRepositoryImpl
 import my.backend.service.AuthService
 import my.backend.service.BlogService
 import my.backend.service.ContactService
 import my.backend.service.PortfolioService
+import my.backend.service.TagService
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
@@ -60,10 +63,12 @@ fun appModule(config: ApplicationConfig) =
         single<BlogRepository> { BlogRepositoryImpl() }
         single<UserRepository> { UserRepositoryImpl() }
         single<PortfolioRepository> { PortfolioRepositoryImpl() }
+        single<TagRepository> { TagRepositoryImpl() }
 
         // Services
         single { BlogService(get()) }
         single { ContactService(get(), get(), get()) }
         single { PortfolioService(get()) }
         single { AuthService(get(), get()) }
+        single { TagService(get()) }
     }

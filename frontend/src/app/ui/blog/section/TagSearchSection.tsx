@@ -1,10 +1,10 @@
 "use client";
 
 import { useBlogSearchContext } from "@/app/hooks/blog/useBlogSearchContext";
-import { TAGS } from "@/app/data/tagData";
 
 export default function TagSearchSection() {
-  const { selectedTags, toggleTag, setSelectedTags } = useBlogSearchContext();
+  const { availableTags, selectedTags, toggleTag, setSelectedTags } =
+    useBlogSearchContext();
 
   const handleClearTags = () => {
     setSelectedTags([]);
@@ -28,7 +28,7 @@ export default function TagSearchSection() {
           )}
         </div>
         <div className="flex flex-wrap gap-2">
-          {TAGS.map((tag) => (
+          {availableTags.map((tag) => (
             <button
               key={tag}
               onClick={() => toggleTag(tag)}
