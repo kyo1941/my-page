@@ -1,8 +1,4 @@
-import { ApiError } from "@/app/types/errors";
-
-function getApiUrl(path: string) {
-  return path;
-}
+import { requestOrThrow } from "@/app/network/publicApi";
 
 export type LoginInput = {
   username: string;
@@ -11,17 +7,12 @@ export type LoginInput = {
 
 export class AuthRepository {
   async login(input: LoginInput): Promise<void> {
-    const res = await fetch(getApiUrl("/api/auth/login"), {
+    await requestOrThrow("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
       credentials: "include",
     });
-
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      throw new ApiError(text || "Invalid credentials", res.status);
-    }
   }
 }
 
