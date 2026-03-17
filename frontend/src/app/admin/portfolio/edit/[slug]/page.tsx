@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import { UnauthorizedError } from "@/app/types/errors";
 import { useAdminPortfolioEdit } from "@/app/hooks/admin/useAdminPortfolioEdit";
 import { AdminMarkdownPreview } from "@/app/admin/components/AdminMarkdownPreview";
+import { useCommittedPreview } from "@/app/hooks/admin/useCommittedPreview";
 
 export default function EditPortfolioPage() {
   const router = useRouter();
@@ -29,6 +30,8 @@ export default function EditPortfolioPage() {
     onUnauthorized: () => router.push("/admin/login"),
   });
 
+  const { previewContent, onCompositionStart, onCompositionEnd } =
+    useCommittedPreview(content);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,6 +108,8 @@ export default function EditPortfolioPage() {
               className="h-64 w-full rounded border px-3 py-2 shadow focus:outline-none"
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              onCompositionStart={onCompositionStart}
+              onCompositionEnd={(e) => onCompositionEnd(e.currentTarget.value)}
               required
             />
           </div>
@@ -116,7 +121,7 @@ export default function EditPortfolioPage() {
             ポートフォリオを更新する
           </button>
         </form>
-        <AdminMarkdownPreview content={content} />
+        <AdminMarkdownPreview content={previewContent} />
       </div>
     </div>
   );

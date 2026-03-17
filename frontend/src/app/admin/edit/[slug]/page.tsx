@@ -5,6 +5,7 @@ import { UnauthorizedError } from "@/app/types/errors";
 import { useAdminBlogEdit } from "@/app/hooks/admin/useAdminBlogEdit";
 import { useAdminTags } from "@/app/hooks/admin/useAdminTags";
 import { AdminMarkdownPreview } from "@/app/admin/components/AdminMarkdownPreview";
+import { useCommittedPreview } from "@/app/hooks/admin/useCommittedPreview";
 
 export default function EditBlogPage() {
   const router = useRouter();
@@ -34,6 +35,8 @@ export default function EditBlogPage() {
     state: { tags: availableTags },
   } = useAdminTags({ onUnauthorized: handleUnauthorized });
 
+  const { previewContent, onCompositionStart, onCompositionEnd } =
+    useCommittedPreview(content);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,6 +122,8 @@ export default function EditBlogPage() {
               className="h-64 w-full rounded border px-3 py-2 shadow focus:outline-none"
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              onCompositionStart={onCompositionStart}
+              onCompositionEnd={(e) => onCompositionEnd(e.currentTarget.value)}
               required
             />
           </div>
@@ -130,7 +135,7 @@ export default function EditBlogPage() {
             ブログを更新する
           </button>
         </form>
-        <AdminMarkdownPreview content={content} />
+        <AdminMarkdownPreview content={previewContent} />
       </div>
     </div>
   );
