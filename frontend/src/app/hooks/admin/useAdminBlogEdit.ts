@@ -15,7 +15,6 @@ export function useAdminBlogEdit(
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
-  const [coverImage, setCoverImage] = useState("");
   const [date, setDate] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +39,6 @@ export function useAdminBlogEdit(
         setDescription(data.description);
         setContent(data.content);
         setTags((data.tags || []).join(", "));
-        setCoverImage(data.coverImage || "");
         setDate(toInputDateStringFromJaDate(data.date));
       } catch (e) {
         if (cancelled) return;
@@ -72,10 +70,9 @@ export function useAdminBlogEdit(
         .split(",")
         .map((t) => t.trim())
         .filter(Boolean),
-      coverImage,
       date: toJaLongDateFromInput(date),
     };
-  }, [title, description, content, tags, coverImage, date]);
+  }, [title, description, content, tags, date]);
 
   const submitUpdate = useCallback(async () => {
     if (!originalSlug) {
@@ -103,8 +100,6 @@ export function useAdminBlogEdit(
       setContent,
       tags,
       setTags,
-      coverImage,
-      setCoverImage,
       date,
       setDate,
     },

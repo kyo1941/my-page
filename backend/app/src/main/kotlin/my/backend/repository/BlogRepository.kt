@@ -97,7 +97,6 @@ class BlogRepositoryImpl : BlogRepository {
                     it[title] = blog.title
                     it[description] = blog.description
                     it[content] = blog.content
-                    it[coverImage] = blog.coverImage
                     it[date] = DateParser.parseDateToLocalDateTime(blog.date)
                 } get BlogTable.id
 
@@ -120,7 +119,6 @@ class BlogRepositoryImpl : BlogRepository {
                 it[title] = blog.title
                 it[description] = blog.description
                 it[content] = blog.content
-                it[coverImage] = blog.coverImage
                 it[date] = DateParser.parseDateToLocalDateTime(blog.date)
             }
 
@@ -150,7 +148,6 @@ class BlogRepositoryImpl : BlogRepository {
             title = row[BlogTable.title],
             date = row[BlogTable.date].format(DateParser.dateFormatter),
             description = row[BlogTable.description],
-            coverImage = row[BlogTable.coverImage],
             tags = tags,
             content = row[BlogTable.content],
         )

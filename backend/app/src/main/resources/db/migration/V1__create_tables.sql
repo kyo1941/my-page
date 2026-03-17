@@ -11,7 +11,6 @@ CREATE TABLE blogs (
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     content TEXT NOT NULL,
-    cover_image VARCHAR(255) NULL,
     date DATETIME NOT NULL,
     CONSTRAINT uk_blogs_slug UNIQUE (slug)
 );
