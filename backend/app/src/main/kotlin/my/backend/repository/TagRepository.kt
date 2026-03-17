@@ -45,7 +45,7 @@ class TagRepositoryImpl : TagRepository {
                         TagTable.name eq name
                     }
                 }
-                .count() > 0
+                .any()
         }
 
     override suspend fun create(name: String): TagResponseDto =
