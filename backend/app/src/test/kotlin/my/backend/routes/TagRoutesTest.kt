@@ -10,6 +10,7 @@ import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import my.backend.testutil.testApplicationWithH2
+import kotlinx.serialization.json.jsonArray
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -226,6 +227,48 @@ class TagRoutesTest {
 
             client.get("/api/tags").apply {
                 assertFalse(bodyAsText().contains("削除後確認タグ"))
+            }
+        }
+
+    // --- PUT /api/tags/order ---
+
+    @Test
+    fun `認証なしで順序変更すると401を返す`() =
+        testApplicationWithH2 {
+            client.put("/api/tags/order") {
+                allowedOrigin()
+                contentType(ContentType.Application.Json)
+                setBody("""{"orders":[]}""")
+            }.apply {
+                assertEquals(HttpStatusCode.Unauthorized, status)
+            }
+        }
+
+    @Test
+    fun `タグの表示順序を変更できる`() =
+        testApplicationWithH2 {
+            val token = generateTestJwt()
+            val idA = createTag(client, token, "順序タグA")
+            val idB = createTag(client, token, "順序タグB")
+            val idC = createTag(client, token, "順序タグC")
+
+            client.put("/api/tags/order") {
+                allowedOrigin()
+                cookie("auth_token", token)
+                contentType(ContentType.Application.Json)
+                setBody("""{"orders":[{"id":$idC,"displayOrder":0},{"id":$idA,"displayOrder":1},{"id":$idB,"displayOrder":2}]}""")
+            }.apply {
+                assertEquals(HttpStatusCode.OK, status)
+            }
+
+            client.get("/api/tags").apply {
+                assertEquals(HttpStatusCode.OK, status)
+                val arr = Json.parseToJsonElement(bodyAsText()).jsonArray
+                val names = arr.map { it.jsonObject["name"]!!.jsonPrimitive.content }
+                val cIdx = names.indexOf("順序タグC")
+                val aIdx = names.indexOf("順序タグA")
+                val bIdx = names.indexOf("順序タグB")
+                assertTrue(aIdx in (cIdx + 1)..<bIdx)
             }
         }
 

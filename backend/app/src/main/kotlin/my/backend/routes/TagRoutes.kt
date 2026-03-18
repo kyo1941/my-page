@@ -6,6 +6,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import my.backend.dto.TagReorderRequestDto
 import my.backend.dto.TagRequestDto
 import my.backend.service.TagService
 
@@ -16,6 +17,12 @@ fun Route.tagRoutes(tagService: TagService) {
         }
 
         authenticate("auth-jwt") {
+            put("/order") {
+                val request = call.receive<TagReorderRequestDto>()
+                tagService.reorderTags(request.orders)
+                call.respond(HttpStatusCode.OK)
+            }
+
             post {
                 val request = call.receive<TagRequestDto>()
                 val created = tagService.createTag(request.name)

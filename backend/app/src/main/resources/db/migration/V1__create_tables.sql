@@ -18,6 +18,7 @@ CREATE TABLE blogs (
 CREATE TABLE tags (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
+    display_order INT NOT NULL DEFAULT 0,
     CONSTRAINT uk_tags_name UNIQUE (name)
 );
 

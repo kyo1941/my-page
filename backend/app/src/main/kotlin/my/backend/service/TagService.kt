@@ -1,5 +1,6 @@
 package my.backend.service
 
+import my.backend.dto.TagOrderItem
 import my.backend.dto.TagResponseDto
 import my.backend.exception.DuplicateTagException
 import my.backend.repository.TagRepository
@@ -21,4 +22,6 @@ class TagService(private val tagRepository: TagRepository) {
     }
 
     suspend fun deleteTag(id: Int): Boolean = tagRepository.delete(id)
+
+    suspend fun reorderTags(orders: List<TagOrderItem>) = tagRepository.updateOrders(orders)
 }
