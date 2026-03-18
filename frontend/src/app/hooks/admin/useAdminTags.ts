@@ -45,7 +45,7 @@ export function useAdminTags({
   const createTag = useCallback(async (name: string) => {
     const created = await adminTagRepository.create(name);
     setTags((prev) =>
-      [...prev, created].sort((a, b) => a.name.localeCompare(b.name)),
+      [...prev, created].sort((a, b) => a.displayOrder - b.displayOrder),
     );
   }, []);
 
@@ -54,7 +54,7 @@ export function useAdminTags({
     setTags((prev) =>
       prev
         .map((t) => (t.id === id ? updated : t))
-        .sort((a, b) => a.name.localeCompare(b.name)),
+        .sort((a, b) => a.displayOrder - b.displayOrder),
     );
   }, []);
 

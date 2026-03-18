@@ -3,6 +3,7 @@ import { fetchJsonOrThrow, requestOrThrow } from "@/app/network/adminApi";
 export type Tag = {
   id: number;
   name: string;
+  displayOrder: number;
 };
 
 class AdminTagRepository {
@@ -30,6 +31,14 @@ class AdminTagRepository {
 
   async delete(id: number): Promise<void> {
     await requestOrThrow(`/api/tags/${id}`, { method: "DELETE" });
+  }
+
+  async reorder(orders: { id: number; displayOrder: number }[]): Promise<void> {
+    await requestOrThrow("/api/tags/order", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orders }),
+    });
   }
 }
 
