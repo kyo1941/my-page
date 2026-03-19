@@ -54,11 +54,7 @@ export default function WelcomeSection() {
     <div className="h-32 flex flex-col justify-center items-center">
       <h2 className="text-3xl sm:text-5xl font-mono font-bold text-gray-900">
         {displayText}
-        <motion.span
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ repeat: Infinity, duration: 0.8 }}
-          className="inline-block w-[0.1em] h-[1em] bg-blue-600 ml-1 align-middle"
-        />
+        <span className="inline-block w-[0.1em] h-[1em] bg-blue-600 ml-1 align-middle animate-blink" />
       </h2>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
