@@ -7,10 +7,10 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import my.backend.testutil.testApplicationWithH2
-import kotlinx.serialization.json.jsonArray
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -256,7 +256,12 @@ class TagRoutesTest {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
-                setBody("""{"orders":[{"id":$idC,"displayOrder":0},{"id":$idA,"displayOrder":1},{"id":$idB,"displayOrder":2}]}""")
+                val body =
+                    """{"orders":[""" +
+                        """{"id":$idC,"displayOrder":0},""" +
+                        """{"id":$idA,"displayOrder":1},""" +
+                        """{"id":$idB,"displayOrder":2}]}"""
+                setBody(body)
             }.apply {
                 assertEquals(HttpStatusCode.OK, status)
             }
