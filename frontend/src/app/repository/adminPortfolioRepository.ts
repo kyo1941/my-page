@@ -19,7 +19,7 @@ class AdminPortfolioRepository {
   }
 
   async create(input: PortfolioUpsertInput): Promise<void> {
-    await requestOrThrow("/api/portfolios", {
+    await requestOrThrow("/api/admin/portfolios", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
@@ -31,7 +31,7 @@ class AdminPortfolioRepository {
     input: PortfolioUpsertInput,
   ): Promise<void> {
     await requestOrThrow(
-      `/api/portfolios/${encodeURIComponent(originalSlug)}`,
+      `/api/admin/portfolios/${encodeURIComponent(originalSlug)}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -41,7 +41,7 @@ class AdminPortfolioRepository {
   }
 
   async delete(slug: string): Promise<void> {
-    await requestOrThrow(`/api/portfolios/${encodeURIComponent(slug)}`, {
+    await requestOrThrow(`/api/admin/portfolios/${encodeURIComponent(slug)}`, {
       method: "DELETE",
     });
   }
