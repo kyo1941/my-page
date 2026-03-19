@@ -28,7 +28,7 @@ export default async function PortfolioDetailPage({
     return (
       <div className="min-h-screen bg-gray-50 font-sans">
         <Header />
-        <main className="max-w-4xl mx-auto px-4 py-12">
+        <main id="main-content" className="max-w-4xl mx-auto px-4 py-12">
           <div className="bg-white rounded-lg shadow-sm p-8">
             <div className="mb-8">
               <BackButton fallbackPath={ROUTES.PORTFOLIO} />
@@ -47,7 +47,7 @@ export default async function PortfolioDetailPage({
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header />
-      <main className="max-w-4xl mx-auto px-4 py-12">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-sm p-8">
           <div className="mb-8">
             <BackButton fallbackPath={ROUTES.PORTFOLIO} />

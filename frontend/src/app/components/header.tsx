@@ -87,14 +87,14 @@ export default function Header() {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/30 z-overlay pointer-events-auto"
+          className="md:hidden fixed inset-0 bg-black/30 z-overlay"
           onClick={closeMenu}
         />
       )}
 
       {/* Side drawer */}
       <div
-        className={`md:hidden fixed top-0 right-0 h-full w-64 bg-gray-200/70 backdrop-blur-sm z-drawer transform transition-transform duration-300 pointer-events-auto ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`md:hidden fixed top-0 right-0 h-full w-64 bg-gray-200/70 backdrop-blur-sm z-drawer transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Close button */}
         <div className="flex justify-end px-4 py-4">
