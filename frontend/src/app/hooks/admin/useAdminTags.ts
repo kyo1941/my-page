@@ -45,17 +45,13 @@ export function useAdminTags({
   const createTag = useCallback(async (name: string) => {
     const created = await adminTagRepository.create(name);
     setTags((prev) =>
-      [...prev, created].sort((a, b) => a.name.localeCompare(b.name)),
+      [...prev, created].sort((a, b) => a.displayOrder - b.displayOrder),
     );
   }, []);
 
   const updateTag = useCallback(async (id: number, name: string) => {
     const updated = await adminTagRepository.update(id, name);
-    setTags((prev) =>
-      prev
-        .map((t) => (t.id === id ? updated : t))
-        .sort((a, b) => a.name.localeCompare(b.name)),
-    );
+    setTags((prev) => prev.map((t) => (t.id === id ? updated : t)));
   }, []);
 
   const deleteTag = useCallback(async (id: number) => {

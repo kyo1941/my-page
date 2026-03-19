@@ -52,7 +52,7 @@ export default function CreateBlogPage() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="mb-6 text-3xl font-bold">新規作成</h1>
+      <h1 className="mb-6 text-3xl font-bold">ブログ新規作成</h1>
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Tag } from "@/app/repository/adminTagRepository";
 
 type Props = {
@@ -18,6 +19,7 @@ export default function AdminTagTab({
   onUpdate,
   onDelete,
 }: Props) {
+  const router = useRouter();
   const [newTagName, setNewTagName] = useState("");
   const [createError, setCreateError] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -70,11 +72,11 @@ export default function AdminTagTab({
 
   return (
     <>
-      <div className="mb-6">
+      <div className="mb-4">
         <form onSubmit={handleCreate} className="flex flex-col gap-1 max-w-sm">
           <div className="flex gap-2">
             <input
-              className="flex-1 rounded border px-3 py-2 shadow focus:outline-none"
+              className="flex-1 rounded border px-4 py-2 shadow focus:outline-none"
               type="text"
               value={newTagName}
               onChange={(e) => {
@@ -99,13 +101,26 @@ export default function AdminTagTab({
         <table className="min-w-full overflow-hidden rounded-lg bg-white shadow-md">
           <thead className="bg-gray-200 text-gray-700">
             <tr>
+              <th className="px-4 py-3 text-left">順番</th>
               <th className="px-4 py-3 text-left">タグ名</th>
-              <th className="px-4 py-3 text-left">Actions</th>
+              <th className="px-4 py-3 text-left">
+                <div className="flex items-center pr-4">
+                  <span>Actions</span>
+                  <button
+                    type="button"
+                    onClick={() => router.push("/admin/tags/order")}
+                    className="ml-auto text-sm font-semibold text-blue-500 hover:text-blue-700"
+                  >
+                    順番を変更
+                  </button>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
-            {tags.map((tag) => (
+            {tags.map((tag, i) => (
               <tr key={tag.id} className="border-b hover:bg-gray-50">
+                <td className="px-4 py-3">{i + 1}</td>
                 <td className="px-4 py-3">
                   {editingId === tag.id ? (
                     <div className="flex flex-col gap-1">

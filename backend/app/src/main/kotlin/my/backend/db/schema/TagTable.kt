@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.Table
 object TagTable : Table("tags") {
     val id = integer("id").autoIncrement()
     val name = varchar("name", 50).uniqueIndex()
+    val displayOrder = integer("display_order").default(0)
 
     override val primaryKey = PrimaryKey(id)
 }

@@ -12,7 +12,7 @@ export default function AdminBlogTab({ blogs, isLoading, onDelete }: Props) {
     <>
       <div className="mb-4 flex justify-end">
         <Link
-          href="/admin/create"
+          href="/admin/blog/create"
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
         >
           ブログを投稿する
@@ -36,7 +36,7 @@ export default function AdminBlogTab({ blogs, isLoading, onDelete }: Props) {
                 <td className="px-4 py-3">{blog.tags.join(", ")}</td>
                 <td className="px-4 py-3">
                   <Link
-                    href={`/admin/edit/${blog.slug}`}
+                    href={`/admin/blog/edit/${blog.slug}`}
                     className="mr-2 text-blue-500 hover:text-blue-700"
                   >
                     編集
