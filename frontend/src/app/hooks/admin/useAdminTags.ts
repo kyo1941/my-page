@@ -51,11 +51,7 @@ export function useAdminTags({
 
   const updateTag = useCallback(async (id: number, name: string) => {
     const updated = await adminTagRepository.update(id, name);
-    setTags((prev) =>
-      prev
-        .map((t) => (t.id === id ? updated : t))
-        .sort((a, b) => a.displayOrder - b.displayOrder),
-    );
+    setTags((prev) => prev.map((t) => (t.id === id ? updated : t)));
   }, []);
 
   const deleteTag = useCallback(async (id: number) => {
