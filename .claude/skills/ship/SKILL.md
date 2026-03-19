@@ -30,7 +30,7 @@ git log --oneline -5
 
 - 変更ファイルを個別に `git add` する（`git add -A` は使わない）
 - コミットメッセージは既存のログに倣い `<type>: <summary>` 形式（英語）
-- 末尾に必ず `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>` を付ける
+- 末尾に必ず `Co-Authored-By: Claude Sonnet <version> <noreply@anthropic.com>` を付ける（`<version>` は使用したモデルのバージョンに置き換える）
 - HEREDOC でメッセージを渡す
 
 ## 4. プッシュ
