@@ -14,11 +14,12 @@ class BlogService(private val blogRepository: BlogRepository) {
         limit: Int = MAX_LIMIT,
         tags: List<String>? = null,
         keyword: String? = null,
+        includeDrafts: Boolean = false,
     ): List<BlogResponseDto> {
         if (limit > MAX_LIMIT) {
             throw IllegalArgumentException("limit の最大値は $MAX_LIMIT です。")
         }
-        return blogRepository.findAll(limit, tags, keyword)
+        return blogRepository.findAll(limit, tags, keyword, includeDrafts)
     }
 
     suspend fun getBlogBySlug(slug: String): BlogResponseDto? {

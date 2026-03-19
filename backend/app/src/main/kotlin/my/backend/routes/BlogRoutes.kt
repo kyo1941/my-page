@@ -59,4 +59,17 @@ fun Route.blogRoutes(blogService: BlogService) {
             }
         }
     }
+
+    authenticate("auth-jwt") {
+        route("/api/admin/blogs") {
+            get {
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: BlogService.MAX_LIMIT
+                val tags = call.request.queryParameters.getAll("tags")
+                val keyword = call.request.queryParameters["keyword"]
+
+                val blogs = blogService.getBlogs(limit, tags, keyword, includeDrafts = true)
+                call.respond(blogs)
+            }
+        }
+    }
 }

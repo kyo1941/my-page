@@ -12,6 +12,7 @@ export function useAdminBlogCreate() {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [date, setDate] = useState(getTodayInputDate());
+  const [isDraft, setIsDraft] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
@@ -32,6 +33,7 @@ export function useAdminBlogCreate() {
       content,
       tags,
       date: toJaLongDateFromInput(date),
+      isDraft,
     };
 
     try {
@@ -42,7 +44,7 @@ export function useAdminBlogCreate() {
     } finally {
       setIsLoading(false);
     }
-  }, [title, description, content, tags, date]);
+  }, [title, description, content, tags, date, isDraft]);
 
   return {
     form: {
@@ -56,6 +58,8 @@ export function useAdminBlogCreate() {
       toggleTag,
       date,
       setDate,
+      isDraft,
+      setIsDraft,
     },
     state: { isLoading, error },
     actions: { submitCreate },

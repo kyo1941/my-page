@@ -12,6 +12,7 @@ CREATE TABLE blogs (
     description TEXT NOT NULL,
     content TEXT NOT NULL,
     date DATETIME NOT NULL,
+    is_draft BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT uk_blogs_slug UNIQUE (slug)
 );
 

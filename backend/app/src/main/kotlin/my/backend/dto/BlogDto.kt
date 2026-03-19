@@ -19,6 +19,7 @@ data class BlogRequestDto(
     val description: String,
     val tags: List<String>,
     val content: String,
+    val isDraft: Boolean = false,
 )
 
 /**
@@ -40,6 +41,7 @@ data class BlogResponseDto(
     val description: String,
     val tags: List<String>,
     val content: String,
+    val isDraft: Boolean = false,
 ) {
     companion object {
         fun fromRequestDto(
@@ -53,6 +55,7 @@ data class BlogResponseDto(
                 description = request.description,
                 tags = request.tags,
                 content = request.content,
+                isDraft = request.isDraft,
             )
         }
     }

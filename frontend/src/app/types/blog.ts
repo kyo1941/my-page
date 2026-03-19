@@ -5,6 +5,7 @@ export type Blog = {
   description: string;
   tags?: string[];
   content: string;
+  isDraft?: boolean;
 };
 
 export type AdminBlogListItem = Pick<
@@ -12,6 +13,7 @@ export type AdminBlogListItem = Pick<
   "slug" | "title" | "date" | "description"
 > & {
   tags: string[];
+  isDraft: boolean;
 };
 
 export type BlogUpsertInput = {
@@ -20,4 +22,5 @@ export type BlogUpsertInput = {
   description: string;
   content: string;
   tags: string[];
+  isDraft: boolean;
 };

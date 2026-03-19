@@ -7,7 +7,7 @@ import { requestOrThrow, fetchJsonOrThrow } from "@/app/network/adminApi";
 
 class AdminBlogRepository {
   async list(): Promise<AdminBlogListItem[]> {
-    return await fetchJsonOrThrow<AdminBlogListItem[]>("/api/blogs");
+    return await fetchJsonOrThrow<AdminBlogListItem[]>("/api/admin/blogs");
   }
 
   async get(slug: string): Promise<Blog> {
