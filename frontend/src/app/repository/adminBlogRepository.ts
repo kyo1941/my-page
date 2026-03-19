@@ -17,7 +17,7 @@ class AdminBlogRepository {
   }
 
   async create(input: BlogUpsertInput): Promise<void> {
-    await requestOrThrow("/api/blogs", {
+    await requestOrThrow("/api/admin/blogs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
@@ -25,15 +25,18 @@ class AdminBlogRepository {
   }
 
   async update(originalSlug: string, input: BlogUpsertInput): Promise<void> {
-    await requestOrThrow(`/api/blogs/${encodeURIComponent(originalSlug)}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(input),
-    });
+    await requestOrThrow(
+      `/api/admin/blogs/${encodeURIComponent(originalSlug)}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      },
+    );
   }
 
   async delete(slug: string): Promise<void> {
-    await requestOrThrow(`/api/blogs/${encodeURIComponent(slug)}`, {
+    await requestOrThrow(`/api/admin/blogs/${encodeURIComponent(slug)}`, {
       method: "DELETE",
     });
   }
