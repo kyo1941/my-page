@@ -5,12 +5,15 @@ export type Portfolio = {
   description: string;
   coverImage?: string | undefined;
   content: string;
+  isDraft?: boolean;
 };
 
 export type AdminPortfolioListItem = Pick<
   Portfolio,
   "slug" | "title" | "date" | "description"
->;
+> & {
+  isDraft: boolean;
+};
 
 export type PortfolioUpsertInput = {
   title: string;
@@ -18,4 +21,5 @@ export type PortfolioUpsertInput = {
   description: string;
   content: string;
   coverImage?: string;
+  isDraft: boolean;
 };

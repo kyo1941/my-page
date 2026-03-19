@@ -34,7 +34,14 @@ export default function AdminPortfolioTab({
           <tbody>
             {portfolios.map((portfolio) => (
               <tr key={portfolio.slug} className="border-b hover:bg-gray-50">
-                <td className="px-4 py-3">{portfolio.title}</td>
+                <td className="px-4 py-3">
+                  {portfolio.title}
+                  {portfolio.isDraft && (
+                    <span className="ml-2 inline-flex items-center rounded bg-gray-200 px-1.5 py-0.5 text-xs text-gray-600">
+                      ✏️ 下書き
+                    </span>
+                  )}
+                </td>
                 <td className="px-4 py-3">{portfolio.date}</td>
                 <td className="px-4 py-3">
                   <Link

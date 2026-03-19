@@ -13,6 +13,7 @@ data class PortfolioRequestDto(
     val description: String,
     val coverImage: String? = null,
     val content: String,
+    val isDraft: Boolean = false,
 )
 
 /**
@@ -27,6 +28,7 @@ data class PortfolioResponseDto(
     val description: String,
     val coverImage: String? = null,
     val content: String,
+    val isDraft: Boolean = false,
 ) {
     companion object {
         fun fromRequestDto(
@@ -40,6 +42,7 @@ data class PortfolioResponseDto(
                 description = request.description,
                 coverImage = request.coverImage,
                 content = request.content,
+                isDraft = request.isDraft,
             )
         }
     }

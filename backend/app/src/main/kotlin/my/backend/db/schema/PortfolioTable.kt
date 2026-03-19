@@ -11,6 +11,7 @@ object PortfolioTable : Table("portfolios") {
     val content = text("content")
     val coverImage = varchar("cover_image", 255).nullable()
     val date = datetime("date")
+    val isDraft = bool("is_draft").default(false)
 
     override val primaryKey = PrimaryKey(id)
 }

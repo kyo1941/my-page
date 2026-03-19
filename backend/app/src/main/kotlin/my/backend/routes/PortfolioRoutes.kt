@@ -56,4 +56,14 @@ fun Route.portfolioRoutes(portfolioService: PortfolioService) {
             }
         }
     }
+
+    authenticate("auth-jwt") {
+        route("/api/admin/portfolios") {
+            get {
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: PortfolioService.MAX_LIMIT
+                val portfolios = portfolioService.getPortfolios(limit, includeDrafts = true)
+                call.respond(portfolios)
+            }
+        }
+    }
 }

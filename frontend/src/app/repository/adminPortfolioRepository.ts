@@ -7,7 +7,9 @@ import { requestOrThrow, fetchJsonOrThrow } from "@/app/network/adminApi";
 
 class AdminPortfolioRepository {
   async list(): Promise<AdminPortfolioListItem[]> {
-    return await fetchJsonOrThrow<AdminPortfolioListItem[]>("/api/portfolios");
+    return await fetchJsonOrThrow<AdminPortfolioListItem[]>(
+      "/api/admin/portfolios",
+    );
   }
 
   async get(slug: string): Promise<Portfolio> {

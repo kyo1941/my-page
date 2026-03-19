@@ -10,11 +10,14 @@ class PortfolioService(private val portfolioRepository: PortfolioRepository) {
         const val MAX_LIMIT = 100
     }
 
-    suspend fun getPortfolios(limit: Int = MAX_LIMIT): List<PortfolioResponseDto> {
+    suspend fun getPortfolios(
+        limit: Int = MAX_LIMIT,
+        includeDrafts: Boolean = false,
+    ): List<PortfolioResponseDto> {
         if (limit > MAX_LIMIT) {
             throw IllegalArgumentException("limit の最大値は $MAX_LIMIT です。")
         }
-        return portfolioRepository.findAll(limit)
+        return portfolioRepository.findAll(limit, includeDrafts)
     }
 
     suspend fun getPortfolioBySlug(slug: String): PortfolioResponseDto? {

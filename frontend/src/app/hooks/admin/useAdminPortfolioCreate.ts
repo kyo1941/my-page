@@ -12,6 +12,7 @@ export function useAdminPortfolioCreate() {
   const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [date, setDate] = useState(getTodayInputDate());
+  const [isDraft, setIsDraft] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
@@ -26,6 +27,7 @@ export function useAdminPortfolioCreate() {
       content,
       coverImage,
       date: toJaLongDateFromInput(date),
+      isDraft,
     };
 
     try {
@@ -36,7 +38,7 @@ export function useAdminPortfolioCreate() {
     } finally {
       setIsLoading(false);
     }
-  }, [title, description, content, coverImage, date]);
+  }, [title, description, content, coverImage, date, isDraft]);
 
   return {
     form: {
@@ -50,6 +52,8 @@ export function useAdminPortfolioCreate() {
       setCoverImage,
       date,
       setDate,
+      isDraft,
+      setIsDraft,
     },
     state: { isLoading, error },
     actions: { submitCreate },
