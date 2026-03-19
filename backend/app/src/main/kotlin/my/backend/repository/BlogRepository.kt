@@ -16,6 +16,7 @@ interface BlogRepository {
         limit: Int? = null,
         tags: List<String>? = null,
         keyword: String? = null,
+        includeDrafts: Boolean = false,
     ): List<BlogResponseDto>
 
     suspend fun findBySlug(slug: String): BlogResponseDto?
@@ -35,9 +36,14 @@ class BlogRepositoryImpl : BlogRepository {
         limit: Int?,
         tags: List<String>?,
         keyword: String?,
+        includeDrafts: Boolean,
     ): List<BlogResponseDto> =
         newSuspendedTransaction {
             val query = BlogTable.selectAll()
+
+            if (!includeDrafts) {
+                query.andWhere { BlogTable.isDraft eq false }
+            }
 
             if (!tags.isNullOrEmpty()) {
                 val blogIdsWithTags =
@@ -98,6 +104,7 @@ class BlogRepositoryImpl : BlogRepository {
                     it[description] = blog.description
                     it[content] = blog.content
                     it[date] = DateParser.parseDateToLocalDateTime(blog.date)
+                    it[isDraft] = blog.isDraft
                 } get BlogTable.id
 
             updateTags(blogId, blog.tags)
@@ -120,6 +127,7 @@ class BlogRepositoryImpl : BlogRepository {
                 it[description] = blog.description
                 it[content] = blog.content
                 it[date] = DateParser.parseDateToLocalDateTime(blog.date)
+                it[isDraft] = blog.isDraft
             }
 
             updateTags(id, blog.tags)
@@ -150,6 +158,7 @@ class BlogRepositoryImpl : BlogRepository {
             description = row[BlogTable.description],
             tags = tags,
             content = row[BlogTable.content],
+            isDraft = row[BlogTable.isDraft],
         )
     }
 

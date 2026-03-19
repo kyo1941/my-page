@@ -11,22 +11,22 @@ import my.backend.dto.TagRequestDto
 import my.backend.service.TagService
 
 fun Route.tagRoutes(tagService: TagService) {
-    route("/api/tags") {
-        get {
-            call.respond(tagService.getTags())
-        }
+    get("/api/tags") {
+        call.respond(tagService.getTags())
+    }
 
-        authenticate("auth-jwt") {
-            put("/order") {
-                val request = call.receive<TagReorderRequestDto>()
-                tagService.reorderTags(request.orders)
-                call.respond(HttpStatusCode.OK)
-            }
-
+    authenticate("auth-jwt") {
+        route("/api/admin/tags") {
             post {
                 val request = call.receive<TagRequestDto>()
                 val created = tagService.createTag(request.name)
                 call.respond(HttpStatusCode.Created, created)
+            }
+
+            put("/order") {
+                val request = call.receive<TagReorderRequestDto>()
+                tagService.reorderTags(request.orders)
+                call.respond(HttpStatusCode.OK)
             }
 
             put("/{id}") {

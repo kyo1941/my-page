@@ -16,6 +16,7 @@ export function useAdminBlogEdit(
   const [content, setContent] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [date, setDate] = useState("");
+  const [isDraft, setIsDraft] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
@@ -40,6 +41,7 @@ export function useAdminBlogEdit(
         setContent(data.content);
         setTags(data.tags || []);
         setDate(toInputDateStringFromJaDate(data.date));
+        setIsDraft(data.isDraft ?? false);
       } catch (e) {
         if (cancelled) return;
         if (e instanceof UnauthorizedError) {
@@ -73,8 +75,9 @@ export function useAdminBlogEdit(
       content,
       tags,
       date: toJaLongDateFromInput(date),
+      isDraft,
     };
-  }, [title, description, content, tags, date]);
+  }, [title, description, content, tags, date, isDraft]);
 
   const submitUpdate = useCallback(async () => {
     if (!originalSlug) {
@@ -104,6 +107,8 @@ export function useAdminBlogEdit(
       toggleTag,
       date,
       setDate,
+      isDraft,
+      setIsDraft,
     },
     state: { isLoading, error },
     actions: { submitUpdate },

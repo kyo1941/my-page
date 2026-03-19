@@ -10,6 +10,7 @@ object BlogTable : Table("blogs") {
     val description = text("description")
     val content = text("content")
     val date = datetime("date")
+    val isDraft = bool("is_draft").default(false)
 
     override val primaryKey = PrimaryKey(id)
 }

@@ -35,7 +35,7 @@ class TagRoutesTest {
         name: String,
     ): Int {
         val body =
-            client.post("/api/tags") {
+            client.post("/api/admin/tags") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -55,12 +55,12 @@ class TagRoutesTest {
             }
         }
 
-    // --- POST /api/tags ---
+    // --- POST /api/admin/tags ---
 
     @Test
     fun `認証なしでタグを作成すると401を返す`() =
         testApplicationWithH2 {
-            client.post("/api/tags") {
+            client.post("/api/admin/tags") {
                 allowedOrigin()
                 contentType(ContentType.Application.Json)
                 setBody("""{"name":"未認証タグ"}""")
@@ -73,7 +73,7 @@ class TagRoutesTest {
     fun `タグを作成できる`() =
         testApplicationWithH2 {
             val token = generateTestJwt()
-            client.post("/api/tags") {
+            client.post("/api/admin/tags") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -88,7 +88,7 @@ class TagRoutesTest {
     fun `作成したタグが一覧に反映される`() =
         testApplicationWithH2 {
             val token = generateTestJwt()
-            client.post("/api/tags") {
+            client.post("/api/admin/tags") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -104,7 +104,7 @@ class TagRoutesTest {
     fun `同じ名前のタグは登録できない`() =
         testApplicationWithH2 {
             val token = generateTestJwt()
-            client.post("/api/tags") {
+            client.post("/api/admin/tags") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -112,7 +112,7 @@ class TagRoutesTest {
             }.apply {
                 assertEquals(HttpStatusCode.Created, status)
             }
-            client.post("/api/tags") {
+            client.post("/api/admin/tags") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -122,7 +122,7 @@ class TagRoutesTest {
             }
         }
 
-    // --- PUT /api/tags/{id} ---
+    // --- PUT /api/admin/tags/{id} ---
 
     @Test
     fun `タグを更新できる`() =
@@ -130,7 +130,7 @@ class TagRoutesTest {
             val token = generateTestJwt()
             val id = createTag(client, token, "更新前タグ")
 
-            client.put("/api/tags/$id") {
+            client.put("/api/admin/tags/$id") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -147,7 +147,7 @@ class TagRoutesTest {
             val token = generateTestJwt()
             val id = createTag(client, token, "同名更新タグ")
 
-            client.put("/api/tags/$id") {
+            client.put("/api/admin/tags/$id") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -164,7 +164,7 @@ class TagRoutesTest {
             createTag(client, token, "重複更新タグA")
             val idB = createTag(client, token, "重複更新タグB")
 
-            client.put("/api/tags/$idB") {
+            client.put("/api/admin/tags/$idB") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -178,7 +178,7 @@ class TagRoutesTest {
     fun `存在しないタグの更新は404を返す`() =
         testApplicationWithH2 {
             val token = generateTestJwt()
-            client.put("/api/tags/99999") {
+            client.put("/api/admin/tags/99999") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -188,12 +188,12 @@ class TagRoutesTest {
             }
         }
 
-    // --- DELETE /api/tags/{id} ---
+    // --- DELETE /api/admin/tags/{id} ---
 
     @Test
     fun `認証なしでタグを削除すると401を返す`() =
         testApplicationWithH2 {
-            client.delete("/api/tags/1") {
+            client.delete("/api/admin/tags/1") {
                 allowedOrigin()
             }.apply {
                 assertEquals(HttpStatusCode.Unauthorized, status)
@@ -206,7 +206,7 @@ class TagRoutesTest {
             val token = generateTestJwt()
             val id = createTag(client, token, "削除対象タグ")
 
-            client.delete("/api/tags/$id") {
+            client.delete("/api/admin/tags/$id") {
                 allowedOrigin()
                 cookie("auth_token", token)
             }.apply {
@@ -220,7 +220,7 @@ class TagRoutesTest {
             val token = generateTestJwt()
             val id = createTag(client, token, "削除後確認タグ")
 
-            client.delete("/api/tags/$id") {
+            client.delete("/api/admin/tags/$id") {
                 allowedOrigin()
                 cookie("auth_token", token)
             }
@@ -230,12 +230,12 @@ class TagRoutesTest {
             }
         }
 
-    // --- PUT /api/tags/order ---
+    // --- PUT /api/admin/tags/order ---
 
     @Test
     fun `認証なしで順序変更すると401を返す`() =
         testApplicationWithH2 {
-            client.put("/api/tags/order") {
+            client.put("/api/admin/tags/order") {
                 allowedOrigin()
                 contentType(ContentType.Application.Json)
                 setBody("""{"orders":[]}""")
@@ -252,7 +252,7 @@ class TagRoutesTest {
             val idB = createTag(client, token, "順序タグB")
             val idC = createTag(client, token, "順序タグC")
 
-            client.put("/api/tags/order") {
+            client.put("/api/admin/tags/order") {
                 allowedOrigin()
                 cookie("auth_token", token)
                 contentType(ContentType.Application.Json)
@@ -281,7 +281,7 @@ class TagRoutesTest {
     fun `存在しないタグの削除は404を返す`() =
         testApplicationWithH2 {
             val token = generateTestJwt()
-            client.delete("/api/tags/99999") {
+            client.delete("/api/admin/tags/99999") {
                 allowedOrigin()
                 cookie("auth_token", token)
             }.apply {

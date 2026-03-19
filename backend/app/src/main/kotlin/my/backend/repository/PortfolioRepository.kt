@@ -10,7 +10,10 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 interface PortfolioRepository {
-    suspend fun findAll(limit: Int? = null): List<PortfolioResponseDto>
+    suspend fun findAll(
+        limit: Int? = null,
+        includeDrafts: Boolean = false,
+    ): List<PortfolioResponseDto>
 
     suspend fun findBySlug(slug: String): PortfolioResponseDto?
 
@@ -25,11 +28,18 @@ interface PortfolioRepository {
 }
 
 class PortfolioRepositoryImpl : PortfolioRepository {
-    override suspend fun findAll(limit: Int?): List<PortfolioResponseDto> =
+    override suspend fun findAll(
+        limit: Int?,
+        includeDrafts: Boolean,
+    ): List<PortfolioResponseDto> =
         newSuspendedTransaction {
-            val query =
-                PortfolioTable.selectAll()
-                    .orderBy(PortfolioTable.date to SortOrder.DESC)
+            val query = PortfolioTable.selectAll()
+
+            if (!includeDrafts) {
+                query.andWhere { PortfolioTable.isDraft eq false }
+            }
+
+            query.orderBy(PortfolioTable.date to SortOrder.DESC)
 
             val resultQuery = if (limit != null) query.limit(limit) else query
             resultQuery.map { toPortfolioResponseDto(it) }
@@ -52,6 +62,7 @@ class PortfolioRepositoryImpl : PortfolioRepository {
                 it[content] = portfolio.content
                 it[coverImage] = portfolio.coverImage
                 it[date] = DateParser.parseDateToLocalDateTime(portfolio.date)
+                it[isDraft] = portfolio.isDraft
             }
 
             PortfolioResponseDto.fromRequestDto(portfolio, newSlug)
@@ -69,6 +80,7 @@ class PortfolioRepositoryImpl : PortfolioRepository {
                     it[content] = portfolio.content
                     it[coverImage] = portfolio.coverImage
                     it[date] = DateParser.parseDateToLocalDateTime(portfolio.date)
+                    it[isDraft] = portfolio.isDraft
                 }
 
             if (updatedRows > 0) {
@@ -91,6 +103,7 @@ class PortfolioRepositoryImpl : PortfolioRepository {
             description = row[PortfolioTable.description],
             coverImage = row[PortfolioTable.coverImage],
             content = row[PortfolioTable.content],
+            isDraft = row[PortfolioTable.isDraft],
         )
     }
 }

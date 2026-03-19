@@ -6,5 +6,6 @@ CREATE TABLE portfolios (
     content TEXT NOT NULL,
     cover_image VARCHAR(255) NULL,
     date DATETIME NOT NULL,
+    is_draft BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT uk_portfolios_slug UNIQUE (slug)
 );

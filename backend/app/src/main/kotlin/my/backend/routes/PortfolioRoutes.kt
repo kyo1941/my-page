@@ -26,8 +26,16 @@ fun Route.portfolioRoutes(portfolioService: PortfolioService) {
                 call.respond(HttpStatusCode.NotFound)
             }
         }
+    }
 
-        authenticate("auth-jwt") {
+    authenticate("auth-jwt") {
+        route("/api/admin/portfolios") {
+            get {
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: PortfolioService.MAX_LIMIT
+                val portfolios = portfolioService.getPortfolios(limit, includeDrafts = true)
+                call.respond(portfolios)
+            }
+
             post {
                 val portfolio = call.receive<PortfolioRequestDto>()
                 val created = portfolioService.createPortfolio(portfolio)

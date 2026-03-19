@@ -31,7 +31,14 @@ export default function AdminBlogTab({ blogs, isLoading, onDelete }: Props) {
           <tbody>
             {blogs.map((blog) => (
               <tr key={blog.slug} className="border-b hover:bg-gray-50">
-                <td className="px-4 py-3">{blog.title}</td>
+                <td className="px-4 py-3">
+                  {blog.title}
+                  {blog.isDraft && (
+                    <span className="ml-2 inline-flex items-center rounded bg-gray-200 px-1.5 py-0.5 text-xs text-gray-600">
+                      ✏️ 下書き
+                    </span>
+                  )}
+                </td>
                 <td className="px-4 py-3">{blog.date}</td>
                 <td className="px-4 py-3">{blog.tags.join(", ")}</td>
                 <td className="px-4 py-3">

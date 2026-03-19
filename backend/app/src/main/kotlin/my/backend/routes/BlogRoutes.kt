@@ -29,8 +29,19 @@ fun Route.blogRoutes(blogService: BlogService) {
                 call.respond(HttpStatusCode.NotFound)
             }
         }
+    }
 
-        authenticate("auth-jwt") {
+    authenticate("auth-jwt") {
+        route("/api/admin/blogs") {
+            get {
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: BlogService.MAX_LIMIT
+                val tags = call.request.queryParameters.getAll("tags")
+                val keyword = call.request.queryParameters["keyword"]
+
+                val blogs = blogService.getBlogs(limit, tags, keyword, includeDrafts = true)
+                call.respond(blogs)
+            }
+
             post {
                 val blog = call.receive<BlogRequestDto>()
                 val created = blogService.createBlog(blog)

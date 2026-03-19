@@ -16,6 +16,7 @@ export function useAdminPortfolioEdit(
   const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [date, setDate] = useState("");
+  const [isDraft, setIsDraft] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
@@ -41,6 +42,7 @@ export function useAdminPortfolioEdit(
         setContent(data.content);
         setCoverImage(data.coverImage || "");
         setDate(toInputDateStringFromJaDate(data.date));
+        setIsDraft(data.isDraft ?? false);
       } catch (e) {
         if (cancelled) return;
         if (e instanceof UnauthorizedError) {
@@ -68,8 +70,9 @@ export function useAdminPortfolioEdit(
       content,
       coverImage,
       date: toJaLongDateFromInput(date),
+      isDraft,
     };
-  }, [title, description, content, coverImage, date]);
+  }, [title, description, content, coverImage, date, isDraft]);
 
   const submitUpdate = useCallback(async () => {
     if (!originalSlug) {
@@ -99,6 +102,8 @@ export function useAdminPortfolioEdit(
       setCoverImage,
       date,
       setDate,
+      isDraft,
+      setIsDraft,
     },
     state: { isLoading, error },
     actions: { submitUpdate },

@@ -21,6 +21,8 @@ export default function CreatePortfolioPage() {
       setCoverImage,
       date,
       setDate,
+      isDraft,
+      setIsDraft,
     },
     state: { isLoading },
     actions: { submitCreate },
@@ -109,12 +111,24 @@ export default function CreatePortfolioPage() {
               required
             />
           </div>
+          <div className="mb-6">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={isDraft}
+                onChange={(e) => setIsDraft(e.target.checked)}
+              />
+              <span className="text-sm font-bold text-gray-700">
+                下書きとして保存
+              </span>
+            </label>
+          </div>
           <button
             className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:opacity-50"
             type="submit"
             disabled={isLoading}
           >
-            ポートフォリオを投稿する
+            {isDraft ? "下書きを保存する" : "ポートフォリオを投稿する"}
           </button>
         </form>
         <AdminMarkdownPreview content={previewContent} />
