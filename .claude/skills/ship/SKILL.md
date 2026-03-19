@@ -30,8 +30,13 @@ git log --oneline -5
 
 - 変更ファイルを個別に `git add` する（`git add -A` は使わない）
 - コミットメッセージは既存のログに倣い `<type>: <summary>` 形式（英語）
-- 末尾に必ず `Co-Authored-By: Claude Sonnet <version> <noreply@anthropic.com>` を付ける（`<version>` は使用したモデルのバージョンに置き換える）
+- 末尾に必ず `Co-Authored-By: Claude <model> <version> <noreply@anthropic.com>` を付ける（例: `Claude Sonnet 4.6`）
 - HEREDOC でメッセージを渡す
+
+### コミットの粒度
+
+- **1コミット = 1つの論理的な変更単位**。複数の独立した変更は分けてコミットする
+- **各コミットはビルドが通る状態**にしておく。壊れた状態でコミットしない
 
 ## 4. プッシュ
 
@@ -47,8 +52,8 @@ git push -u origin <current-branch>
 
 - `[Frontend] ...`
 - `[Backend] ...`
-- `[Frontend/Backend] ...`
 - `[Infra] ...`
+- 複数領域にまたがる場合は `/` 区切り: `[Frontend/Backend] ...`, `[Frontend/Infra] ...`
 
 ### ラベル
 
