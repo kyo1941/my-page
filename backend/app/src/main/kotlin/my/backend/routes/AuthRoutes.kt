@@ -19,18 +19,7 @@ fun Route.authRoutes(authService: AuthService) {
                 val token = authService.authenticate(loginRequest.username, loginRequest.password)
 
                 if (token != null) {
-                    call.response.cookies.append(
-                        Cookie(
-                            name = "auth_token",
-                            value = token,
-                            httpOnly = true,
-                            secure = System.getenv("KTOR_ENV") == "production",
-                            path = "/",
-                            maxAge = 3600,
-                            extensions = mapOf("SameSite" to "Strict"),
-                        ),
-                    )
-                    call.respond(HttpStatusCode.OK)
+                    call.respond(HttpStatusCode.OK, mapOf("token" to token))
                 } else {
                     call.respond(HttpStatusCode.Unauthorized, "Invalid credentials")
                 }
