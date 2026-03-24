@@ -3,11 +3,17 @@ import type {
   Blog,
   BlogUpsertInput,
 } from "@/app/types/blog";
-import { requestOrThrow, fetchJsonOrThrow, API_BASE_URL } from "@/app/network/adminApi";
+import {
+  requestOrThrow,
+  fetchJsonOrThrow,
+  API_BASE_URL,
+} from "@/app/network/adminApi";
 
 class AdminBlogRepository {
   async list(): Promise<AdminBlogListItem[]> {
-    return await fetchJsonOrThrow<AdminBlogListItem[]>(`${API_BASE_URL}/api/admin/blogs`);
+    return await fetchJsonOrThrow<AdminBlogListItem[]>(
+      `${API_BASE_URL}/api/admin/blogs`,
+    );
   }
 
   async get(slug: string): Promise<Blog> {
@@ -36,9 +42,12 @@ class AdminBlogRepository {
   }
 
   async delete(slug: string): Promise<void> {
-    await requestOrThrow(`${API_BASE_URL}/api/admin/blogs/${encodeURIComponent(slug)}`, {
-      method: "DELETE",
-    });
+    await requestOrThrow(
+      `${API_BASE_URL}/api/admin/blogs/${encodeURIComponent(slug)}`,
+      {
+        method: "DELETE",
+      },
+    );
   }
 }
 

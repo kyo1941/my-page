@@ -1,4 +1,8 @@
-import { fetchJsonOrThrow, requestOrThrow, API_BASE_URL } from "@/app/network/adminApi";
+import {
+  fetchJsonOrThrow,
+  requestOrThrow,
+  API_BASE_URL,
+} from "@/app/network/adminApi";
 
 export type Tag = {
   id: number;
@@ -30,7 +34,9 @@ class AdminTagRepository {
   }
 
   async delete(id: number): Promise<void> {
-    await requestOrThrow(`${API_BASE_URL}/api/admin/tags/${id}`, { method: "DELETE" });
+    await requestOrThrow(`${API_BASE_URL}/api/admin/tags/${id}`, {
+      method: "DELETE",
+    });
   }
 
   async reorder(orders: { id: number; displayOrder: number }[]): Promise<void> {
