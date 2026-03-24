@@ -1,4 +1,4 @@
-import { API_BASE_URL, requestOrThrow } from "@/app/network/publicApi";
+import { requestOrThrow } from "@/app/network/publicApi";
 
 export type LoginInput = {
   username: string;
@@ -7,11 +7,10 @@ export type LoginInput = {
 
 export class AuthRepository {
   async login(input: LoginInput): Promise<void> {
-    await requestOrThrow(`${API_BASE_URL}/api/auth/login`, {
+    await requestOrThrow("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
-      credentials: "include",
     });
   }
 }
