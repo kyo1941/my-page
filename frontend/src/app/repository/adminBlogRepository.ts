@@ -7,12 +7,13 @@ import {
   requestOrThrow,
   fetchJsonOrThrow,
   API_BASE_URL,
+  ADMIN_API_BASE,
 } from "@/app/network/adminApi";
 
 class AdminBlogRepository {
   async list(): Promise<AdminBlogListItem[]> {
     return await fetchJsonOrThrow<AdminBlogListItem[]>(
-      `${API_BASE_URL}/api/admin/blogs`,
+      `${ADMIN_API_BASE}/blogs`,
     );
   }
 
@@ -23,7 +24,7 @@ class AdminBlogRepository {
   }
 
   async create(input: BlogUpsertInput): Promise<void> {
-    await requestOrThrow(`${API_BASE_URL}/api/admin/blogs`, {
+    await requestOrThrow(`${ADMIN_API_BASE}/blogs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
@@ -32,7 +33,7 @@ class AdminBlogRepository {
 
   async update(originalSlug: string, input: BlogUpsertInput): Promise<void> {
     await requestOrThrow(
-      `${API_BASE_URL}/api/admin/blogs/${encodeURIComponent(originalSlug)}`,
+      `${ADMIN_API_BASE}/blogs/${encodeURIComponent(originalSlug)}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -43,7 +44,7 @@ class AdminBlogRepository {
 
   async delete(slug: string): Promise<void> {
     await requestOrThrow(
-      `${API_BASE_URL}/api/admin/blogs/${encodeURIComponent(slug)}`,
+      `${ADMIN_API_BASE}/blogs/${encodeURIComponent(slug)}`,
       {
         method: "DELETE",
       },
