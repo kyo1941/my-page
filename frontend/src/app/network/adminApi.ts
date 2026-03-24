@@ -1,4 +1,5 @@
 import { ApiError, NotFoundError, UnauthorizedError } from "@/app/types/errors";
+export { API_BASE_URL } from "@/app/network/publicApi";
 
 export async function requestOrThrow(
   input: RequestInfo | URL,
