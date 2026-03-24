@@ -1,0 +1,19 @@
+# バックエンドビルド用 .dockerignore（ビルドコンテキスト: リポジトリルート）
+
+# バックエンド以外は不要
+frontend/
+nginx/
+
+# Gradleビルド成果物
+backend/.gradle
+backend/build
+backend/**/build/
+
+# IDE・OS
+.idea/
+.DS_Store
+**/*.iml
+
+# 秘匿ファイル（テンプレートからDockerfile内でコピーするため除外）
+backend/**/application.yaml
+.env
