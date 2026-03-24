@@ -7,14 +7,14 @@ COPY --chown=gradle:gradle backend/settings.gradle.kts settings.gradle.kts
 COPY --chown=gradle:gradle backend/gradle/libs.versions.toml gradle/libs.versions.toml
 COPY --chown=gradle:gradle backend/app/build.gradle.kts app/build.gradle.kts
 
-RUN chmod +x gradlew && ./gradlew --no-daemon assemble -x test
+RUN chmod +x gradlew && gradle --no-daemon assemble -x test
 
 COPY --chown=gradle:gradle backend/ .
 
 # application.yaml はgitignoreされているため、テンプレートからコピーして生成する
 RUN cp app/src/main/resources/application.yaml.template app/src/main/resources/application.yaml
 
-RUN ./gradlew --no-daemon buildFatJar -x test
+RUN gradle --no-daemon buildFatJar -x test
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
