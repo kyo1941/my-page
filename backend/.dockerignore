@@ -4,3 +4,5 @@ build
 .DS_Store
 .idea
 *.iml
+# テンプレートからコピーするため、ローカルの設定ファイルはDockerビルドから除外する
+**/application.yaml
