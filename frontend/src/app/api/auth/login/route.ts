@@ -8,14 +8,15 @@ const IS_PRODUCTION = process.env.NODE_ENV === "production";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const origin = request.headers.get("origin") ?? "";
+    const origin = request.headers.get("origin");
+    const headers: HeadersInit = { "Content-Type": "application/json" };
+    if (origin) {
+      headers.Origin = origin;
+    }
 
     const backendRes = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Origin: origin,
-      },
+      headers,
       body: JSON.stringify(body),
     });
 
