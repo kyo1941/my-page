@@ -4,21 +4,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture Overview
 
-Personal portfolio site with a decoupled frontend and backend, served behind Nginx.
+Personal portfolio site with a decoupled frontend and backend.
 
+### Development
 ```
-Nginx (port 80)
-  ├── /images/  → static files from backend/app/src/main/resources/static/images/
-  └── /         → Ktor backend (port 8080)
+Next.js frontend (port 3000) → NEXT_PUBLIC_API_BASE_URL=http://localhost:8080 → Ktor backend (port 8080)
+                                                                                         ↓
+                                                                                  MySQL db (port 3306)
+```
 
-Next.js frontend (port 3000, dev only) → NEXT_PUBLIC_API_BASE_URL → backend
+### Production
+```
+Vercel (Next.js) → NEXT_PUBLIC_API_BASE_URL=https://<app>.onrender.com → Render (Ktor, port 8080)
+                                                                                  ↓
+                                                                          Aiven MySQL (managed)
 ```
 
 - **Frontend**: Next.js 15 (TypeScript) in `frontend/`
 - **Backend**: Ktor + Kotlin in `backend/`, runs on port 8080
 - **Database**: MySQL 8 via Flyway migrations, using Exposed ORM
 - **DI**: Koin (configured in `backend/app/src/main/kotlin/my/backend/di/AppModule.kt`)
-- **Full stack**: `docker-compose up` from repo root
+- **Dev**: `docker-compose up` (backend + db only) → `cd frontend && pnpm dev`
+- **Prod smoke test**: `docker-compose -f docker-compose.prod.yml up`
 
 ## Frontend
 

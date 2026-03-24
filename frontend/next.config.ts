@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import type { RemotePattern } from "next/dist/shared/lib/image-config";
 
 const apiUrl = new URL(
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost",
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080",
 );
 
 const remotePattern: RemotePattern = {
@@ -13,16 +13,9 @@ const remotePattern: RemotePattern = {
 };
 
 const nextConfig: NextConfig = {
+  output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
   images: {
     remotePatterns: [remotePattern],
-  },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "http://localhost/api/:path*",
-      },
-    ];
   },
 };
 

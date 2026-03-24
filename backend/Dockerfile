@@ -12,6 +12,9 @@ RUN --mount=type=cache,target=/home/gradle/.gradle \
 
 COPY --chown=gradle:gradle . .
 
+# application.yaml はgitignoreされているため、テンプレートからコピーして生成する
+RUN cp app/src/main/resources/application.yaml.template app/src/main/resources/application.yaml
+
 RUN --mount=type=cache,target=/home/gradle/.gradle \
     ./gradlew --no-daemon buildFatJar -x test
 

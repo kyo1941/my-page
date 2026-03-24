@@ -3,23 +3,27 @@ import type {
   Portfolio,
   PortfolioUpsertInput,
 } from "@/app/types/portfolio";
-import { requestOrThrow, fetchJsonOrThrow } from "@/app/network/adminApi";
+import {
+  requestOrThrow,
+  fetchJsonOrThrow,
+  API_BASE_URL,
+} from "@/app/network/adminApi";
 
 class AdminPortfolioRepository {
   async list(): Promise<AdminPortfolioListItem[]> {
     return await fetchJsonOrThrow<AdminPortfolioListItem[]>(
-      "/api/admin/portfolios",
+      `${API_BASE_URL}/api/admin/portfolios`,
     );
   }
 
   async get(slug: string): Promise<Portfolio> {
     return await fetchJsonOrThrow<Portfolio>(
-      `/api/portfolios/${encodeURIComponent(slug)}`,
+      `${API_BASE_URL}/api/portfolios/${encodeURIComponent(slug)}`,
     );
   }
 
   async create(input: PortfolioUpsertInput): Promise<void> {
-    await requestOrThrow("/api/admin/portfolios", {
+    await requestOrThrow(`${API_BASE_URL}/api/admin/portfolios`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
@@ -31,7 +35,7 @@ class AdminPortfolioRepository {
     input: PortfolioUpsertInput,
   ): Promise<void> {
     await requestOrThrow(
-      `/api/admin/portfolios/${encodeURIComponent(originalSlug)}`,
+      `${API_BASE_URL}/api/admin/portfolios/${encodeURIComponent(originalSlug)}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -41,9 +45,12 @@ class AdminPortfolioRepository {
   }
 
   async delete(slug: string): Promise<void> {
-    await requestOrThrow(`/api/admin/portfolios/${encodeURIComponent(slug)}`, {
-      method: "DELETE",
-    });
+    await requestOrThrow(
+      `${API_BASE_URL}/api/admin/portfolios/${encodeURIComponent(slug)}`,
+      {
+        method: "DELETE",
+      },
+    );
   }
 }
 
