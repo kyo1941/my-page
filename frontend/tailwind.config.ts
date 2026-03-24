@@ -28,15 +28,6 @@ const config: Config = {
           "50%": { opacity: "1" },
         },
       },
-      animation: {
-        blink: "blink 0.8s infinite",
-      },
-      keyframes: {
-        blink: {
-          "0%, 100%": { opacity: "0" },
-          "50%": { opacity: "1" },
-        },
-      },
     },
   },
   plugins: [],
