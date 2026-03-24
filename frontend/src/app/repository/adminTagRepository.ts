@@ -2,6 +2,7 @@ import {
   fetchJsonOrThrow,
   requestOrThrow,
   API_BASE_URL,
+  ADMIN_API_BASE,
 } from "@/app/network/adminApi";
 
 export type Tag = {
@@ -16,7 +17,7 @@ class AdminTagRepository {
   }
 
   async create(name: string): Promise<Tag> {
-    const res = await requestOrThrow(`${API_BASE_URL}/api/admin/tags`, {
+    const res = await requestOrThrow(`${ADMIN_API_BASE}/tags`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name }),
@@ -25,7 +26,7 @@ class AdminTagRepository {
   }
 
   async update(id: number, name: string): Promise<Tag> {
-    const res = await requestOrThrow(`${API_BASE_URL}/api/admin/tags/${id}`, {
+    const res = await requestOrThrow(`${ADMIN_API_BASE}/tags/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name }),
@@ -34,13 +35,13 @@ class AdminTagRepository {
   }
 
   async delete(id: number): Promise<void> {
-    await requestOrThrow(`${API_BASE_URL}/api/admin/tags/${id}`, {
+    await requestOrThrow(`${ADMIN_API_BASE}/tags/${id}`, {
       method: "DELETE",
     });
   }
 
   async reorder(orders: { id: number; displayOrder: number }[]): Promise<void> {
-    await requestOrThrow(`${API_BASE_URL}/api/admin/tags/order`, {
+    await requestOrThrow(`${ADMIN_API_BASE}/tags/order`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ orders }),

@@ -1,6 +1,8 @@
 import { ApiError, NotFoundError, UnauthorizedError } from "@/app/types/errors";
 export { API_BASE_URL } from "@/app/network/publicApi";
 
+export const ADMIN_API_BASE = "/api/admin";
+
 export async function requestOrThrow(
   input: RequestInfo | URL,
   init?: RequestInit,
