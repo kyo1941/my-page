@@ -19,15 +19,6 @@ const config: Config = {
       fontFamily: {
         sans: ["Noto Sans JP", "Helvetica Neue", "Arial", "sans-serif"],
       },
-      animation: {
-        blink: "blink 0.8s infinite",
-      },
-      keyframes: {
-        blink: {
-          "0%, 100%": { opacity: "0" },
-          "50%": { opacity: "1" },
-        },
-      },
     },
   },
   plugins: [],
