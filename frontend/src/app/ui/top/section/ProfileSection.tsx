@@ -62,21 +62,6 @@ export default function ProfileSection() {
             </Link>
 
             <Link
-              href={EXTERNAL_LINKS.WANTEDLY}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block hover:opacity-70 transition-opacity"
-            >
-              <Image
-                className="object-cover"
-                src="/wantedly-icon.svg"
-                alt="wantedly icon"
-                width={32}
-                height={32}
-              />
-            </Link>
-
-            <Link
               href={EXTERNAL_LINKS.ZENN}
               target="_blank"
               rel="noopener noreferrer"
