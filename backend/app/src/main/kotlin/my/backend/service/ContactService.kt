@@ -27,7 +27,6 @@ class ContactService(
 
     private val turnstileSecretKey = config.property("app.turnstile.secret-key").getString()
     private val recipientEmail = config.property("app.contact.recipient-email").getString()
-    private val resendApiKey = config.property("app.resend.api-key").getString()
     private val fromEmail = config.property("app.resend.from-email").getString()
 
     suspend fun processContactRequest(request: ContactFormRequest) {

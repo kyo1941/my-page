@@ -17,7 +17,7 @@ app:
     turnstile:
         secret-key: $TURNSTILE_SECRET_KEY
     contact:
-        recipient-email: "YOUR_EMAIL@example.com"
+        recipient-email: $RECIPIENT_EMAIL
     resend:
         api-key: $RESEND_API_KEY
         from-email: $RESEND_FROM_EMAIL
