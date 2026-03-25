@@ -1,7 +1,6 @@
 ---
 name: ship
 description: Lint check, commit, push, and create a PR following this project's conventions
-disable-model-invocation: true
 allowed-tools: Bash(pnpm *), Bash(git *), Bash(gh *)
 ---
 
