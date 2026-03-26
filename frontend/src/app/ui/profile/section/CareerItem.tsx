@@ -65,39 +65,37 @@ export default function CareerItem({
 
         {!isOpen && toggleButton(false)}
 
-        {isOpen && (
-          <>
-            <ul className="list-disc list-outside pl-5 text-gray-700">
-              {tasks.map((task, taskIndex) => (
-                <li key={taskIndex} className="mt-3 pl-1">
-                  {task.content}
-                  {task.details && task.details.length > 0 && (
-                    <ul className="list-[circle] list-outside pl-5 mt-1 text-gray-700">
-                      {task.details.map((sub, subIndex) => (
-                        <li key={subIndex} className="mt-2 pl-1">
-                          {sub}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
+        <div className={isOpen ? "" : "hidden"}>
+          <ul className="list-disc list-outside pl-5 text-gray-700">
+            {tasks.map((task, taskIndex) => (
+              <li key={taskIndex} className="mt-3 pl-1">
+                {task.content}
+                {task.details && task.details.length > 0 && (
+                  <ul className="list-[circle] list-outside pl-5 mt-1 text-gray-700">
+                    {task.details.map((sub, subIndex) => (
+                      <li key={subIndex} className="mt-2 pl-1">
+                        {sub}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+          {technologies.length > 0 && (
+            <div className="mt-3.5 flex flex-wrap gap-2">
+              {technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-full"
+                >
+                  {tech}
+                </span>
               ))}
-            </ul>
-            {technologies.length > 0 && (
-              <div className="mt-3.5 flex flex-wrap gap-2">
-                {technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-full"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )}
-            {toggleButton(true)}
-          </>
-        )}
+            </div>
+          )}
+          {toggleButton(true)}
+        </div>
       </div>
     </div>
   );
