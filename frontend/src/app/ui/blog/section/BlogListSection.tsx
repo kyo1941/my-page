@@ -2,10 +2,15 @@
 
 import Link from "next/link";
 import { useBlogList } from "@/app/hooks/blog/useBlogList";
+import type { Blog } from "@/app/repository/blogRepository";
 import { ROUTES } from "@/app/routes";
 
-export default function BlogListSection() {
-  const { blogs } = useBlogList();
+export default function BlogListSection({
+  initialBlogs,
+}: {
+  initialBlogs: Blog[];
+}) {
+  const { blogs } = useBlogList(initialBlogs);
 
   return (
     <div>

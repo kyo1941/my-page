@@ -1,7 +1,10 @@
 import Header from "@/app/components/header";
 import PortfolioListSection from "./section/PortfolioListSection";
+import { portfolioRepository } from "@/app/repository/portfolioRepository";
 
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  const portfolios = await portfolioRepository.getSortedPostsData();
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header />
@@ -12,7 +15,7 @@ export default function PortfolioPage() {
           </h1>
 
           <section>
-            <PortfolioListSection />
+            <PortfolioListSection portfolios={portfolios} />
           </section>
         </div>
       </main>
