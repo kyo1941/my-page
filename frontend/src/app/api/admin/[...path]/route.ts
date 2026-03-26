@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 const BACKEND_URL =
@@ -39,6 +40,14 @@ async function proxyAdmin(
     const resBody = await backendRes.text();
     const resContentType =
       backendRes.headers.get("content-type") ?? "application/json";
+
+    if (backendRes.ok && hasBody) {
+      if (path[0] === "blogs") {
+        if (path[1]) revalidatePath(`/ui/blog/${path[1]}`);
+      } else if (path[0] === "portfolios") {
+        if (path[1]) revalidatePath(`/ui/portfolio/${path[1]}`);
+      }
+    }
 
     return new NextResponse(resBody || null, {
       status: backendRes.status,
