@@ -32,21 +32,6 @@ export default function ProfileSection() {
           </div>
           <div className="pt-6 flex items-center gap-5">
             <Link
-              href={EXTERNAL_LINKS.X}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block hover:opacity-70 transition-opacity"
-            >
-              <Image
-                className="object-cover"
-                src="/x-icon.svg"
-                alt="x icon"
-                width={32}
-                height={32}
-              />
-            </Link>
-
-            <Link
               href={EXTERNAL_LINKS.GITHUB}
               target="_blank"
               rel="noopener noreferrer"
