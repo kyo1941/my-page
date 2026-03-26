@@ -32,7 +32,6 @@ export function BlogSearchProvider({
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [keyword, setKeyword] = useState<string>("");
 
-
   const toggleTag = useCallback((tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],

@@ -8,7 +8,6 @@ export default function PortfolioListSection({
 }: {
   portfolios: Portfolio[];
 }) {
-
   return (
     <div className="flex flex-col gap-8">
       {portfolios.length === 0 ? (
