@@ -5,10 +5,8 @@ import {
   useContext,
   useState,
   useCallback,
-  useEffect,
   ReactNode,
 } from "react";
-import { tagRepository } from "@/app/repository/tagRepository";
 
 interface BlogSearchContextType {
   availableTags: string[];
@@ -23,16 +21,17 @@ const BlogSearchContext = createContext<BlogSearchContextType | undefined>(
   undefined,
 );
 
-export function BlogSearchProvider({ children }: { children: ReactNode }) {
-  const [availableTags, setAvailableTags] = useState<string[]>([]);
+export function BlogSearchProvider({
+  children,
+  initialTags,
+}: {
+  children: ReactNode;
+  initialTags: string[];
+}) {
+  const [availableTags] = useState<string[]>(initialTags);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [keyword, setKeyword] = useState<string>("");
 
-  useEffect(() => {
-    tagRepository
-      .getAll()
-      .then((tags) => setAvailableTags(tags.map((t) => t.name)));
-  }, []);
 
   const toggleTag = useCallback((tag: string) => {
     setSelectedTags((prev) =>

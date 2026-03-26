@@ -1,12 +1,13 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { usePortfolioList } from "@/app/hooks/portfolio/usePortfolioList";
+import type { Portfolio } from "@/app/repository/portfolioRepository";
 import { ROUTES } from "@/app/routes";
 
-export default function PortfolioListSection() {
-  const { portfolios } = usePortfolioList();
+export default function PortfolioListSection({
+  portfolios,
+}: {
+  portfolios: Portfolio[];
+}) {
 
   return (
     <div className="flex flex-col gap-8">

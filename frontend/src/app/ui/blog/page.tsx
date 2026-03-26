@@ -3,8 +3,16 @@ import BlogListSection from "./section/BlogListSection";
 import TextSearchSection from "./section/TextSearchSection";
 import TagSearchSection from "./section/TagSearchSection";
 import { BlogSearchProvider } from "@/app/hooks/blog/useBlogSearchContext";
+import { blogRepository } from "@/app/repository/blogRepository";
+import { tagRepository } from "@/app/repository/tagRepository";
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const [initialBlogs, tags] = await Promise.all([
+    blogRepository.getSortedPostsData(),
+    tagRepository.getAll(),
+  ]);
+  const initialTags = tags.map((t) => t.name);
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header />
@@ -12,7 +20,7 @@ export default function BlogPage() {
         <div className="bg-white rounded-lg shadow-sm p-8">
           <h1 className="text-4xl font-bold mb-8 text-gray-900">ブログ</h1>
 
-          <BlogSearchProvider>
+          <BlogSearchProvider initialTags={initialTags}>
             <section className="pb-2 mb-2">
               <TextSearchSection />
             </section>
@@ -22,7 +30,7 @@ export default function BlogPage() {
             </section>
 
             <section>
-              <BlogListSection />
+              <BlogListSection initialBlogs={initialBlogs} />
             </section>
           </BlogSearchProvider>
         </div>
