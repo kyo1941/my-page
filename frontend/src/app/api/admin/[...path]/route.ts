@@ -41,7 +41,10 @@ async function proxyAdmin(
     const resContentType =
       backendRes.headers.get("content-type") ?? "application/json";
 
-    if (backendRes.ok && (request.method === "PUT" || request.method === "DELETE")) {
+    if (
+      backendRes.ok &&
+      (request.method === "PUT" || request.method === "DELETE")
+    ) {
       if (path[0] === "blogs") {
         if (path[1]) revalidatePath(`/ui/blog/${path[1]}`);
       } else if (path[0] === "portfolios") {
