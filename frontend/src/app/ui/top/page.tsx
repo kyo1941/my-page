@@ -3,8 +3,10 @@ import WelcomeSection from "./section/WelcomeSection";
 import ProfileSection from "./section/ProfileSection";
 import BlogListSection from "./section/BlogListSection";
 import ContactForm from "./section/ContactFormSection";
+import { blogRepository } from "@/app/repository/blogRepository";
 
-export default function Home() {
+export default async function Home() {
+  const blogs = await blogRepository.getSortedPostsData({ limit: 3 });
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header />
@@ -19,7 +21,7 @@ export default function Home() {
           </section>
 
           <section className="border-b border-gray-200 mt-16 pb-16">
-            <BlogListSection />
+            <BlogListSection blogs={blogs} />
           </section>
 
           {/* TODO: 成果物も簡単な見出しを作成しておく。詳しい内容は専用のページに遷移させる。 */}
