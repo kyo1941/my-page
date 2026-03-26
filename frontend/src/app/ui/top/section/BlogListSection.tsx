@@ -1,12 +1,8 @@
-"use client";
-
 import Link from "next/link";
-import { useBlogListTop } from "@/app/hooks/top/useBlogListTop";
+import { Blog } from "@/app/repository/blogRepository";
 import { ROUTES } from "@/app/routes";
 
-export default function BlogListSection() {
-  const { blogs } = useBlogListTop(3);
-
+export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
   return (
     <div>
       <div className="flex justify-between items-baseline mb-6">
