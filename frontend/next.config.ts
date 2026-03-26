@@ -15,7 +15,13 @@ const remotePattern: RemotePattern = {
 const nextConfig: NextConfig = {
   output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
   images: {
-    remotePatterns: [remotePattern],
+    remotePatterns: [
+      remotePattern,
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
   },
 };
 
