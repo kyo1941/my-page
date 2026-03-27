@@ -19,7 +19,7 @@ export default function ProfileSection() {
           <p className="py-4 text-gray-900">
             こんにちは、kyo1941です。
             <br />
-            Androidエンジニアをやっています。音楽を聴いたり、料理をしたりします。
+            Androidエンジニアをやっています。音楽を聴いたり、麻婆豆腐を作ったりしています。
             <br />
           </p>
           <div>
