@@ -25,7 +25,6 @@ Vercel (Next.js) → NEXT_PUBLIC_API_BASE_URL=https://<app>.onrender.com → Ren
 - **Database**: MySQL 8 via Flyway migrations, using Exposed ORM
 - **DI**: Koin (configured in `backend/app/src/main/kotlin/my/backend/di/AppModule.kt`)
 - **Dev**: `docker-compose up` (backend + db only) → `cd frontend && pnpm dev`
-- **Prod smoke test**: `docker-compose -f docker-compose.prod.yml up`
 
 ## Frontend
 
