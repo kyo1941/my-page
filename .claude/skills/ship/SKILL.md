@@ -6,14 +6,24 @@ allowed-tools: Bash(pnpm *), Bash(git *), Bash(gh *)
 
 実装が完了したら、以下の手順で lint チェック・コミット・プッシュ・PR 作成を行ってください。
 
-## 1. Lint チェック
+## 0. 実行前確認
+
+作業を始める前に、以下の内容をユーザーに提示して確認を求める。**承認を得るまで次のステップに進まないこと。**
+
+- 変更ファイルの一覧（`git status` の結果）
+- 実行予定のコミットメッセージ（草案）
+- 作成予定の PR タイトル（草案）
+
+ユーザーが承認したら次のステップへ進む。
+
+## 1. Lint チェック・自動修正
 
 変更が含まれる領域に応じて実行してください。
 
-- **Frontend** (`frontend/` に変更がある場合): `cd frontend && pnpm lint`
-- **Backend** (`backend/` に変更がある場合): `cd backend && ./gradlew :app:ktlintCheck`
+- **Frontend** (`frontend/` に変更がある場合): `cd frontend && pnpm fix`
+- **Backend** (`backend/` に変更がある場合): `cd backend && ./gradlew :app:ktlintFormat`
 
-エラーがあれば修正してから次に進む。
+自動修正後、残っているエラーがあれば手動で修正してから次に進む。
 
 ## 2. git の現状確認
 
@@ -47,7 +57,7 @@ git push -u origin <current-branch>
 
 ### タイトル形式
 
-過去の PR を参考にスコープを `[]` で示す:
+**日本語**で記述する。過去の PR を参考にスコープを `[]` で示す:
 
 - `[Frontend] ...`
 - `[Backend] ...`
@@ -76,7 +86,7 @@ git push -u origin <current-branch>
 ### コマンド例
 
 ```
-gh pr create --title "[Frontend] ..." --label "Frontend" --body "$(cat <<'EOF'
+gh pr create --title "[Frontend] ～～を追加" --label "Frontend" --body "$(cat <<'EOF'
 ## 変更内容
 - ...
 
