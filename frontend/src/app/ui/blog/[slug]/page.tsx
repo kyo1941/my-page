@@ -1,10 +1,9 @@
 import { blogRepository } from "@/app/repository/blogRepository";
+import { ogpRepository } from "@/app/repository/ogpRepository";
+import { extractBareUrls } from "@/app/utils/extractBareUrls";
 import Header from "@/app/components/header";
 import BackButton from "@/app/components/BackButton";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
-import rehypeRaw from "rehype-raw";
+import { MarkdownRenderer } from "@/app/components/MarkdownRenderer";
 import { ROUTES } from "@/app/routes";
 
 // ブログページの生成に必要なパスを事前に取得する関数
@@ -23,6 +22,9 @@ export default async function PostPage({
 }) {
   const { slug } = await params;
   const postData = await blogRepository.getPostData(slug);
+  const ogpData = postData
+    ? await ogpRepository.fetchOgpBatch(extractBareUrls(postData.content))
+    : {};
 
   if (!postData) {
     return (
@@ -64,12 +66,7 @@ export default async function PostPage({
 
             {/* 本文 (ReactMarkdownでレンダリング) */}
             <div className="prose prose-lg max-w-none">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight, rehypeRaw]}
-              >
-                {postData.content}
-              </ReactMarkdown>
+              <MarkdownRenderer content={postData.content} ogpData={ogpData} />
             </div>
           </article>
         </div>
