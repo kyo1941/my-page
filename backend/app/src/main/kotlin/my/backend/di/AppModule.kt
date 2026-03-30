@@ -21,6 +21,7 @@ import my.backend.repository.UserRepositoryImpl
 import my.backend.service.AuthService
 import my.backend.service.BlogService
 import my.backend.service.ContactService
+import my.backend.service.OgpService
 import my.backend.service.PortfolioService
 import my.backend.service.TagService
 import org.koin.dsl.module
@@ -68,6 +69,7 @@ fun appModule(config: ApplicationConfig) =
         // Services
         single { BlogService(get()) }
         single { ContactService(get(), get(), get()) }
+        single { OgpService(get()) }
         single { PortfolioService(get()) }
         single { AuthService(get(), get()) }
         single { TagService(get()) }
