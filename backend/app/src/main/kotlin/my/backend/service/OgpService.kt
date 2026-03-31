@@ -14,17 +14,20 @@ import java.util.concurrent.ConcurrentHashMap
 
 class OgpService(private val client: HttpClient) {
     private val logger = LoggerFactory.getLogger(OgpService::class.java)
-    private val cache = ConcurrentHashMap<String, OgpResponseDto?>()
+    private val cache = ConcurrentHashMap<String, OgpResponseDto>()
+
+    // NOTE: ConcurrentHashMap は null 値を許容しないため、取得失敗をセンチネルで表す
+    private val failed = OgpResponseDto(url = "")
 
     suspend fun fetchOgp(rawUrl: String): OgpResponseDto? {
-        if (cache.containsKey(rawUrl)) return cache[rawUrl]
+        cache[rawUrl]?.let { return if (it === failed) null else it }
 
         val result =
             runCatching { doFetch(rawUrl) }.getOrElse {
                 logger.warn("Failed to fetch OGP for $rawUrl: ${it.message}")
                 null
             }
-        cache[rawUrl] = result
+        cache[rawUrl] = result ?: failed
         return result
     }
 
@@ -34,7 +37,11 @@ class OgpService(private val client: HttpClient) {
         val uri = URI(rawUrl)
         val host = uri.host ?: return null
         val address = runCatching { InetAddress.getByName(host) }.getOrNull() ?: return null
-        if (address.isLoopbackAddress || address.isSiteLocalAddress) return null
+        if (address.isLoopbackAddress || address.isSiteLocalAddress ||
+            address.isLinkLocalAddress || address.isMulticastAddress
+        ) {
+            return null
+        }
 
         val html =
             withTimeout(5_000) {
