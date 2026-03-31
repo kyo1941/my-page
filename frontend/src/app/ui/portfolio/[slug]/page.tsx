@@ -1,10 +1,9 @@
 import { portfolioRepository } from "@/app/repository/portfolioRepository";
+import { ogpRepository } from "@/app/repository/ogpRepository";
+import { extractBareUrls } from "@/app/utils/extractBareUrls";
 import Header from "@/app/components/header";
 import BackButton from "@/app/components/BackButton";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
-import rehypeRaw from "rehype-raw";
+import { MarkdownRenderer } from "@/app/components/MarkdownRenderer";
 import { ROUTES } from "@/app/routes";
 
 // ポートフォリオページの生成に必要なパスを事前に取得する関数
@@ -23,6 +22,9 @@ export default async function PortfolioDetailPage({
 }) {
   const { slug } = await params;
   const portfolioData = await portfolioRepository.getPostData(slug);
+  const ogpData = portfolioData
+    ? await ogpRepository.fetchOgpBatch(extractBareUrls(portfolioData.content))
+    : {};
 
   if (!portfolioData) {
     return (
@@ -64,12 +66,10 @@ export default async function PortfolioDetailPage({
 
             {/* 本文 (ReactMarkdownでレンダリング) */}
             <div className="prose prose-lg max-w-none">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight, rehypeRaw]}
-              >
-                {portfolioData.content}
-              </ReactMarkdown>
+              <MarkdownRenderer
+                content={portfolioData.content}
+                ogpData={ogpData}
+              />
             </div>
           </article>
         </div>

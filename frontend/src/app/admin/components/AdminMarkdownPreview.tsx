@@ -1,9 +1,7 @@
 "use client";
 
-import ReactMarkdown from "react-markdown";
-import rehypeHighlight from "rehype-highlight";
-import rehypeRaw from "rehype-raw";
-import remarkGfm from "remark-gfm";
+import { useOgpData } from "@/app/hooks/admin/useOgpData";
+import { MarkdownRenderer } from "@/app/components/MarkdownRenderer";
 
 type AdminMarkdownPreviewProps = {
   content: string;
@@ -11,6 +9,7 @@ type AdminMarkdownPreviewProps = {
 
 export function AdminMarkdownPreview({ content }: AdminMarkdownPreviewProps) {
   const hasContent = content.trim().length > 0;
+  const ogpData = useOgpData(content);
 
   return (
     <div>
@@ -18,12 +17,7 @@ export function AdminMarkdownPreview({ content }: AdminMarkdownPreviewProps) {
       <aside className="self-start rounded border bg-white p-6 shadow lg:sticky lg:top-8">
         <div className="prose max-w-none">
           {hasContent ? (
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight, rehypeRaw]}
-            >
-              {content}
-            </ReactMarkdown>
+            <MarkdownRenderer content={content} ogpData={ogpData} />
           ) : (
             <p className="text-sm text-gray-500">
               本文を入力するとここにプレビューが表示されます。

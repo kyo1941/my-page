@@ -21,8 +21,10 @@ import my.backend.repository.UserRepositoryImpl
 import my.backend.service.AuthService
 import my.backend.service.BlogService
 import my.backend.service.ContactService
+import my.backend.service.OgpService
 import my.backend.service.PortfolioService
 import my.backend.service.TagService
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.dsl.onClose
 
@@ -56,6 +58,12 @@ fun appModule(config: ApplicationConfig) =
             HttpClient(CIO) { install(ContentNegotiation) { json(Json { ignoreUnknownKeys = true }) } }
         } onClose { it?.close() }
 
+        // HttpClient (OGP取得用, ContentNegotiation なし)
+        // OGP取得は HTML を生テキストとして読むだけであり、JSON API 呼び出しとは用途が異なるため専用クライアントを使う
+        single(named("ogp")) {
+            HttpClient(CIO)
+        } onClose { it?.close() }
+
         // Resend (メール送信用)
         single { Resend(config.property("app.resend.api-key").getString()) }
 
@@ -68,6 +76,7 @@ fun appModule(config: ApplicationConfig) =
         // Services
         single { BlogService(get()) }
         single { ContactService(get(), get(), get()) }
+        single { OgpService(get(named("ogp"))) }
         single { PortfolioService(get()) }
         single { AuthService(get(), get()) }
         single { TagService(get()) }
