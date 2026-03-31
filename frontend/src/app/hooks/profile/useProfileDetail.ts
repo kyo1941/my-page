@@ -20,7 +20,7 @@ export function useProfileDetail() {
     birthplace: "福島県 県北出身",
     birthday: "2002年10月22日",
     age,
-    university: "埼玉大学大学院 理工学研究科 数理電子情報専攻 修士1年",
+    university: "埼玉大学大学院 理工学研究科 数理電子情報専攻 修士2年",
     description: [
       "Androidエンジニアをやっています。最近はKotlin Multiplatformに興味があったり、Kotlinでバックエンドを書いたりもしています。",
       "趣味では、音楽鑑賞とか料理とかしてます。古い音楽が特に好きで、昭和歌謡とかフォークソングとか特に聴いたりしています。オーディオとかも興味があったりレコードを少々持っていたりします。",
