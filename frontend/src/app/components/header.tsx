@@ -8,7 +8,7 @@ const animatedUnderline = `
   relative
   text-gray-900
   transition-colors duration-200
-  hover:text-foreground
+  
   after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current
   motion-safe:after:transition-all motion-safe:after:duration-200
   motion-reduce:after:transition-none
@@ -53,7 +53,7 @@ export default function Header() {
       <div className="max-w-4xl w-full mx-auto px-4 py-4 flex items-center justify-between">
         <Link
           href={ROUTES.HOME}
-          className="text-2xl font-bold transition-opacity hover:opacity-70"
+          className="text-2xl font-bold text-gray-900 transition-opacity hover:opacity-70"
         >
           kyo1941
         </Link>
@@ -63,7 +63,7 @@ export default function Header() {
               <li key={item.id}>
                 <Link
                   href={item.link}
-                  className={`no-underline text-inherit ${animatedUnderline}`}
+                  className={`no-underline ${animatedUnderline}`}
                 >
                   {item.label}
                 </Link>
