@@ -116,7 +116,7 @@ export default function Header() {
               <Link
                 href={item.link}
                 onClick={closeMenu}
-                className="block -mx-6 px-6 py-4 no-underline text-inherit text-base font-semibold"
+                className="block -mx-6 px-6 py-4 no-underline text-gray-900 text-base font-semibold"
               >
                 {item.label}
               </Link>
