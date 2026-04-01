@@ -8,7 +8,6 @@ const animatedUnderline = `
   relative
   text-gray-900
   transition-colors duration-200
-  
   after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current
   motion-safe:after:transition-all motion-safe:after:duration-200
   motion-reduce:after:transition-none
