@@ -1,3 +1,5 @@
+export const revalidate = false;
+
 // 最低限の経由でトップページを表示
 import Home from "./ui/top/page";
 
