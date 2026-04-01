@@ -1,3 +1,5 @@
+export const revalidate = false;
+
 import Header from "@/app/components/header";
 import BlogListSection from "./section/BlogListSection";
 import TextSearchSection from "./section/TextSearchSection";
