@@ -1,3 +1,5 @@
+export const revalidate = false;
+
 import Header from "@/app/components/header";
 import PortfolioListSection from "./section/PortfolioListSection";
 import { portfolioRepository } from "@/app/repository/portfolioRepository";

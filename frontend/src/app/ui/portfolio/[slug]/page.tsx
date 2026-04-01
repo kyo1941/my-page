@@ -1,3 +1,5 @@
+export const revalidate = false;
+
 import { portfolioRepository } from "@/app/repository/portfolioRepository";
 import { ogpRepository } from "@/app/repository/ogpRepository";
 import { extractBareUrls } from "@/app/utils/extractBareUrls";

@@ -41,14 +41,16 @@ async function proxyAdmin(
     const resContentType =
       backendRes.headers.get("content-type") ?? "application/json";
 
-    if (
-      backendRes.ok &&
-      (request.method === "PUT" || request.method === "DELETE")
-    ) {
+    if (backendRes.ok) {
       if (path[0] === "blogs") {
+        revalidatePath("/ui/blog");
         if (path[1]) revalidatePath(`/ui/blog/${path[1]}`);
       } else if (path[0] === "portfolios") {
+        revalidatePath("/ui/portfolio");
         if (path[1]) revalidatePath(`/ui/portfolio/${path[1]}`);
+      } else if (path[0] === "tags") {
+        revalidatePath("/ui/blog");
+        revalidatePath("/ui/portfolio");
       }
     }
 
