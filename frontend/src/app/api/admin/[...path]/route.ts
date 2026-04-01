@@ -43,6 +43,7 @@ async function proxyAdmin(
 
     if (backendRes.ok) {
       if (path[0] === "blogs") {
+        revalidatePath("/");
         revalidatePath("/ui/blog");
         if (path[1]) revalidatePath(`/ui/blog/${path[1]}`);
       } else if (path[0] === "portfolios") {
