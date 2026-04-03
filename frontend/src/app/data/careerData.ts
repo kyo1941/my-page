@@ -16,6 +16,18 @@ export const CURRENT_TERM = "現在";
 
 export const careerData: Career[] = [
   {
+    company: "株式会社サイバーエージェント",
+    url: "https://www.cyberagent.co.jp/",
+    period: `2026年4月 - ${CURRENT_TERM}`,
+    position: "ABEMA - Androidエンジニア（インターン）",
+    tasks: [
+      {
+        content: "動画配信サービス「ABEMA」のAndroidエンジニアとして1ヶ月従事",
+      },
+    ],
+    technologies: ["Kotlin", "Kotlin Multiplatform"],
+  },
+  {
     company: "株式会社MIXI",
     url: "https://mixi.co.jp/",
     period: "2026年2月 - 2026年2月",
