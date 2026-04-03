@@ -26,7 +26,7 @@ export default function BlogListSection({
               key={blog.slug}
               className="block"
             >
-              <div className="bg-gray-50 p-7 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div className="bg-gray-50 p-7 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 min-h-52 md:min-h-0 hover:-translate-y-1 hover:shadow-xl">
                 <h4 className="font-semibold mb-2 text-gray-900">
                   {blog.title}
                 </h4>
