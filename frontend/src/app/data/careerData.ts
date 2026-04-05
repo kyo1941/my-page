@@ -44,7 +44,7 @@ export const careerData: Career[] = [
       {
         content: "Splash Screen におけるロゴの差し替えを担当",
         details: [
-          "ガイドラインや API 仕様でのデザイン調整や、試作を通した XFT での調整を行い実装",
+          "ガイドラインや API 仕様でのデザイン調整や、試作を通した CFT での調整を行い実装",
         ],
       },
       { content: "その他、レガシーな技術のリプレイスも担当" },
