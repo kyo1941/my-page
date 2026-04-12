@@ -1,5 +1,10 @@
 @import "tailwindcss";
 @import "highlight.js/styles/github-dark.css";
+
+pre code:not(.hljs) {
+  display: block;
+  padding: 1em;
+}
 @plugin '@tailwindcss/typography';
 
 :root {

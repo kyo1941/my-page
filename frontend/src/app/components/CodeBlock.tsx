@@ -42,7 +42,7 @@ export function CodeBlock({ language, children }: Props) {
           )}
         </button>
       </div>
-      <pre ref={preRef} className="!my-0 !rounded-none">
+      <pre ref={preRef} className="!my-0 !rounded-none !bg-[#0d1117] !p-0">
         {children}
       </pre>
     </div>
