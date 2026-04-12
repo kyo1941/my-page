@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiCopy, FiCheck } from "react-icons/fi";
 
 type Props = {
@@ -16,8 +16,13 @@ export function CodeBlock({ language, children }: Props) {
     const text = preRef.current?.textContent ?? "";
     await navigator.clipboard.writeText(text);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(timer);
+  }, [copied]);
 
   return (
     <div className="my-4 rounded-md overflow-hidden border border-gray-700">
@@ -26,6 +31,7 @@ export function CodeBlock({ language, children }: Props) {
           {language ?? ""}
         </span>
         <button
+          type="button"
           onClick={handleCopy}
           className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-100 transition-colors cursor-pointer select-none"
         >

@@ -20,14 +20,13 @@ export function MarkdownRenderer({ content, ogpData = {} }: Props) {
       rehypePlugins={[rehypeHighlight, rehypeRaw]}
       components={{
         pre({ children }) {
-          let language: string | undefined;
-          if (React.isValidElement(children)) {
-            const codeEl = children as React.ReactElement<{
-              className?: string;
-            }>;
-            const m = (codeEl.props.className ?? "").match(/language-(\S+)/);
-            language = m?.[1];
-          }
+          const codeElement = React.Children.toArray(children).find(
+            (child) =>
+              React.isValidElement(child) &&
+              (child as React.ReactElement).type === "code",
+          ) as React.ReactElement<{ className?: string }> | undefined;
+          const language =
+            codeElement?.props.className?.match(/language-(\S+)/)?.[1];
           return <CodeBlock language={language}>{children}</CodeBlock>;
         },
         p({ children, ...props }) {
