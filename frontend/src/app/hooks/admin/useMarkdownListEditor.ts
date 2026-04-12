@@ -11,10 +11,7 @@ function isInsideCodeBlock(value: string, cursor: number): boolean {
   return fenceCount % 2 === 1;
 }
 
-export function useMarkdownListEditor(
-  _content: string,
-  setContent: (value: string) => void,
-) {
+export function useMarkdownListEditor(setContent: (value: string) => void) {
   const pendingCursorRef = useRef<number | null>(null);
 
   const applyEdit = useCallback(
@@ -67,7 +64,7 @@ export function useMarkdownListEditor(
           applyEdit(textarea, newValue, lineStart + newLine.length);
         } else {
           const newValue = value.slice(0, lineStart) + value.slice(lineEnd);
-          applyEdit(textarea, newValue, lineStart + 1);
+          applyEdit(textarea, newValue, Math.min(lineStart, newValue.length));
         }
         return;
       }
@@ -90,15 +87,15 @@ export function useMarkdownListEditor(
             newValue,
             lineStart + Math.max(0, cursor - lineStart - 2),
           );
-        } else if (isListLine) {
+        } else if (inCodeBlock) {
+          const newValue = value.slice(0, cursor) + "  " + value.slice(cursor);
+          applyEdit(textarea, newValue, cursor + 2);
+        } else {
           const newValue =
             value.slice(0, lineStart) +
             "  " +
             currentLine +
             value.slice(lineEnd);
-          applyEdit(textarea, newValue, cursor + 2);
-        } else {
-          const newValue = value.slice(0, cursor) + "  " + value.slice(cursor);
           applyEdit(textarea, newValue, cursor + 2);
         }
       }

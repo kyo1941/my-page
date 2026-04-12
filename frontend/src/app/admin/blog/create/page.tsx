@@ -37,7 +37,7 @@ export default function CreateBlogPage() {
   const { previewContent, onCompositionStart, onCompositionEnd } =
     useCommittedPreview(content);
 
-  const { onKeyDown } = useMarkdownListEditor(content, setContent);
+  const { onKeyDown } = useMarkdownListEditor(setContent);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
