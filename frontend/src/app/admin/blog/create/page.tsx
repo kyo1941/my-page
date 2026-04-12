@@ -6,6 +6,7 @@ import { useAdminBlogCreate } from "@/app/hooks/admin/useAdminBlogCreate";
 import { useAdminTags } from "@/app/hooks/admin/useAdminTags";
 import { AdminMarkdownPreview } from "@/app/admin/components/AdminMarkdownPreview";
 import { useCommittedPreview } from "@/app/hooks/admin/useCommittedPreview";
+import { useMarkdownListEditor } from "@/app/hooks/admin/useMarkdownListEditor";
 
 export default function CreateBlogPage() {
   const router = useRouter();
@@ -35,6 +36,8 @@ export default function CreateBlogPage() {
 
   const { previewContent, onCompositionStart, onCompositionEnd } =
     useCommittedPreview(content);
+
+  const { onKeyDown } = useMarkdownListEditor(content, setContent);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,6 +125,7 @@ export default function CreateBlogPage() {
               onChange={(e) => setContent(e.target.value)}
               onCompositionStart={onCompositionStart}
               onCompositionEnd={(e) => onCompositionEnd(e.currentTarget.value)}
+              onKeyDown={onKeyDown}
               required
             />
           </div>
