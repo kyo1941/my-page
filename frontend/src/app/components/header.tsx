@@ -2,16 +2,29 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ROUTES } from "@/app/routes";
 
-const animatedUnderline = `
+const baseNavLink = `
   relative
   text-gray-900
   transition-colors duration-200
-  after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current
+  after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-current
+`;
+
+const animatedUnderline = `
+  ${baseNavLink}
+  after:w-0
   motion-safe:after:transition-all motion-safe:after:duration-200
   motion-reduce:after:transition-none
   hover:after:w-full focus-visible:after:w-full
+`;
+
+const activeUnderline = `
+  ${baseNavLink}
+  after:w-full
+  motion-safe:after:transition-all motion-safe:after:duration-200
+  motion-reduce:after:transition-none
 `;
 
 const navItems = [
@@ -21,8 +34,17 @@ const navItems = [
   { id: "portfolio", link: ROUTES.PORTFOLIO, label: "ポートフォリオ" },
 ];
 
+function isActivePath(pathname: string | null, link: string): boolean {
+  if (!pathname) return false;
+  if (link === ROUTES.HOME) {
+    return pathname === "/";
+  }
+  return pathname === link || pathname.startsWith(link + "/");
+}
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const closeMenu = () => setIsOpen(false);
 
@@ -62,7 +84,7 @@ export default function Header() {
               <li key={item.id}>
                 <Link
                   href={item.link}
-                  className={`no-underline ${animatedUnderline}`}
+                  className={`no-underline ${isActivePath(pathname, item.link) ? activeUnderline : animatedUnderline}`}
                 >
                   {item.label}
                 </Link>
