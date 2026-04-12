@@ -5,6 +5,7 @@ import { UnauthorizedError } from "@/app/types/errors";
 import { useAdminPortfolioCreate } from "@/app/hooks/admin/useAdminPortfolioCreate";
 import { AdminMarkdownPreview } from "@/app/admin/components/AdminMarkdownPreview";
 import { useCommittedPreview } from "@/app/hooks/admin/useCommittedPreview";
+import { useMarkdownListEditor } from "@/app/hooks/admin/useMarkdownListEditor";
 
 export default function CreatePortfolioPage() {
   const router = useRouter();
@@ -30,6 +31,8 @@ export default function CreatePortfolioPage() {
 
   const { previewContent, onCompositionStart, onCompositionEnd } =
     useCommittedPreview(content);
+
+  const { onKeyDown } = useMarkdownListEditor(setContent);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,6 +111,7 @@ export default function CreatePortfolioPage() {
               onChange={(e) => setContent(e.target.value)}
               onCompositionStart={onCompositionStart}
               onCompositionEnd={(e) => onCompositionEnd(e.currentTarget.value)}
+              onKeyDown={onKeyDown}
               required
             />
           </div>
