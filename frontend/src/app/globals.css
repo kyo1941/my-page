@@ -4,6 +4,7 @@
 pre code:not(.hljs) {
   display: block;
   padding: 1em;
+  overflow-x: auto;
 }
 @plugin '@tailwindcss/typography';
 
