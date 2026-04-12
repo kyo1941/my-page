@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useRef, useEffect } from "react";
 import { AdminMarkdownPreview } from "./AdminMarkdownPreview";
 import { useCommittedPreview } from "@/app/hooks/admin/useCommittedPreview";
 import { useMarkdownListEditor } from "@/app/hooks/admin/useMarkdownListEditor";
@@ -43,6 +44,14 @@ export function AdminDocForm({
   const { previewContent, onCompositionStart, onCompositionEnd } =
     useCommittedPreview(content);
   const { onKeyDown } = useMarkdownListEditor(setContent);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }, [content]);
 
   const buttonLabel = isDraft ? "下書きを保存する" : publishLabel;
 
@@ -92,7 +101,8 @@ export function AdminDocForm({
               内容
             </label>
             <textarea
-              className="h-64 w-full rounded border px-3 py-2 shadow focus:outline-none"
+              ref={contentRef}
+              className="min-h-64 w-full overflow-hidden rounded border px-3 py-2 shadow focus:outline-none"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               onCompositionStart={onCompositionStart}
