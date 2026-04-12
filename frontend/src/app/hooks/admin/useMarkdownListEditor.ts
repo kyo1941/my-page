@@ -2,6 +2,15 @@
 
 import { useCallback, useRef } from "react";
 
+function isInsideCodeBlock(value: string, cursor: number): boolean {
+  const lines = value.slice(0, cursor).split("\n");
+  let fenceCount = 0;
+  for (const line of lines) {
+    if (line.startsWith("```")) fenceCount++;
+  }
+  return fenceCount % 2 === 1;
+}
+
 export function useMarkdownListEditor(
   _content: string,
   setContent: (value: string) => void,
@@ -64,7 +73,10 @@ export function useMarkdownListEditor(
       }
 
       if (e.key === "Tab") {
-        if (!/^\s*- /.test(currentLine)) return;
+        const isListLine = /^\s*- /.test(currentLine);
+        const inCodeBlock = isInsideCodeBlock(value, cursor);
+
+        if (!isListLine && !inCodeBlock) return;
 
         e.preventDefault();
         if (e.shiftKey) {
@@ -78,12 +90,15 @@ export function useMarkdownListEditor(
             newValue,
             lineStart + Math.max(0, cursor - lineStart - 2),
           );
-        } else {
+        } else if (isListLine) {
           const newValue =
             value.slice(0, lineStart) +
             "  " +
             currentLine +
             value.slice(lineEnd);
+          applyEdit(textarea, newValue, cursor + 2);
+        } else {
+          const newValue = value.slice(0, cursor) + "  " + value.slice(cursor);
           applyEdit(textarea, newValue, cursor + 2);
         }
       }
