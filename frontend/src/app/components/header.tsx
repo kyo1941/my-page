@@ -23,6 +23,8 @@ const animatedUnderline = `
 const activeUnderline = `
   ${baseNavLink}
   after:w-full
+  motion-safe:after:transition-all motion-safe:after:duration-200
+  motion-reduce:after:transition-none
 `;
 
 const navItems = [
@@ -32,11 +34,12 @@ const navItems = [
   { id: "portfolio", link: ROUTES.PORTFOLIO, label: "ポートフォリオ" },
 ];
 
-function isActivePath(pathname: string, link: string): boolean {
+function isActivePath(pathname: string | null, link: string): boolean {
+  if (!pathname) return false;
   if (link === ROUTES.HOME) {
     return pathname === "/";
   }
-  return pathname.startsWith(link);
+  return pathname === link || pathname.startsWith(link + "/");
 }
 
 export default function Header() {
