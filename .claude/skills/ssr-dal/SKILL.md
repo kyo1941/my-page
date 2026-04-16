@@ -96,6 +96,22 @@ export async function fetchPortfolioSlugs() {
 }
 ```
 
+#### 例: `frontend/src/app/lib/data/ogp.ts`
+
+`ogpRepository` も DAL に含める。URL 抽出 (`extractBareUrls`) まで DAL 内に閉じ込めることで、
+page.tsx は記事コンテンツを渡すだけでよくなる。
+
+```typescript
+import "server-only";
+import { ogpRepository } from "@/app/repository/ogpRepository";
+import { extractBareUrls } from "@/app/utils/extractBareUrls";
+
+export async function fetchOgpForContent(content: string) {
+  const urls = extractBareUrls(content);
+  return ogpRepository.fetchOgpBatch(urls);
+}
+```
+
 ### 4. page.tsx の修正
 
 各 page.tsx で以下の変更を行う:
@@ -118,13 +134,22 @@ import { fetchBlogListWithLimit } from "@/app/lib/data/blog";
 const blogs = await fetchBlogListWithLimit(3);
 ```
 
-### 5. OGP Repository の扱い
+#### 修正例 (`blog/[slug]/page.tsx`)
 
-`ogpRepository` は UI 固有の副作用（外部 URL の OGP 取得）を持つため、
-DAL に含めるかは判断が必要。対応が複雑な場合は page.tsx に残してよいが、
-その場合はコメントで理由を明記すること。
+```typescript
+// Before
+import { ogpRepository } from "@/app/repository/ogpRepository";
+import { extractBareUrls } from "@/app/utils/extractBareUrls";
+const ogpData = postData
+  ? await ogpRepository.fetchOgpBatch(extractBareUrls(postData.content))
+  : {};
 
-### 6. ビルド確認
+// After
+import { fetchOgpForContent } from "@/app/lib/data/ogp";
+const ogpData = postData ? await fetchOgpForContent(postData.content) : {};
+```
+
+### 5. ビルド確認
 
 ```bash
 cd frontend && pnpm build
