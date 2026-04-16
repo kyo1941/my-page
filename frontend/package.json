@@ -14,7 +14,6 @@
   "dependencies": {
     "@marsidev/react-turnstile": "^1.2.0",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/mdast": "^4.0.4",
     "@types/react-google-recaptcha": "^2.1.9",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.12",
@@ -36,6 +35,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/mdast": "^4.0.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
