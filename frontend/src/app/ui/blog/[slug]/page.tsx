@@ -1,8 +1,7 @@
 export const revalidate = false;
 
-import { blogRepository } from "@/app/repository/blogRepository";
-import { ogpRepository } from "@/app/repository/ogpRepository";
-import { extractBareUrls } from "@/app/utils/extractBareUrls";
+import { fetchBlogPost, fetchBlogSlugs } from "@/app/lib/data/blog";
+import { fetchOgpForContent } from "@/app/lib/data/ogp";
 import Header from "@/app/components/header";
 import BackButton from "@/app/components/BackButton";
 import { MarkdownRenderer } from "@/app/components/MarkdownRenderer";
@@ -10,7 +9,7 @@ import { ROUTES } from "@/app/routes";
 
 // ブログページの生成に必要なパスを事前に取得する関数
 export async function generateStaticParams() {
-  const paths = await blogRepository.getAllPostSlugs();
+  const paths = await fetchBlogSlugs();
   return paths.map((path) => ({
     slug: path.params.slug,
   }));
@@ -23,10 +22,8 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const postData = await blogRepository.getPostData(slug);
-  const ogpData = postData
-    ? await ogpRepository.fetchOgpBatch(extractBareUrls(postData.content))
-    : {};
+  const postData = await fetchBlogPost(slug);
+  const ogpData = postData ? await fetchOgpForContent(postData.content) : {};
 
   if (!postData) {
     return (

@@ -2,10 +2,10 @@ export const revalidate = false;
 
 import Header from "@/app/components/header";
 import PortfolioListSection from "./section/PortfolioListSection";
-import { portfolioRepository } from "@/app/repository/portfolioRepository";
+import { fetchPortfolioList } from "@/app/lib/data/portfolio";
 
 export default async function PortfolioPage() {
-  const portfolios = await portfolioRepository.getSortedPostsData();
+  const portfolios = await fetchPortfolioList();
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
