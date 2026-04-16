@@ -1,8 +1,10 @@
 export const revalidate = false;
 
-import { portfolioRepository } from "@/app/repository/portfolioRepository";
-import { ogpRepository } from "@/app/repository/ogpRepository";
-import { extractBareUrls } from "@/app/utils/extractBareUrls";
+import {
+  fetchPortfolioPost,
+  fetchPortfolioSlugs,
+} from "@/app/lib/data/portfolio";
+import { fetchOgpForContent } from "@/app/lib/data/ogp";
 import Header from "@/app/components/header";
 import BackButton from "@/app/components/BackButton";
 import { MarkdownRenderer } from "@/app/components/MarkdownRenderer";
@@ -10,7 +12,7 @@ import { ROUTES } from "@/app/routes";
 
 // ポートフォリオページの生成に必要なパスを事前に取得する関数
 export async function generateStaticParams() {
-  const paths = await portfolioRepository.getAllPostSlugs();
+  const paths = await fetchPortfolioSlugs();
   return paths.map((path) => ({
     slug: path.params.slug,
   }));
@@ -23,9 +25,9 @@ export default async function PortfolioDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const portfolioData = await portfolioRepository.getPostData(slug);
+  const portfolioData = await fetchPortfolioPost(slug);
   const ogpData = portfolioData
-    ? await ogpRepository.fetchOgpBatch(extractBareUrls(portfolioData.content))
+    ? await fetchOgpForContent(portfolioData.content)
     : {};
 
   if (!portfolioData) {
