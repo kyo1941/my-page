@@ -5,6 +5,10 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import type { OgpData } from "@/app/types/ogp";
 import { remarkLinkPreview } from "@/app/utils/remarkLinkPreview";
+import {
+  parseToggleSegments,
+  type Segment,
+} from "@/app/utils/preprocessToggles";
 import { LinkPreviewCard } from "@/app/components/LinkPreviewCard";
 import { CodeBlock } from "@/app/components/CodeBlock";
 
@@ -13,7 +17,13 @@ type Props = {
   ogpData?: Record<string, OgpData>;
 };
 
-export function MarkdownRenderer({ content, ogpData = {} }: Props) {
+function MarkdownContent({
+  content,
+  ogpData,
+}: {
+  content: string;
+  ogpData: Record<string, OgpData>;
+}) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm, remarkLinkPreview]}
@@ -47,5 +57,36 @@ export function MarkdownRenderer({ content, ogpData = {} }: Props) {
     >
       {content}
     </ReactMarkdown>
+  );
+}
+
+function SegmentRenderer({
+  segment,
+  ogpData,
+}: {
+  segment: Segment;
+  ogpData: Record<string, OgpData>;
+}) {
+  if (segment.type === "toggle") {
+    return (
+      <details className="toggle">
+        <summary>{segment.title}</summary>
+        {segment.children.map((child, i) => (
+          <SegmentRenderer key={i} segment={child} ogpData={ogpData} />
+        ))}
+      </details>
+    );
+  }
+  return <MarkdownContent content={segment.content} ogpData={ogpData} />;
+}
+
+export function MarkdownRenderer({ content, ogpData = {} }: Props) {
+  const segments = parseToggleSegments(content);
+  return (
+    <>
+      {segments.map((seg, i) => (
+        <SegmentRenderer key={i} segment={seg} ogpData={ogpData} />
+      ))}
+    </>
   );
 }

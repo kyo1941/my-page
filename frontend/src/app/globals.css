@@ -49,6 +49,39 @@ pre code:not(.hljs) {
   }
 }
 
+.prose details.toggle {
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+}
+
+.prose details.toggle > summary {
+  cursor: pointer;
+  font-weight: 500;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  user-select: none;
+}
+
+.prose details.toggle > summary::before {
+  content: "▶";
+  font-size: 0.65rem;
+  transition: transform 0.15s ease;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.prose details.toggle[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.prose details.toggle > summary::-webkit-details-marker {
+  display: none;
+}
+
 html {
   scrollbar-gutter: stable;
 }

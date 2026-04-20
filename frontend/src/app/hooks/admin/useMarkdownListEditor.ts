@@ -46,31 +46,53 @@ export function useMarkdownListEditor(setContent: (value: string) => void) {
 
       if (e.key === "Enter") {
         const listMatch = currentLine.match(/^(\s*)- (.*)/);
-        if (!listMatch) return;
+        const toggleMatch = currentLine.match(/^(\s*)> (.*)/);
+        if (!listMatch && !toggleMatch) return;
 
         e.preventDefault();
-        const indent = listMatch[1];
-        const itemContent = listMatch[2];
 
-        if (itemContent !== "") {
-          const insertion = `\n${indent}- `;
-          const newValue =
-            value.slice(0, cursor) + insertion + value.slice(cursor);
-          applyEdit(textarea, newValue, cursor + insertion.length);
-        } else if (indent.length >= 2) {
-          const newLine = `${indent.slice(2)}- `;
-          const newValue =
-            value.slice(0, lineStart) + newLine + value.slice(lineEnd);
-          applyEdit(textarea, newValue, lineStart + newLine.length);
-        } else {
-          const newValue = value.slice(0, lineStart) + value.slice(lineEnd);
-          applyEdit(textarea, newValue, Math.min(lineStart, newValue.length));
+        if (listMatch) {
+          const indent = listMatch[1];
+          const itemContent = listMatch[2];
+
+          if (itemContent !== "") {
+            const insertion = `\n${indent}- `;
+            const newValue =
+              value.slice(0, cursor) + insertion + value.slice(cursor);
+            applyEdit(textarea, newValue, cursor + insertion.length);
+          } else if (indent.length >= 2) {
+            const newLine = `${indent.slice(2)}- `;
+            const newValue =
+              value.slice(0, lineStart) + newLine + value.slice(lineEnd);
+            applyEdit(textarea, newValue, lineStart + newLine.length);
+          } else {
+            const newValue = value.slice(0, lineStart) + value.slice(lineEnd);
+            applyEdit(textarea, newValue, Math.min(lineStart, newValue.length));
+          }
+        } else if (toggleMatch) {
+          const indent = toggleMatch[1];
+          const itemContent = toggleMatch[2];
+
+          if (itemContent !== "") {
+            const insertion = `\n${indent}> `;
+            const newValue =
+              value.slice(0, cursor) + insertion + value.slice(cursor);
+            applyEdit(textarea, newValue, cursor + insertion.length);
+          } else if (indent.length >= 2) {
+            const newLine = `${indent.slice(2)}> `;
+            const newValue =
+              value.slice(0, lineStart) + newLine + value.slice(lineEnd);
+            applyEdit(textarea, newValue, lineStart + newLine.length);
+          } else {
+            const newValue = value.slice(0, lineStart) + value.slice(lineEnd);
+            applyEdit(textarea, newValue, Math.min(lineStart, newValue.length));
+          }
         }
         return;
       }
 
       if (e.key === "Tab") {
-        const isListLine = /^\s*- /.test(currentLine);
+        const isListLine = /^\s*[->] /.test(currentLine);
         const inCodeBlock = isInsideCodeBlock(value, cursor);
 
         if (!isListLine && !inCodeBlock) return;
