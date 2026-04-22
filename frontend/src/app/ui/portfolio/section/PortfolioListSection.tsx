@@ -21,7 +21,7 @@ export default function PortfolioListSection({
             key={portfolio.slug}
             className="block group"
           >
-            <div className="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col md:flex-row items-stretch gap-0 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-0.5">
+            <div className="bg-white border border-gray-300 rounded-lg shadow-sm flex flex-col md:flex-row items-stretch gap-0 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-0.5">
               {portfolio.coverImage && (
                 <div className="relative md:w-1/3 w-full h-48 md:h-auto">
                   <Image

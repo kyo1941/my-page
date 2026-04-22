@@ -12,15 +12,15 @@ export default async function Home() {
       <Header />
       <main id="main-content" className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-lg shadow-sm p-8">
-          <section className="border-b border-gray-200 mt-12 pb-12 text-center">
+          <section className="border-b border-gray-300 mt-12 pb-12 text-center">
             <WelcomeSection />
           </section>
 
-          <section className="border-b border-gray-200 mt-16 pb-16">
+          <section className="border-b border-gray-300 mt-16 pb-16">
             <ProfileSection />
           </section>
 
-          <section className="border-b border-gray-200 mt-16 pb-16">
+          <section className="border-b border-gray-300 mt-16 pb-16">
             <BlogListSection blogs={blogs} />
           </section>
 

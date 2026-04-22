@@ -29,7 +29,7 @@ export default function CareerItem({
   return (
     <div
       ref={itemRef}
-      className={`mb-10 ml-4 pl-1 border-l-2 rounded-l-xl ${isOpen ? "border-gray-300" : "border-gray-200"}`}
+      className={`mb-10 ml-4 pl-1 border-l-2 rounded-l-xl ${isOpen ? "border-gray-300" : "border-gray-300"}`}
     >
       <button
         onClick={() =>

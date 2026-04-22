@@ -26,7 +26,7 @@ export default async function BlogPage() {
               <TextSearchSection />
             </section>
 
-            <section className="border-b border-gray-200 pb-8 mb-8">
+            <section className="border-b border-gray-300 pb-8 mb-8">
               <TagSearchSection />
             </section>
 

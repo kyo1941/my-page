@@ -70,7 +70,7 @@ export default function Header() {
   }, [isOpen]);
 
   return (
-    <header className="sticky top-0 w-full border-b border-gray-200 bg-gray-200 font-sans z-30">
+    <header className="sticky top-0 w-full border-b border-gray-300 bg-gray-200 font-sans z-30">
       <div className="max-w-4xl w-full mx-auto px-4 py-4 flex items-center justify-between">
         <Link
           href={ROUTES.HOME}

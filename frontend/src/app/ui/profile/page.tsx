@@ -14,11 +14,11 @@ export default function AboutPage() {
             プロフィール
           </h1>
 
-          <section className="border-b border-gray-200 pb-12 mb-12">
+          <section className="border-b border-gray-300 pb-12 mb-12">
             <ProfileDetailSection />
           </section>
 
-          <section className="border-b border-gray-200 pb-12 mb-12">
+          <section className="border-b border-gray-300 pb-12 mb-12">
             <CareerSection />
           </section>
 

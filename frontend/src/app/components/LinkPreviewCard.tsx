@@ -18,7 +18,7 @@ export function LinkPreviewCard({ data }: Props) {
       href={data.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="not-prose my-4 flex overflow-hidden rounded-lg border border-gray-200 no-underline transition-colors hover:bg-gray-50"
+      className="not-prose my-4 flex overflow-hidden rounded-lg border border-gray-300 no-underline transition-colors hover:bg-gray-50"
     >
       {data.image && (
         <div className="hidden flex-shrink-0 sm:block sm:w-48">
