@@ -23,7 +23,7 @@ function parseLines(lines: string[], baseIndent: number): ToggleNode[] {
 
   while (i < lines.length) {
     const line = lines[i];
-    const match = line.match(/^(\s*)> (.+)/);
+    const match = line.match(/^(\s*)> (.*)/);
 
     if (match && match[1].length === baseIndent) {
       if (markdownLines.length > 0) {
