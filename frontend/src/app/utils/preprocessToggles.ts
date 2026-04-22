@@ -2,22 +2,22 @@ export type MarkdownSegment = { type: "markdown"; content: string };
 export type ToggleSegment = {
   type: "toggle";
   title: string;
-  children: Segment[];
+  children: ToggleNode[];
 };
-export type Segment = MarkdownSegment | ToggleSegment;
+export type ToggleNode = MarkdownSegment | ToggleSegment;
 
 function detectBodyIndent(lines: string[], startIndex: number): number {
   for (let i = startIndex; i < lines.length; i++) {
     if (lines[i] !== "") {
-      const m = lines[i].match(/^(\s*)/);
-      return m ? m[1].length : 0;
+      const indentMatch = lines[i].match(/^(\s*)/);
+      return indentMatch ? indentMatch[1].length : 0;
     }
   }
   return -1;
 }
 
-function parseLines(lines: string[], baseIndent: number): Segment[] {
-  const segments: Segment[] = [];
+function parseLines(lines: string[], baseIndent: number): ToggleNode[] {
+  const segments: ToggleNode[] = [];
   let i = 0;
   let markdownLines: string[] = [];
 
@@ -67,6 +67,6 @@ function parseLines(lines: string[], baseIndent: number): Segment[] {
   return segments;
 }
 
-export function parseToggleSegments(markdown: string): Segment[] {
+export function parseToggleSegments(markdown: string): ToggleNode[] {
   return parseLines(markdown.split("\n"), 0);
 }

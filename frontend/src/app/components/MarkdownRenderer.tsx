@@ -7,7 +7,7 @@ import type { OgpData } from "@/app/types/ogp";
 import { remarkLinkPreview } from "@/app/utils/remarkLinkPreview";
 import {
   parseToggleSegments,
-  type Segment,
+  type ToggleNode,
 } from "@/app/utils/preprocessToggles";
 import { LinkPreviewCard } from "@/app/components/LinkPreviewCard";
 import { CodeBlock } from "@/app/components/CodeBlock";
@@ -64,7 +64,7 @@ function SegmentRenderer({
   segment,
   ogpData,
 }: {
-  segment: Segment;
+  segment: ToggleNode;
   ogpData: Record<string, OgpData>;
 }) {
   if (segment.type === "toggle") {
