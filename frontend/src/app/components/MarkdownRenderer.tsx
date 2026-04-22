@@ -83,10 +83,10 @@ function SegmentRenderer({
 export function MarkdownRenderer({ content, ogpData = {} }: Props) {
   const segments = parseToggleSegments(content);
   return (
-    <>
+    <div>
       {segments.map((seg, i) => (
         <SegmentRenderer key={i} segment={seg} ogpData={ogpData} />
       ))}
-    </>
+    </div>
   );
 }
