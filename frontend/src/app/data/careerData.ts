@@ -18,14 +18,22 @@ export const careerData: Career[] = [
   {
     company: "株式会社サイバーエージェント",
     url: "https://www.cyberagent.co.jp/",
-    period: `2026年4月 - ${CURRENT_TERM}`,
+    period: `2026年4月 - 2026年4月`,
     position: "ABEMA - Androidエンジニア（インターン）",
     tasks: [
       {
         content: "動画配信サービス「ABEMA」のAndroidエンジニアとして1ヶ月従事",
       },
+      {
+        content:
+          "既存の実装を改修し、KMP対応にリアーキテクチャするタスクを担当",
+        details: [
+          "クリーンアーキテクチャに基づいた堅牢なアーキテクチャのキャッチアップと設計",
+          "PlantUMLを使用して設計書を作成し、Claude Codeを用いた半自動化した開発スタイルの検証",
+        ],
+      },
     ],
-    technologies: ["Kotlin", "Kotlin Multiplatform"],
+    technologies: ["Kotlin", "Kotlin Multiplatform", "PlantUML"],
   },
   {
     company: "株式会社MIXI",
