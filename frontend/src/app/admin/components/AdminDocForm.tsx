@@ -21,6 +21,7 @@ type AdminDocFormProps = {
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
   publishLabel: string;
+  restoreMessage?: string;
   extraFields?: ReactNode;
 };
 
@@ -39,6 +40,7 @@ export function AdminDocForm({
   onSubmit,
   isLoading,
   publishLabel,
+  restoreMessage,
   extraFields,
 }: AdminDocFormProps) {
   const { previewContent, onCompositionStart, onCompositionEnd } =
@@ -58,6 +60,11 @@ export function AdminDocForm({
   return (
     <div className="container mx-auto p-8">
       <h1 className="mb-6 text-3xl font-bold">{heading}</h1>
+      {restoreMessage && (
+        <p className="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+          {restoreMessage}
+        </p>
+      )}
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <form onSubmit={onSubmit}>
           <div className="mb-4">

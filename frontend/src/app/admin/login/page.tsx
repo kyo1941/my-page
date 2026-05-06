@@ -1,10 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAdminLogin } from "@/app/hooks/admin/useAdminLogin";
+import { getSafeAdminRedirect } from "@/app/utils/adminBlogRestore";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const {
     form: { username, setUsername, password, setPassword },
@@ -18,7 +21,7 @@ export default function LoginPage() {
 
     try {
       await submit();
-      router.push("/admin");
+      router.push(getSafeAdminRedirect(searchParams.get("redirect")));
     } catch (error) {
       // error message is already set in hook
       console.error("Login error:", error);
@@ -75,5 +78,13 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

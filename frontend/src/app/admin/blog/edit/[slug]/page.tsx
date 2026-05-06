@@ -1,13 +1,15 @@
 "use client";
 
-import { useRouter, useParams } from "next/navigation";
+import { usePathname, useRouter, useParams } from "next/navigation";
 import { UnauthorizedError } from "@/app/types/errors";
 import { useAdminBlogEdit } from "@/app/hooks/admin/useAdminBlogEdit";
 import { useAdminTags } from "@/app/hooks/admin/useAdminTags";
 import { AdminDocForm } from "@/app/admin/components/AdminDocForm";
+import { saveBlogRestore } from "@/app/utils/adminBlogRestore";
 
 export default function EditBlogPage() {
   const router = useRouter();
+  const pathname = usePathname();
   const params = useParams();
   const originalSlug = params.slug as string;
 
@@ -28,7 +30,7 @@ export default function EditBlogPage() {
       isDraft,
       setIsDraft,
     },
-    state: { isLoading },
+    state: { isLoading, restoreMessage },
     actions: { submitUpdate },
   } = useAdminBlogEdit(originalSlug, { onUnauthorized: handleUnauthorized });
 
@@ -44,7 +46,21 @@ export default function EditBlogPage() {
       router.push("/admin");
     } catch (error) {
       if (error instanceof UnauthorizedError) {
-        router.push("/admin/login");
+        saveBlogRestore({
+          kind: "blog:edit",
+          slug: originalSlug,
+          redirectPath: pathname,
+          savedAt: Date.now(),
+          payload: {
+            title,
+            description,
+            content,
+            tags,
+            date,
+            isDraft,
+          },
+        });
+        router.push(`/admin/login?redirect=${encodeURIComponent(pathname)}`);
       } else {
         alert("Failed to update blog");
       }
@@ -68,6 +84,7 @@ export default function EditBlogPage() {
       onSubmit={handleSubmit}
       isLoading={isLoading}
       publishLabel="ブログを更新する"
+      restoreMessage={restoreMessage}
       extraFields={
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">

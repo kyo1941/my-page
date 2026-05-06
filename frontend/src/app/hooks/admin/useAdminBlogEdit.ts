@@ -6,6 +6,33 @@ import {
   toInputDateStringFromJaDate,
   toJaLongDateFromInput,
 } from "@/app/hooks/admin/adminDate";
+import {
+  clearBlogRestore,
+  isFreshBlogRestore,
+  readBlogRestore,
+} from "@/app/utils/adminBlogRestore";
+
+const RESTORE_MESSAGE = "セッション切れ前の入力内容を復元しました";
+
+type BlogFormValues = {
+  title: string;
+  description: string;
+  content: string;
+  tags: string[];
+  date: string;
+  isDraft: boolean;
+};
+
+function toFormValues(data: Blog): BlogFormValues {
+  return {
+    title: data.title,
+    description: data.description,
+    content: data.content,
+    tags: data.tags || [],
+    date: toInputDateStringFromJaDate(data.date),
+    isDraft: data.isDraft ?? false,
+  };
+}
 
 export function useAdminBlogEdit(
   originalSlug: string | undefined,
@@ -20,6 +47,16 @@ export function useAdminBlogEdit(
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
+  const [restoreMessage, setRestoreMessage] = useState("");
+
+  const applyFormValues = useCallback((values: BlogFormValues) => {
+    setTitle(values.title);
+    setDescription(values.description);
+    setContent(values.content);
+    setTags(values.tags);
+    setDate(values.date);
+    setIsDraft(values.isDraft);
+  }, []);
 
   const onUnauthorizedRef = useRef(onUnauthorized);
   useEffect(() => {
@@ -30,18 +67,24 @@ export function useAdminBlogEdit(
     if (!originalSlug) return;
 
     let cancelled = false;
+
+    const restore = readBlogRestore();
+    if (restore && !isFreshBlogRestore(restore)) {
+      clearBlogRestore();
+    } else if (restore?.kind === "blog:edit" && restore.slug === originalSlug) {
+      applyFormValues(restore.payload);
+      setRestoreMessage(RESTORE_MESSAGE);
+      clearBlogRestore();
+      return;
+    }
+
     const fetchBlog = async () => {
       setIsLoading(true);
       setError("");
       try {
         const data: Blog = await adminBlogRepository.get(originalSlug);
         if (cancelled) return;
-        setTitle(data.title);
-        setDescription(data.description);
-        setContent(data.content);
-        setTags(data.tags || []);
-        setDate(toInputDateStringFromJaDate(data.date));
-        setIsDraft(data.isDraft ?? false);
+        applyFormValues(toFormValues(data));
       } catch (e) {
         if (cancelled) return;
         if (e instanceof UnauthorizedError) {
@@ -60,7 +103,7 @@ export function useAdminBlogEdit(
     return () => {
       cancelled = true;
     };
-  }, [originalSlug]);
+  }, [originalSlug, applyFormValues]);
 
   const toggleTag = useCallback((tag: string) => {
     setTags((prev) =>
@@ -110,7 +153,7 @@ export function useAdminBlogEdit(
       isDraft,
       setIsDraft,
     },
-    state: { isLoading, error },
+    state: { isLoading, error, restoreMessage },
     actions: { submitUpdate },
   };
 }
