@@ -1,13 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { UnauthorizedError } from "@/app/types/errors";
 import { useAdminBlogCreate } from "@/app/hooks/admin/useAdminBlogCreate";
 import { useAdminTags } from "@/app/hooks/admin/useAdminTags";
 import { AdminDocForm } from "@/app/admin/components/AdminDocForm";
+import { saveBlogRestore } from "@/app/utils/adminBlogRestore";
 
 export default function CreateBlogPage() {
   const router = useRouter();
+  const pathname = usePathname();
 
   const {
     form: {
@@ -24,7 +26,7 @@ export default function CreateBlogPage() {
       isDraft,
       setIsDraft,
     },
-    state: { isLoading },
+    state: { isLoading, restoreMessage },
     actions: { submitCreate },
   } = useAdminBlogCreate();
 
@@ -40,7 +42,20 @@ export default function CreateBlogPage() {
       router.push("/admin");
     } catch (error) {
       if (error instanceof UnauthorizedError) {
-        router.push("/admin/login");
+        saveBlogRestore({
+          kind: "blog:create",
+          redirectPath: pathname,
+          savedAt: Date.now(),
+          payload: {
+            title,
+            description,
+            content,
+            tags,
+            date,
+            isDraft,
+          },
+        });
+        router.push(`/admin/login?redirect=${encodeURIComponent(pathname)}`);
       } else {
         alert("Failed to create blog");
       }
@@ -64,6 +79,7 @@ export default function CreateBlogPage() {
       onSubmit={handleSubmit}
       isLoading={isLoading}
       publishLabel="ブログを投稿する"
+      restoreMessage={restoreMessage}
       extraFields={
         <div className="mb-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
