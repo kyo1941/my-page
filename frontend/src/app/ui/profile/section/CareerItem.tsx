@@ -74,7 +74,19 @@ export default function CareerItem({
                   <ul className="list-[circle] list-outside pl-5 mt-1 text-gray-700">
                     {task.details.map((sub, subIndex) => (
                       <li key={subIndex} className="mt-2 pl-1">
-                        {sub}
+                        {sub.startsWith("https://") ||
+                        sub.startsWith("http://") ? (
+                          <a
+                            href={sub}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline break-all"
+                          >
+                            {sub}
+                          </a>
+                        ) : (
+                          sub
+                        )}
                       </li>
                     ))}
                   </ul>
