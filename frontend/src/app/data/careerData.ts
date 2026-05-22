@@ -32,6 +32,10 @@ export const careerData: Career[] = [
           "PlantUMLを使用して設計書を作成し、Claude Codeを用いた半自動化した開発スタイルの検証",
         ],
       },
+      {
+        content: "インターンシップ参加にあたり記事も執筆しました",
+        details: ["https://developers.cyberagent.co.jp/blog/archives/63964/"],
+      },
     ],
     technologies: ["Kotlin", "Kotlin Multiplatform", "PlantUML"],
   },
