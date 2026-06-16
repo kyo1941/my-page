@@ -1,19 +1,41 @@
 #!/usr/bin/env node
+import { execFileSync } from "node:child_process";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
+const KEYCHAIN_SERVICE = "my-page-mcp";
+
+/** macOS Keychain から汎用パスワード項目を読む。無い / macOS 以外なら undefined。 */
+function fromKeychain(account: string): string | undefined {
+  try {
+    const out = execFileSync(
+      "security",
+      ["find-generic-password", "-s", KEYCHAIN_SERVICE, "-a", account, "-w"],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+    ).trim();
+    return out || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** 設定値は 環境変数 > Keychain > 既定値 の順で解決する。 */
+function resolveConfig(key: string): string | undefined {
+  return process.env[key] ?? fromKeychain(key);
+}
+
 // 読み取り・ログインはバックエンドを直接叩く。
-const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8080";
+const BACKEND_URL = resolveConfig("BACKEND_URL") ?? "http://localhost:8080";
 // 変更系(作成/更新/削除)はフロントエンドの /api/admin プロキシ経由にする。
 // プロキシが backend へ転送しつつ revalidatePath() でブログページの静的キャッシュを
 // 無効化するため、MCP からの変更も公開サイトに反映される。
-const FRONTEND_URL = process.env.FRONTEND_URL ?? "http://localhost:3000";
+const FRONTEND_URL = resolveConfig("FRONTEND_URL") ?? "http://localhost:3000";
 // バックエンドの CSRF 保護は許可オリジンと一致する Origin ヘッダーを要求する。
 // 許可オリジン(= CORS_ALLOWED_ORIGINS) はフロントのオリジンなので FRONTEND_URL を使う。
 const ORIGIN = FRONTEND_URL;
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_USERNAME = resolveConfig("ADMIN_USERNAME");
+const ADMIN_PASSWORD = resolveConfig("ADMIN_PASSWORD");
 
 if (!ADMIN_USERNAME || !ADMIN_PASSWORD) {
   console.error(
