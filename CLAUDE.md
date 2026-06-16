@@ -13,6 +13,8 @@ Next.js frontend (port 3000) → NEXT_PUBLIC_API_BASE_URL=http://localhost:8080 
                                                                                   MySQL db (port 3306)
 ```
 
+<!-- TODO: 要修正 — 本番のバックエンドは現在 Render ではなく Railway でホストされている。
+     実態に合わせて下記の図と記述（ホスティング先）を更新すること。 -->
 ### Production
 ```
 Vercel (Next.js) → NEXT_PUBLIC_API_BASE_URL=https://<app>.onrender.com → Render (Ktor, port 8080)
