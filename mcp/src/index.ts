@@ -3,12 +3,17 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const API_BASE_URL = process.env.API_BASE_URL ?? "http://localhost:8080";
+// 読み取り・ログインはバックエンドを直接叩く。
+const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8080";
+// 変更系(作成/更新/削除)はフロントエンドの /api/admin プロキシ経由にする。
+// プロキシが backend へ転送しつつ revalidatePath() でブログページの静的キャッシュを
+// 無効化するため、MCP からの変更も公開サイトに反映される。
+const FRONTEND_URL = process.env.FRONTEND_URL ?? "http://localhost:3000";
+// バックエンドの CSRF 保護は許可オリジンと一致する Origin ヘッダーを要求する。
+// 許可オリジン(= CORS_ALLOWED_ORIGINS) はフロントのオリジンなので FRONTEND_URL を使う。
+const ORIGIN = FRONTEND_URL;
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-// バックエンドの CSRF 保護は POST/PUT/DELETE に許可オリジンと一致する
-// Origin ヘッダーを要求する。バックエンドの CORS_ALLOWED_ORIGINS と揃える。
-const ORIGIN = process.env.ORIGIN ?? "http://localhost:3000";
 
 if (!ADMIN_USERNAME || !ADMIN_PASSWORD) {
   console.error(
@@ -20,59 +25,66 @@ if (!ADMIN_USERNAME || !ADMIN_PASSWORD) {
 /**
  * ログインして得た JWT をメモリにキャッシュする。
  * バックエンドの JWT には有効期限があるため、401 が返ったら破棄して再取得する。
+ * 並行ツール呼び出し時に login() が重複しないよう、進行中の Promise も保持する。
  */
 let cachedToken: string | null = null;
+let loginPromise: Promise<string> | null = null;
 
 async function login(): Promise<string> {
-  const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Origin: ORIGIN },
-    body: JSON.stringify({
-      username: ADMIN_USERNAME,
-      password: ADMIN_PASSWORD,
-    }),
-  });
-  if (!res.ok) {
-    throw new Error(
-      `ログインに失敗しました (HTTP ${res.status})。認証情報を確認してください。`,
-    );
+  if (loginPromise) return loginPromise;
+  loginPromise = (async () => {
+    const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: ORIGIN },
+      body: JSON.stringify({
+        username: ADMIN_USERNAME,
+        password: ADMIN_PASSWORD,
+      }),
+    });
+    if (!res.ok) {
+      throw new Error(
+        `ログインに失敗しました (HTTP ${res.status})。認証情報を確認してください。`,
+      );
+    }
+    const data = (await res.json()) as { token?: string };
+    if (!data.token) {
+      throw new Error("ログインレスポンスに token が含まれていません。");
+    }
+    cachedToken = data.token;
+    return data.token;
+  })();
+  try {
+    return await loginPromise;
+  } finally {
+    loginPromise = null;
   }
-  const data = (await res.json()) as { token?: string };
-  if (!data.token) {
-    throw new Error("ログインレスポンスに token が含まれていません。");
-  }
-  cachedToken = data.token;
-  return data.token;
 }
 
 /**
  * 認証付きで API を呼ぶ。401 のときはトークンを再取得して 1 度だけ再試行する。
+ * バックエンドは JWT を Authorization ヘッダーではなく auth_token クッキーから読む
+ * (Security.kt の authHeader 実装に合わせる)。フロントの管理プロキシも同じクッキーを
+ * 転送するため、baseUrl が backend / frontend どちらでもこの形で動く。
  */
 async function authedFetch(
+  baseUrl: string,
   path: string,
   init: RequestInit = {},
 ): Promise<Response> {
-  // バックエンドは JWT を Authorization ヘッダーではなく auth_token クッキーから読む
-  // (Security.kt の authHeader 実装に合わせる)。
-  const token = cachedToken ?? (await login());
-  const headers = {
-    ...(init.headers ?? {}),
-    Origin: ORIGIN,
-    Cookie: `auth_token=${token}`,
-  };
-  let res = await fetch(`${API_BASE_URL}${path}`, { ...init, headers });
-
-  if (res.status === 401) {
-    cachedToken = null;
-    const fresh = await login();
-    res = await fetch(`${API_BASE_URL}${path}`, {
+  const doFetch = (token: string) =>
+    fetch(`${baseUrl}${path}`, {
       ...init,
       headers: {
         ...(init.headers ?? {}),
         Origin: ORIGIN,
-        Cookie: `auth_token=${fresh}`,
+        Cookie: `auth_token=${token}`,
       },
     });
+
+  let res = await doFetch(cachedToken ?? (await login()));
+  if (res.status === 401) {
+    cachedToken = null;
+    res = await doFetch(await login());
   }
   return res;
 }
@@ -93,7 +105,13 @@ function errorResult(message: string) {
 
 const blogRequestShape = {
   title: z.string().describe("記事のタイトル"),
-  date: z.string().describe("記事の公開日。形式は 'yyyy年M月d日' (例: 2026年6月17日)"),
+  date: z
+    .string()
+    .regex(
+      /^\d{4}年\d{1,2}月\d{1,2}日$/,
+      "形式は 'yyyy年M月d日' (例: 2026年6月17日) である必要があります",
+    )
+    .describe("記事の公開日。形式は 'yyyy年M月d日' (例: 2026年6月17日)"),
   description: z.string().describe("記事の概要"),
   tags: z.array(z.string()).describe("記事に関連付けるタグのリスト"),
   content: z.string().describe("記事の本文 (Markdown)"),
@@ -131,6 +149,7 @@ server.registerTool(
       for (const t of tags ?? []) params.append("tags", t);
       const qs = params.toString();
       const res = await authedFetch(
+        BACKEND_URL,
         `/api/admin/blogs${qs ? `?${qs}` : ""}`,
       );
       if (!res.ok) {
@@ -155,6 +174,7 @@ server.registerTool(
   async ({ slug }) => {
     try {
       const res = await authedFetch(
+        BACKEND_URL,
         `/api/blogs/${encodeURIComponent(slug)}`,
       );
       if (res.status === 404) {
@@ -179,7 +199,7 @@ server.registerTool(
   },
   async (args) => {
     try {
-      const res = await authedFetch("/api/admin/blogs", {
+      const res = await authedFetch(FRONTEND_URL, "/api/admin/blogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(args),
@@ -207,6 +227,7 @@ server.registerTool(
   async ({ slug, ...body }) => {
     try {
       const res = await authedFetch(
+        FRONTEND_URL,
         `/api/admin/blogs/${encodeURIComponent(slug)}`,
         {
           method: "PUT",
@@ -239,6 +260,7 @@ server.registerTool(
   async ({ slug }) => {
     try {
       const res = await authedFetch(
+        FRONTEND_URL,
         `/api/admin/blogs/${encodeURIComponent(slug)}`,
         { method: "DELETE" },
       );

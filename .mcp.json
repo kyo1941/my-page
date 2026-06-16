@@ -1,11 +1,14 @@
 {
   "mcpServers": {
     "my-page-blog": {
-      "command": "node",
-      "args": ["mcp/dist/index.js"],
+      "command": "sh",
+      "args": [
+        "-c",
+        "cd mcp && [ -f dist/index.js ] || npm run --silent build 1>&2; exec node dist/index.js"
+      ],
       "env": {
-        "API_BASE_URL": "${API_BASE_URL:-http://localhost:8080}",
-        "ORIGIN": "${ORIGIN:-http://localhost:3000}",
+        "BACKEND_URL": "${BACKEND_URL:-http://localhost:8080}",
+        "FRONTEND_URL": "${FRONTEND_URL:-http://localhost:3000}",
         "ADMIN_USERNAME": "${ADMIN_USERNAME}",
         "ADMIN_PASSWORD": "${ADMIN_PASSWORD}"
       }
