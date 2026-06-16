@@ -160,7 +160,10 @@ server.registerTool(
         .optional()
         .describe("取得件数の上限 (最大 100)"),
       tags: z.array(z.string()).optional().describe("絞り込むタグ"),
-      keyword: z.string().optional().describe("タイトル・本文の検索キーワード"),
+      keyword: z
+        .string()
+        .optional()
+        .describe("検索キーワード（タイトルと概要を対象に部分一致。本文は対象外）"),
     },
   },
   async ({ limit, tags, keyword }) => {
