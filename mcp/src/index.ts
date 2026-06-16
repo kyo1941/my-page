@@ -1,0 +1,267 @@
+#!/usr/bin/env node
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+
+const API_BASE_URL = process.env.API_BASE_URL ?? "http://localhost:8080";
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+// バックエンドの CSRF 保護は POST/PUT/DELETE に許可オリジンと一致する
+// Origin ヘッダーを要求する。バックエンドの CORS_ALLOWED_ORIGINS と揃える。
+const ORIGIN = process.env.ORIGIN ?? "http://localhost:3000";
+
+if (!ADMIN_USERNAME || !ADMIN_PASSWORD) {
+  console.error(
+    "ADMIN_USERNAME と ADMIN_PASSWORD を環境変数に設定してください。",
+  );
+  process.exit(1);
+}
+
+/**
+ * ログインして得た JWT をメモリにキャッシュする。
+ * バックエンドの JWT には有効期限があるため、401 が返ったら破棄して再取得する。
+ */
+let cachedToken: string | null = null;
+
+async function login(): Promise<string> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: ORIGIN },
+    body: JSON.stringify({
+      username: ADMIN_USERNAME,
+      password: ADMIN_PASSWORD,
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(
+      `ログインに失敗しました (HTTP ${res.status})。認証情報を確認してください。`,
+    );
+  }
+  const data = (await res.json()) as { token?: string };
+  if (!data.token) {
+    throw new Error("ログインレスポンスに token が含まれていません。");
+  }
+  cachedToken = data.token;
+  return data.token;
+}
+
+/**
+ * 認証付きで API を呼ぶ。401 のときはトークンを再取得して 1 度だけ再試行する。
+ */
+async function authedFetch(
+  path: string,
+  init: RequestInit = {},
+): Promise<Response> {
+  // バックエンドは JWT を Authorization ヘッダーではなく auth_token クッキーから読む
+  // (Security.kt の authHeader 実装に合わせる)。
+  const token = cachedToken ?? (await login());
+  const headers = {
+    ...(init.headers ?? {}),
+    Origin: ORIGIN,
+    Cookie: `auth_token=${token}`,
+  };
+  let res = await fetch(`${API_BASE_URL}${path}`, { ...init, headers });
+
+  if (res.status === 401) {
+    cachedToken = null;
+    const fresh = await login();
+    res = await fetch(`${API_BASE_URL}${path}`, {
+      ...init,
+      headers: {
+        ...(init.headers ?? {}),
+        Origin: ORIGIN,
+        Cookie: `auth_token=${fresh}`,
+      },
+    });
+  }
+  return res;
+}
+
+/** ツールの戻り値を MCP のテキストコンテンツ形式に整える。 */
+function textResult(value: unknown) {
+  const text =
+    typeof value === "string" ? value : JSON.stringify(value, null, 2);
+  return { content: [{ type: "text" as const, text }] };
+}
+
+function errorResult(message: string) {
+  return {
+    content: [{ type: "text" as const, text: message }],
+    isError: true,
+  };
+}
+
+const blogRequestShape = {
+  title: z.string().describe("記事のタイトル"),
+  date: z.string().describe("記事の公開日。形式は 'yyyy年M月d日' (例: 2026年6月17日)"),
+  description: z.string().describe("記事の概要"),
+  tags: z.array(z.string()).describe("記事に関連付けるタグのリスト"),
+  content: z.string().describe("記事の本文 (Markdown)"),
+  isDraft: z.boolean().default(false).describe("下書きかどうか"),
+};
+
+const server = new McpServer({
+  name: "my-page-blog",
+  version: "1.0.0",
+});
+
+server.registerTool(
+  "list_blogs",
+  {
+    title: "ブログ記事一覧",
+    description:
+      "ブログ記事の一覧を取得する（下書きを含む）。タグやキーワードで絞り込める。",
+    inputSchema: {
+      limit: z
+        .number()
+        .int()
+        .positive()
+        .max(100)
+        .optional()
+        .describe("取得件数の上限 (最大 100)"),
+      tags: z.array(z.string()).optional().describe("絞り込むタグ"),
+      keyword: z.string().optional().describe("タイトル・本文の検索キーワード"),
+    },
+  },
+  async ({ limit, tags, keyword }) => {
+    try {
+      const params = new URLSearchParams();
+      if (limit != null) params.set("limit", String(limit));
+      if (keyword) params.set("keyword", keyword);
+      for (const t of tags ?? []) params.append("tags", t);
+      const qs = params.toString();
+      const res = await authedFetch(
+        `/api/admin/blogs${qs ? `?${qs}` : ""}`,
+      );
+      if (!res.ok) {
+        return errorResult(`記事一覧の取得に失敗しました (HTTP ${res.status})`);
+      }
+      return textResult(await res.json());
+    } catch (e) {
+      return errorResult(`エラー: ${(e as Error).message}`);
+    }
+  },
+);
+
+server.registerTool(
+  "get_blog",
+  {
+    title: "ブログ記事取得",
+    description: "slug を指定してブログ記事を 1 件取得する。",
+    inputSchema: {
+      slug: z.string().describe("記事のスラッグ"),
+    },
+  },
+  async ({ slug }) => {
+    try {
+      const res = await authedFetch(
+        `/api/blogs/${encodeURIComponent(slug)}`,
+      );
+      if (res.status === 404) {
+        return errorResult(`記事が見つかりません: ${slug}`);
+      }
+      if (!res.ok) {
+        return errorResult(`記事の取得に失敗しました (HTTP ${res.status})`);
+      }
+      return textResult(await res.json());
+    } catch (e) {
+      return errorResult(`エラー: ${(e as Error).message}`);
+    }
+  },
+);
+
+server.registerTool(
+  "create_blog",
+  {
+    title: "ブログ記事作成",
+    description: "新しいブログ記事を作成する。",
+    inputSchema: blogRequestShape,
+  },
+  async (args) => {
+    try {
+      const res = await authedFetch("/api/admin/blogs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(args),
+      });
+      if (!res.ok) {
+        return errorResult(`記事の作成に失敗しました (HTTP ${res.status})`);
+      }
+      return textResult(await res.json());
+    } catch (e) {
+      return errorResult(`エラー: ${(e as Error).message}`);
+    }
+  },
+);
+
+server.registerTool(
+  "update_blog",
+  {
+    title: "ブログ記事更新",
+    description: "slug を指定して既存のブログ記事を更新する。",
+    inputSchema: {
+      slug: z.string().describe("更新対象の記事のスラッグ"),
+      ...blogRequestShape,
+    },
+  },
+  async ({ slug, ...body }) => {
+    try {
+      const res = await authedFetch(
+        `/api/admin/blogs/${encodeURIComponent(slug)}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        },
+      );
+      if (res.status === 404) {
+        return errorResult(`記事が見つかりません: ${slug}`);
+      }
+      if (!res.ok) {
+        return errorResult(`記事の更新に失敗しました (HTTP ${res.status})`);
+      }
+      return textResult(await res.json());
+    } catch (e) {
+      return errorResult(`エラー: ${(e as Error).message}`);
+    }
+  },
+);
+
+server.registerTool(
+  "delete_blog",
+  {
+    title: "ブログ記事削除",
+    description: "slug を指定してブログ記事を削除する。",
+    inputSchema: {
+      slug: z.string().describe("削除対象の記事のスラッグ"),
+    },
+  },
+  async ({ slug }) => {
+    try {
+      const res = await authedFetch(
+        `/api/admin/blogs/${encodeURIComponent(slug)}`,
+        { method: "DELETE" },
+      );
+      if (res.status === 404) {
+        return errorResult(`記事が見つかりません: ${slug}`);
+      }
+      if (!res.ok) {
+        return errorResult(`記事の削除に失敗しました (HTTP ${res.status})`);
+      }
+      return textResult(`記事を削除しました: ${slug}`);
+    } catch (e) {
+      return errorResult(`エラー: ${(e as Error).message}`);
+    }
+  },
+);
+
+async function main() {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("my-page-blog MCP server running");
+}
+
+main().catch((e) => {
+  console.error("Fatal error:", e);
+  process.exit(1);
+});
