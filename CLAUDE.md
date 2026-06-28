@@ -2,102 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Architecture Overview
+## ベースガイド
 
-Personal portfolio site with a decoupled frontend and backend.
+このリポジトリの作業ガイド（アーキテクチャ、開発コマンド、環境変数、レイヤー構成、API 一覧、変更時の確認リスト）は `AGENTS.md` を正本とします。まずこちらを参照してください。
 
-### Development
-```
-Next.js frontend (port 3000) → NEXT_PUBLIC_API_BASE_URL=http://localhost:8080 → Ktor backend (port 8080)
-                                                                                         ↓
-                                                                                  MySQL db (port 3306)
-```
+@AGENTS.md
 
-<!-- TODO: 要修正 — 本番のバックエンドは現在 Render ではなく Railway でホストされている。
-     実態に合わせて下記の図と記述（ホスティング先）を更新すること。 -->
-### Production
-```
-Vercel (Next.js) → NEXT_PUBLIC_API_BASE_URL=https://<app>.onrender.com → Render (Ktor, port 8080)
-                                                                                  ↓
-                                                                          Aiven MySQL (managed)
-```
+`AGENTS.md` と実コード・設定ファイルが食い違う場合は、実コードを優先してください。設計・起動方法・環境変数・API 契約を変えたら `AGENTS.md` を更新します（この `CLAUDE.md` には設計詳細を重複させない）。
 
-- **Frontend**: Next.js 15 (TypeScript) in `frontend/`
-- **Backend**: Ktor + Kotlin in `backend/`, runs on port 8080
-- **Database**: MySQL 8 via Flyway migrations, using Exposed ORM
-- **DI**: Koin (configured in `backend/app/src/main/kotlin/my/backend/di/AppModule.kt`)
-- **Dev**: `docker-compose up` (backend + db only) → `cd frontend && pnpm dev`
+## Claude Code 固有メモ
 
-## Frontend
-
-### Commands (run from `frontend/`)
-```bash
-pnpm dev          # dev server with Turbopack
-pnpm build        # production build
-pnpm lint         # ESLint
-pnpm format       # Prettier (write)
-pnpm fix          # lint --fix + format
-pnpm check        # lint + prettier check (CI)
-```
-
-### Layer Pattern
-Pages are split into layers — each page composes sections, which delegate state to hooks, which call repositories:
-
-```
-src/app/ui/<feature>/page.tsx
-  └── section/<FeatureSection>.tsx   ← presentational components
-        └── hooks/<feature>/use<Feature>.ts  ← state/effects
-              └── repository/<feature>Repository.ts  ← fetch calls to backend API
-```
-
-- Repositories use `NEXT_PUBLIC_API_BASE_URL` (set in `.env.local`) as the base URL
-- Repository classes are exported as singletons (e.g. `export const blogRepository = new BlogRepository()`)
-- Route constants live in `src/app/routes.ts`
-
-### Admin Section
-- `/admin/*` routes are protected by JWT middleware (`src/middleware.ts`)
-- JWT is verified using `jose` with secret/issuer/audience from env vars (`JWT_SECRET`, `JWT_ISSUER`, `JWT_AUDIENCE`)
-- Auth token stored in `auth_token` cookie
-
-### Environment Variables (frontend)
-- `NEXT_PUBLIC_API_BASE_URL` — backend base URL
-- `NEXT_PUBLIC_TURNSTILE_SITE_KEY` — Cloudflare Turnstile (contact form)
-- `JWT_SECRET`, `JWT_ISSUER`, `JWT_AUDIENCE` — must match backend
-
-## Backend
-
-### Commands (run from `backend/`)
-```bash
-./gradlew :app:run           # run locally
-./gradlew :app:test          # run all tests
-./gradlew :app:test --tests "my.backend.routes.BlogRoutesTest"  # single test class
-./gradlew :app:ktlintCheck   # lint
-./gradlew :app:ktlintFormat  # auto-fix lint
-./gradlew :app:buildFatJar   # build app-all.jar
-```
-
-### Layer Pattern
-```
-routes/<Feature>Routes.kt     ← Ktor route definitions, injects service
-  └── service/<Feature>Service.kt   ← business logic
-        └── repository/<Feature>Repository.kt  ← Exposed DB queries
-```
-
-- Route functions are extension functions on `Route` (e.g. `fun Route.blogRoutes(...)`)
-- All routes registered in `plugins/Routing.kt` using Koin `inject()`
-- Protected endpoints use `authenticate("auth-jwt") { ... }`
-- Custom exceptions are in `exception/CustomExceptions.kt`, handled by `plugins/StatusPages.kt`
-
-### Content Storage
-- Blog posts and portfolios are Markdown files in `app/src/main/resources/blogs/` and `app/src/main/resources/portfolios/`
-- An `index.txt` in each directory lists the filenames to serve
-- Markdown is converted to HTML server-side using flexmark
-
-### Database
-- Migrations via Flyway (`src/main/resources/db/migration/`)
-- Schema: `users`, `blogs`, `tags`, `blog_tags`, `portfolios` tables
-- Exposed DSL for queries; `DatabaseFactory` manages the HikariCP connection pool
-
-### Environment / Config
-- `application.yaml` (gitignored) — uses `$VAR_NAME` placeholders that Ktor substitutes from environment variables at runtime
-- Required env vars: `DB_DRIVER`, `DB_USER`, `DB_PASSWORD`, `DB_MAX_POOL_SIZE`, `JWT_SECRET`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`
+- **MCP ブログ管理ツール**: このプロジェクトには `my-page-blog` MCP サーバーが登録済みで、`mcp__my-page-blog__{list_blogs,get_blog,create_blog,update_blog,delete_blog}` を直接呼べます。ブログの確認・作成・更新・削除はこれらを使うのが最短です。挙動は `AGENTS.md` の「MCP サーバー」節を参照（作成/更新/削除は frontend の `/api/admin` プロキシ経由で `revalidatePath()` が走る、日付入力は `yyyy年M月d日` 形式、など）。
+- **作業ルール**: 未コミット変更を勝手に戻さない、秘密情報を含むファイル（`.env*`, `application.yaml`）をコミット対象にしない、生成物（`node_modules/`, `.next/`, `dist/`, `build/`, `.gradle/`）を編集しない。詳細は `AGENTS.md` の「重要な作業ルール」を参照。
+- **変更後の最小チェック**: frontend は `cd frontend && pnpm check`、backend は `cd backend && ./gradlew :app:test`（style は `:app:ktlintCheck`）、MCP は `cd mcp && npm run build`。
