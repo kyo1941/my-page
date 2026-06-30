@@ -137,6 +137,74 @@ pre code:not(.hljs) {
   display: none;
 }
 
+/* === 空の上のコンテンツ面 === */
+@layer components {
+  /* ページ本文をまとめて乗せる単一の面。影を付けると「浮いた板」に見えるため
+     影は持たせず、枠線も白ではなく空と同じ色味に薄く寄せて境界を目立たせない。
+     backdrop-blur も境界線の知覚を強めるため使わない。 */
+  .sky-surface {
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(186, 214, 255, 0.4);
+  }
+
+  /* 静的なアイテムカード（クリック不可）。クリック可能カードより明確に弱い影にとどめ、
+     カードとしての存在感は残しつつ押せそうには見えないようにする。 */
+  .sky-tile {
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow:
+      0 8px 20px -10px rgba(30, 64, 120, 0.34),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  }
+
+  /* クリック可能なアイテムカード。落ち影と浮き上がるホバーでクリックできることを示す。 */
+  .sky-tile-link {
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow:
+      0 10px 24px -14px rgba(30, 64, 120, 0.4),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .sky-tile-link:hover {
+    transform: translateY(-0.35rem);
+    box-shadow:
+      0 22px 44px -16px rgba(30, 64, 120, 0.5),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  }
+
+  /* 折りたたみプレビューの下半分を透明にじませ、続きがあることを示す */
+  .fade-preview {
+    mask-image: linear-gradient(to bottom, #000 25%, transparent 80%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 25%, transparent 80%);
+  }
+
+  /* 青空に直接置く文字の可読性を上げるグロー影 */
+  .text-on-sky {
+    text-shadow:
+      0 1px 3px rgba(255, 255, 255, 0.9),
+      0 2px 10px rgba(255, 255, 255, 0.85),
+      0 6px 22px rgba(186, 214, 255, 0.4);
+  }
+
+  /* 見出し用。太字で元々視認性が高いため、ごく薄い縁取りにとどめる */
+  .text-on-sky-subtle {
+    text-shadow: 0 3px 6px rgba(255, 255, 255, 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-tile-link {
+    transition: none;
+  }
+  .sky-tile-link:hover {
+    transform: none;
+  }
+}
+
 html {
   scrollbar-gutter: stable;
 }

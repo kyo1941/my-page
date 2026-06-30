@@ -8,13 +8,12 @@ export default function SkillsSection() {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-8 text-gray-900">技術スタック</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <h2 className="text-on-sky-subtle text-3xl font-bold mb-8 text-gray-900">
+        技術スタック
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {skills.map((skill) => (
-          <div
-            key={skill.name}
-            className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm transition-shadow"
-          >
+          <div key={skill.name} className="sky-tile p-5">
             <div className="flex flex-col min-h-28">
               <div className="flex items-center gap-4">
                 <div className="relative w-14 h-14 flex-shrink-0 rounded-lg p-2">
@@ -37,7 +36,7 @@ export default function SkillsSection() {
       </div>
 
       {/* 注釈 */}
-      <p className="text-xs text-gray-400 mt-6 leading-relaxed">
+      <p className="text-on-sky text-xs text-gray-500 mt-6 leading-relaxed">
         * Android ロボットは、Google
         が作成および提供している作品から複製または変更したものであり、
         <a
