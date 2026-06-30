@@ -27,10 +27,10 @@ export default async function PostPage({
 
   if (!postData) {
     return (
-      <div className="min-h-screen bg-gray-50 font-sans">
+      <div className="min-h-screen font-sans">
         <Header />
         <main id="main-content" className="max-w-4xl mx-auto px-4 py-12">
-          <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl ring-1 ring-white/40 p-8">
             <div className="mb-8">
               <BackButton fallbackPath={ROUTES.BLOG} />
             </div>
@@ -46,10 +46,10 @@ export default async function PostPage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
+    <div className="min-h-screen font-sans">
       <Header />
       <main className="max-w-4xl mx-auto px-4 py-12">
-        <div className="bg-white rounded-lg shadow-sm p-8">
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl ring-1 ring-white/40 p-8">
           <div className="mb-8">
             <BackButton fallbackPath={ROUTES.BLOG} />
           </div>

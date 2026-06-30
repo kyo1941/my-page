@@ -42,6 +42,61 @@ pre code:not(.hljs) {
   }
 }
 
+/* === 青空背景アニメーション === */
+@keyframes sky-drift {
+  from {
+    transform: translateX(-30vw);
+  }
+  to {
+    transform: translateX(130vw);
+  }
+}
+
+@keyframes sky-fly {
+  from {
+    transform: translateX(-25vw);
+  }
+  to {
+    transform: translateX(125vw);
+  }
+}
+
+@keyframes sky-bob {
+  0%,
+  100% {
+    transform: translateY(-5px) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(0.5deg);
+  }
+}
+
+.sky-drift {
+  animation-name: sky-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.sky-fly {
+  animation-name: sky-fly;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.sky-bob {
+  animation-name: sky-bob;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-animated .sky-drift,
+  .sky-animated .sky-fly,
+  .sky-animated .sky-bob {
+    animation: none !important;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -87,7 +142,8 @@ html {
 }
 
 body {
-  background: var(--background);
+  /* 背景は固定の青空 (SkyBackground) を見せるため透過する */
+  background: transparent;
   color: var(--foreground);
   font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
 }

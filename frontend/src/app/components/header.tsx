@@ -70,52 +70,54 @@ export default function Header() {
   }, [isOpen]);
 
   return (
-    <header className="sticky top-0 w-full border-b border-gray-200 bg-gray-200 font-sans z-30">
-      <div className="max-w-4xl w-full mx-auto px-4 py-4 flex items-center justify-between">
-        <Link
-          href={ROUTES.HOME}
-          className="text-2xl font-bold text-gray-900 transition-opacity hover:opacity-70"
-        >
-          kyo1941
-        </Link>
-        <nav className="hidden md:flex">
-          <ul className="flex gap-8 text-base font-semibold">
-            {navItems.map((item) => (
-              <li key={item.id}>
-                <Link
-                  href={item.link}
-                  className={`no-underline ${isActivePath(pathname, item.link) ? activeUnderline : animatedUnderline}`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        {/* Hamburger button (open only) */}
-        <button
-          className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8"
-          onClick={() => setIsOpen(true)}
-          aria-label="メニューを開く"
-          aria-expanded={isOpen}
-        >
-          <span className="block h-0.5 w-full bg-gray-900" />
-          <span className="block h-0.5 w-full bg-gray-900" />
-          <span className="block h-0.5 w-full bg-gray-900" />
-        </button>
-      </div>
+    <>
+      <header className="sticky top-0 w-full border-b border-white/60 bg-white/75 backdrop-blur-md shadow-sm font-sans z-30">
+        <div className="max-w-4xl w-full mx-auto px-4 py-4 flex items-center justify-between">
+          <Link
+            href={ROUTES.HOME}
+            className="text-2xl font-bold text-gray-900 transition-opacity hover:opacity-70"
+          >
+            kyo1941
+          </Link>
+          <nav className="hidden md:flex">
+            <ul className="flex gap-8 text-base font-semibold">
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <Link
+                    href={item.link}
+                    className={`no-underline ${isActivePath(pathname, item.link) ? activeUnderline : animatedUnderline}`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          {/* Hamburger button (open only) */}
+          <button
+            className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8"
+            onClick={() => setIsOpen(true)}
+            aria-label="メニューを開く"
+            aria-expanded={isOpen}
+          >
+            <span className="block h-0.5 w-full bg-gray-900" />
+            <span className="block h-0.5 w-full bg-gray-900" />
+            <span className="block h-0.5 w-full bg-gray-900" />
+          </button>
+        </div>
+      </header>
 
       {/* Overlay */}
       {isOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/30 z-overlay"
+          className="md:hidden fixed inset-0 bg-black/30 z-40"
           onClick={closeMenu}
         />
       )}
 
       {/* Side drawer */}
       <div
-        className={`md:hidden fixed top-0 right-0 h-full w-64 bg-gray-200/70 backdrop-blur-sm z-drawer transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`md:hidden fixed top-0 right-0 h-full w-64 bg-white/55 backdrop-blur-md shadow-xl z-50 transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Close button */}
         <div className="flex justify-end px-4 py-4">
@@ -146,6 +148,6 @@ export default function Header() {
           ))}
         </ul>
       </div>
-    </header>
+    </>
   );
 }
