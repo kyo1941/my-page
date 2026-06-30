@@ -1,32 +1,24 @@
-import Header from "@/app/components/header";
+import PageShell from "@/app/components/PageShell";
 import ProfileDetailSection from "./section/ProfileDetailSection";
 import CareerSection from "./section/CareerSection";
 import SkillsSection from "./section/SkillsSection";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen font-sans">
-      <Header />
+    <PageShell>
+      <h1 className="text-4xl font-bold mb-8 text-gray-900">プロフィール</h1>
 
-      <main id="main-content" className="max-w-4xl mx-auto px-4 py-12">
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl ring-1 ring-white/40 p-8">
-          <h1 className="text-4xl font-bold mb-8 text-gray-900">
-            プロフィール
-          </h1>
+      <section className="border-b border-gray-200 pb-12 mb-12">
+        <ProfileDetailSection />
+      </section>
 
-          <section className="border-b border-gray-200 pb-12 mb-12">
-            <ProfileDetailSection />
-          </section>
+      <section className="border-b border-gray-200 pb-12 mb-12">
+        <CareerSection />
+      </section>
 
-          <section className="border-b border-gray-200 pb-12 mb-12">
-            <CareerSection />
-          </section>
-
-          <section>
-            <SkillsSection />
-          </section>
-        </div>
-      </main>
-    </div>
+      <section>
+        <SkillsSection />
+      </section>
+    </PageShell>
   );
 }
