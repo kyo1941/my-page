@@ -43,19 +43,16 @@ export function MarkdownDetailPage({
   return (
     <PageShell>
       {/* 長文を読ませるページなので、可読性を優先してサーフェス（背景）をつける。
-          戻るボタンも同じ面に含める従来のデザインに合わせる */}
+          戻るボタンもサーフェス外に置かず、同じ読みやすい面の中に含める */}
       <article className="sky-surface p-8 sm:p-12">
         <div className="mb-8">
           <BackButton fallbackPath={fallbackPath} />
         </div>
 
-        {/* タイトル */}
         <h1 className="text-4xl font-bold mb-4 text-gray-900">{data.title}</h1>
 
-        {/* 投稿日 */}
         <div className="text-gray-600 mb-8">{data.date}</div>
 
-        {/* 本文 (ReactMarkdownでレンダリング) */}
         <div className="prose prose-lg max-w-none">
           <MarkdownRenderer content={data.content} ogpData={ogpData} />
         </div>

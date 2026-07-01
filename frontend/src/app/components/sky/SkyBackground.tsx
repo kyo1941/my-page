@@ -91,7 +91,7 @@ export default function SkyBackground() {
       ))}
 
       {/* 下側だけ軽く霞ませるヴェール。上空（ヒーロー・飛行船）は活かしつつ、
-          コンテンツ帯のあたりで縁のコントラストを下げ、浮きを和らげる。 */}
+          コンテンツ帯のあたりで彩度とコントラストを下げ、直接置く文字の可読性を高める。 */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/20" />
     </div>
   );
