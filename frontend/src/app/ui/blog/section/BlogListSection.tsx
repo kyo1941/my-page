@@ -29,9 +29,9 @@ export default function BlogListSection({
               <p className="font-mono text-xs tracking-wider text-gray-500">
                 {blog.date}
               </p>
-              <h4 className="mt-2 line-clamp-2 font-semibold leading-snug text-gray-900">
+              <h3 className="mt-2 line-clamp-2 font-semibold leading-snug text-gray-900">
                 {blog.title}
-              </h4>
+              </h3>
               <p className="mt-2 line-clamp-3 flex-grow text-sm text-gray-700">
                 {blog.description}
               </p>

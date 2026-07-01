@@ -27,6 +27,7 @@ export default function PortfolioListSection({
                   src={portfolio.coverImage}
                   alt={portfolio.title}
                   fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 hidden bg-gradient-to-r from-transparent via-white/20 to-white/80 md:block" />
@@ -46,7 +47,10 @@ export default function PortfolioListSection({
               </p>
               <span className="mt-auto inline-flex items-center gap-2 self-end text-sm font-medium text-sky-700">
                 詳細を見る
-                <span className="transition-transform duration-300 group-hover/card:translate-x-1">
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover/card:translate-x-1"
+                >
                   ✈
                 </span>
               </span>
