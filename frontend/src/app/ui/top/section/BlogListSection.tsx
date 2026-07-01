@@ -12,6 +12,7 @@ function featuredSpan(restCount: number): string {
 }
 
 export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
+  // ui/blog の一覧は均一グリッドだが、ホームだけ最新1件を大きく見せる例外レイアウトにしている
   const [featured, ...rest] = blogs;
 
   return (
@@ -34,7 +35,6 @@ export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
         </div>
       ) : (
         <div className="grid gap-5 md:grid-cols-3 md:auto-rows-fr">
-          {/* 主役: 1枚だけ大きく見せる */}
           <Link
             href={`${ROUTES.BLOG}/${featured.slug}`}
             className={`${cardBase} ${featuredSpan(rest.length)} flex min-h-64 flex-col justify-end p-8`}
@@ -62,7 +62,6 @@ export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
             </div>
           </Link>
 
-          {/* 従: コンパクトに積む */}
           {rest.map((blog) => (
             <Link
               key={blog.slug}

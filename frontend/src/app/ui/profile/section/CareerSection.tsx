@@ -10,7 +10,6 @@ export default function CareerSection() {
         経歴
       </h2>
       <div className="mt-6 mx-6 space-y-10 relative">
-        {/* 縦棒。上が濃く下ほど薄いグラデーションで、上に行くほど新しいことを示す */}
         <div
           className="absolute left-0 top-0 bottom-0 w-0.5 rounded-full bg-gradient-to-b from-gray-600 to-gray-100"
           aria-hidden="true"
