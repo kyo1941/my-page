@@ -19,11 +19,15 @@ export default function Greeting() {
     const typeText = async () => {
       const wait = (ms: number, signal: AbortSignal) =>
         new Promise<void>((resolve, reject) => {
-          const timeout = setTimeout(resolve, ms);
-          signal.addEventListener("abort", () => {
+          const onAbort = () => {
             clearTimeout(timeout);
             reject(new DOMException("Aborted", "AbortError"));
-          });
+          };
+          const timeout = setTimeout(() => {
+            signal.removeEventListener("abort", onAbort);
+            resolve();
+          }, ms);
+          signal.addEventListener("abort", onAbort);
         });
 
       try {
