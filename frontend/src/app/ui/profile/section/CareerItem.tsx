@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Career } from "@/app/data/careerData";
+import ChevronIcon from "@/app/components/ChevronIcon";
 
 type Props = Career & { isCurrent: boolean };
 
@@ -113,7 +114,7 @@ export default function CareerItem({
           </div>
         ) : (
           tasks.length > 0 && (
-            // まだ続きがあることを示すフェードアウトプレビュー。文字は展開後と同じ大きさで揃える
+            // まだ続きがあることを示すフェードアウトプレビュー
             <div className="max-h-12 overflow-hidden">
               <ul className="fade-preview list-disc list-outside pl-5 text-gray-700">
                 <li className="pl-1">{tasks[0].content}</li>
@@ -122,21 +123,11 @@ export default function CareerItem({
           )
         )}
 
-        {/* ホバー/フォーカス時だけ見せる開閉ヒント。下向き=開く、上向き=閉じる
-            （トップページのスクロール誘導と同じ意匠で統一する） */}
+        {/* ホバー/フォーカス時だけ見せる開閉ヒント。下向き=開く、上向き=閉じる */}
         <div className="pointer-events-none absolute inset-x-0 bottom-2 flex justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
-          <svg
-            className="h-5 w-5 text-sky-700/50"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d={isOpen ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6"} />
-          </svg>
+          <ChevronIcon
+            className={`h-5 w-5 text-sky-700/50 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          />
         </div>
       </div>
     </div>

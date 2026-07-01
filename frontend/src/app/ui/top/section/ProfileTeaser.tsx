@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ROUTES, EXTERNAL_LINKS } from "@/app/routes";
 
-export default function ProfileSection() {
+export default function ProfileTeaser() {
   return (
     <div>
       <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
