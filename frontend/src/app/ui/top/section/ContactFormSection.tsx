@@ -10,10 +10,10 @@ export default function ContactForm() {
     if (process.env.NODE_ENV === "production") {
       return (
         <div>
-          <h2 className="text-3xl font-bold mb-14 text-gray-900">
+          <h2 className="text-on-sky-subtle text-3xl font-bold mb-14 text-gray-900">
             お問い合わせ
           </h2>
-          <p className="text-center">
+          <p className="text-on-sky text-center">
             現在、システムの問題によりお問い合わせフォームをご利用いただけません。
             <br />
             ご不便をおかけし、大変申し訳ございません。
@@ -23,10 +23,10 @@ export default function ContactForm() {
     } else {
       return (
         <div>
-          <h2 className="text-3xl font-bold mb-14 text-gray-900">
+          <h2 className="text-on-sky-subtle text-3xl font-bold mb-14 text-gray-900">
             お問い合わせ
           </h2>
-          <div className="p-4 border-2 border-red-500 text-red-500">
+          <div className="bg-white p-4 border-2 border-red-500 text-red-500">
             <p className="font-bold text-lg">開発者向けエラー:</p>
             <p>
               NEXT_PUBLIC_TURNSTILE_SITE_KEY が設定されていません。.env.local
@@ -47,13 +47,15 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-14 text-gray-900">お問い合わせ</h2>
+      <h2 className="text-on-sky-subtle text-3xl font-bold mb-14 text-gray-900">
+        お問い合わせ
+      </h2>
 
       <form onSubmit={handlers.handleSubmit} className="space-y-6" noValidate>
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="text-on-sky-subtle block text-sm font-medium text-gray-700 mb-2"
           >
             メールアドレス
           </label>
@@ -63,7 +65,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             required
             value={form.email}
             onChange={(e) => form.setEmail(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
               validation.validationErrors.email
                 ? "border-red-500"
                 : "border-gray-300"
@@ -80,7 +82,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
         <div>
           <label
             htmlFor="subject"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="text-on-sky-subtle block text-sm font-medium text-gray-700 mb-2"
           >
             件名
           </label>
@@ -90,7 +92,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             required
             value={form.subject}
             onChange={(e) => form.setSubject(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
               validation.validationErrors.subject
                 ? "border-red-500"
                 : "border-gray-300"
@@ -107,7 +109,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
         <div>
           <label
             htmlFor="message"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="text-on-sky-subtle block text-sm font-medium text-gray-700 mb-2"
           >
             メッセージ
           </label>
@@ -117,7 +119,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             rows={6}
             value={form.message}
             onChange={(e) => form.setMessage(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+            className={`w-full px-3 py-2 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
               validation.validationErrors.message
                 ? "border-red-500"
                 : "border-gray-300"

@@ -11,7 +11,7 @@ export default function PortfolioListSection({
   return (
     <div className="flex flex-col gap-8">
       {portfolios.length === 0 ? (
-        <div className="text-center text-gray-600">
+        <div className="text-on-sky text-center text-gray-600">
           ポートフォリオがまだありません。
         </div>
       ) : (
@@ -19,37 +19,37 @@ export default function PortfolioListSection({
           <Link
             href={`${ROUTES.PORTFOLIO}/${portfolio.slug}`}
             key={portfolio.slug}
-            className="block group"
+            className="group/card sky-tile-link flex flex-col items-stretch overflow-hidden md:flex-row"
           >
-            <div className="bg-white border border-gray-200 rounded-lg shadow-sm flex flex-col md:flex-row items-stretch gap-0 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-0.5">
-              {portfolio.coverImage && (
-                <div className="relative md:w-1/3 w-full h-48 md:h-auto">
-                  <Image
-                    src={portfolio.coverImage}
-                    alt={portfolio.title}
-                    fill
-                    className="rounded-t-lg md:rounded-l-lg md:rounded-t-none object-cover"
-                  />
-                  <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-white"></div>
-                </div>
-              )}
-              <div
-                className={`${portfolio.coverImage ? "md:w-2/3" : "md:w-full"} w-full flex flex-col p-6`}
-              >
-                <h4 className="font-semibold mb-2 text-gray-900 text-xl group-hover:text-blue-600 transition-colors">
-                  {portfolio.title}
-                </h4>
-                <p className="text-sm text-gray-600 mb-4">{portfolio.date}</p>
-                <p className="text-base mb-4 text-gray-700 flex-grow">
-                  {portfolio.description}
-                </p>
-                <div className="flex items-center justify-end mt-auto">
-                  <span className="text-blue-600 text-sm font-medium">
-                    詳細を見る
-                  </span>
-                  <span className="text-blue-600 text-sm ml-2">→</span>
-                </div>
+            {portfolio.coverImage && (
+              <div className="relative h-48 w-full md:h-auto md:w-1/3">
+                <Image
+                  src={portfolio.coverImage}
+                  alt={portfolio.title}
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 hidden bg-gradient-to-r from-transparent via-white/20 to-white/80 md:block" />
               </div>
+            )}
+            <div
+              className={`${portfolio.coverImage ? "md:w-2/3" : "md:w-full"} flex w-full flex-col p-6`}
+            >
+              <h4 className="mb-2 text-xl font-semibold text-gray-900 transition-colors group-hover/card:text-sky-700">
+                {portfolio.title}
+              </h4>
+              <p className="mb-4 font-mono text-xs tracking-wider text-gray-500">
+                {portfolio.date}
+              </p>
+              <p className="mb-4 flex-grow text-base text-gray-700">
+                {portfolio.description}
+              </p>
+              <span className="mt-auto inline-flex items-center gap-2 self-end text-sm font-medium text-sky-700">
+                詳細を見る
+                <span className="transition-transform duration-300 group-hover/card:translate-x-1">
+                  ✈
+                </span>
+              </span>
             </div>
           </Link>
         ))

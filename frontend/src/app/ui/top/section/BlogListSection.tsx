@@ -2,51 +2,89 @@ import Link from "next/link";
 import { Blog } from "@/app/repository/blogRepository";
 import { ROUTES } from "@/app/routes";
 
+const cardBase = "group/card relative overflow-hidden sky-tile-link";
+
+// 主役カードの横幅は従カードの数で決め、1枚しかないときに穴が空かないようにする。
+function featuredSpan(restCount: number): string {
+  if (restCount === 0) return "md:col-span-3";
+  if (restCount === 1) return "md:col-span-2";
+  return "md:col-span-2 md:row-span-2";
+}
+
 export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
+  const [featured, ...rest] = blogs;
+
   return (
     <div>
-      <div className="flex justify-between items-baseline mb-6">
-        <h3 className="text-3xl font-bold mb-6 text-gray-900">最新ブログ</h3>
-        <div>
-          <Link
-            href={ROUTES.BLOG}
-            className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
-          >
-            一覧はこちら
-          </Link>
+      <div className="mb-8 flex items-end justify-between">
+        <h3 className="text-on-sky-subtle text-3xl font-bold text-gray-900">
+          最新ブログ
+        </h3>
+        <Link
+          href={ROUTES.BLOG}
+          className="text-on-sky-subtle font-mono text-sm text-sky-700 transition-colors hover:text-sky-900"
+        >
+          一覧へ →
+        </Link>
+      </div>
+
+      {blogs.length === 0 ? (
+        <div className="text-on-sky text-center text-gray-600">
+          記事がまだありません。
         </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {blogs.length === 0 ? (
-          <div className="col-span-full text-center text-gray-600">
-            記事がまだありません。
-          </div>
-        ) : (
-          blogs.map((blog) => (
+      ) : (
+        <div className="grid gap-5 md:grid-cols-3 md:auto-rows-fr">
+          {/* 主役: 1枚だけ大きく見せる */}
+          <Link
+            href={`${ROUTES.BLOG}/${featured.slug}`}
+            className={`${cardBase} ${featuredSpan(rest.length)} flex min-h-64 flex-col justify-end p-8`}
+          >
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-sky-100/70 to-transparent" />
+            <div className="relative">
+              <p className="font-mono text-[0.7rem] uppercase tracking-widest text-sky-700/80">
+                最新記事
+              </p>
+              <h4 className="mt-2 text-2xl font-bold leading-snug text-gray-900">
+                {featured.title}
+              </h4>
+              <p className="mt-2 font-mono text-xs tracking-wider text-gray-500">
+                {featured.date}
+              </p>
+              <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-gray-700">
+                {featured.description}
+              </p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-sky-700">
+                続きを読む
+                <span className="transition-transform duration-300 group-hover/card:translate-x-1">
+                  ✈
+                </span>
+              </span>
+            </div>
+          </Link>
+
+          {/* 従: コンパクトに積む */}
+          {rest.map((blog) => (
             <Link
-              href={`${ROUTES.BLOG}/${blog.slug}`}
               key={blog.slug}
-              className="block"
+              href={`${ROUTES.BLOG}/${blog.slug}`}
+              className={`${cardBase} flex flex-col p-6`}
             >
-              <div className="bg-sky-50/80 p-6 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 min-h-52 md:min-h-0 hover:-translate-y-1 hover:shadow-xl">
-                <h4 className="font-semibold mb-2 text-gray-900">
-                  {blog.title}
-                </h4>
-                <p className="text-xs text-gray-600 mb-2">{blog.date}</p>
-                <p className="text-sm mb-4 text-gray-700 flex-grow">
-                  {blog.description}
-                </p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-blue-600 text-sm font-medium">
-                    続きを読む
-                  </span>
-                  <span className="text-blue-600 text-sm">→</span>
-                </div>
-              </div>
+              <p className="font-mono text-xs tracking-wider text-gray-500">
+                {blog.date}
+              </p>
+              <h4 className="mt-2 line-clamp-2 font-semibold leading-snug text-gray-900">
+                {blog.title}
+              </h4>
+              <p className="mt-2 line-clamp-2 flex-grow text-sm text-gray-700">
+                {blog.description}
+              </p>
+              <span className="mt-3 self-end text-sm text-sky-700 transition-transform duration-300 group-hover/card:translate-x-1">
+                ✈
+              </span>
             </Link>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

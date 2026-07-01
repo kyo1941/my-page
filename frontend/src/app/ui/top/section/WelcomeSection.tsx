@@ -51,16 +51,16 @@ export default function WelcomeSection() {
   }, []);
 
   return (
-    <div className="h-32 flex flex-col justify-center items-center">
-      <h2 className="text-3xl sm:text-5xl font-mono font-bold text-gray-900">
+    <div className="flex flex-col justify-center items-center text-center">
+      <h1 className="text-on-sky text-4xl sm:text-6xl font-mono font-bold text-gray-900 tracking-tight">
         {displayText}
-        <span className="inline-block w-[0.1em] h-[1em] bg-blue-600 ml-1 align-middle animate-blink" />
-      </h2>
+        <span className="inline-block w-[0.08em] h-[1em] bg-blue-600 ml-1 align-middle animate-blink" />
+      </h1>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={isTypingComplete ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8, delay: 0.4 }}
-        className="text-sm sm:text-lg text-gray-500 mt-4 font-mono"
+        className="text-on-sky text-base sm:text-xl text-gray-700 mt-5 font-mono"
       >
         Android Engineer / Mapo tofu Developer
       </motion.p>

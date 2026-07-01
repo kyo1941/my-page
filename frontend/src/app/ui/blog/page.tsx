@@ -16,20 +16,23 @@ export default async function BlogPage() {
 
   return (
     <PageShell>
-      <h1 className="text-4xl font-bold mb-8 text-gray-900">ブログ</h1>
-
+      {/* サーフェスなし。コンテンツを背景の空に直接置く。
+          以前サーフェスの p-8 sm:p-12 が担っていた横幅の絞り込みと上余白は
+          見た目を変えないよう px-8 sm:px-12 / pt-8 sm:pt-12 として残す */}
       <BlogSearchProvider initialTags={initialTags}>
-        <section className="pb-2 mb-2">
-          <TextSearchSection />
-        </section>
+        <div className="px-8 pt-8 sm:px-12 sm:pt-12">
+          <h1 className="text-on-sky-subtle text-3xl font-bold mb-8 text-gray-900">
+            ブログ
+          </h1>
+          <div className="space-y-12 sm:space-y-16">
+            <div className="space-y-4">
+              <TextSearchSection />
+              <TagSearchSection />
+            </div>
 
-        <section className="border-b border-gray-200 pb-8 mb-8">
-          <TagSearchSection />
-        </section>
-
-        <section>
-          <BlogListSection initialBlogs={initialBlogs} />
-        </section>
+            <BlogListSection initialBlogs={initialBlogs} />
+          </div>
+        </div>
       </BlogSearchProvider>
     </PageShell>
   );

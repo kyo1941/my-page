@@ -15,7 +15,7 @@ export default function ProfileSection() {
           priority
         />
         <div className="flex-1 text-left">
-          <p className="py-4 text-gray-900">
+          <p className="text-on-sky py-4 text-gray-900">
             こんにちは、kyo1941です。
             <br />
             Androidエンジニアをやっています。音楽を聴いたり、麻婆豆腐を作ったりしています。

@@ -29,7 +29,7 @@ export default function SkyBackground() {
       className="sky-animated pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       aria-hidden="true"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-sky-400 via-sky-200 to-sky-50" />
+      <div className="absolute inset-0 bg-gradient-to-b from-sky-300 via-sky-100 to-white" />
       <div className="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
       <div className="absolute right-6 top-6 h-28 w-28 rounded-full bg-yellow-100/80 blur-2xl" />
 
@@ -89,6 +89,10 @@ export default function SkyBackground() {
           </div>
         </div>
       ))}
+
+      {/* 下側だけ軽く霞ませるヴェール。上空（ヒーロー・飛行船）は活かしつつ、
+          コンテンツ帯のあたりで縁のコントラストを下げ、浮きを和らげる。 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/20" />
     </div>
   );
 }

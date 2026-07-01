@@ -16,7 +16,7 @@ export default function BlogListSection({
     <div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-12">
         {blogs.length === 0 ? (
-          <div className="col-span-full text-center text-gray-600">
+          <div className="text-on-sky col-span-full text-center text-gray-600">
             記事がまだありません。
           </div>
         ) : (
@@ -24,23 +24,23 @@ export default function BlogListSection({
             <Link
               href={`${ROUTES.BLOG}/${blog.slug}`}
               key={blog.slug}
-              className="block"
+              className="group/card flex flex-col p-7 min-h-52 md:min-h-0 sky-tile-link"
             >
-              <div className="bg-sky-50/80 p-7 rounded-lg shadow-lg flex flex-col h-full transition-all duration-300 min-h-52 md:min-h-0 hover:-translate-y-1 hover:shadow-xl">
-                <h4 className="font-semibold mb-2 text-gray-900">
-                  {blog.title}
-                </h4>
-                <p className="text-xs text-gray-600 mb-2">{blog.date}</p>
-                <p className="text-sm mb-4 text-gray-700 flex-grow">
-                  {blog.description}
-                </p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-blue-600 text-sm font-medium">
-                    続きを読む
-                  </span>
-                  <span className="text-blue-600 text-sm">→</span>
-                </div>
-              </div>
+              <p className="font-mono text-xs tracking-wider text-gray-500">
+                {blog.date}
+              </p>
+              <h4 className="mt-2 line-clamp-2 font-semibold leading-snug text-gray-900">
+                {blog.title}
+              </h4>
+              <p className="mt-2 line-clamp-3 flex-grow text-sm text-gray-700">
+                {blog.description}
+              </p>
+              <span className="mt-4 inline-flex items-center gap-2 self-start text-sm font-medium text-sky-700">
+                続きを読む
+                <span className="transition-transform duration-300 group-hover/card:translate-x-1">
+                  ✈
+                </span>
+              </span>
             </Link>
           ))
         )}

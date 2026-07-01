@@ -33,25 +33,29 @@ export default async function PortfolioDetailPage({
   if (!portfolioData) {
     return (
       <PageShell>
-        <div className="mb-8">
-          <BackButton fallbackPath={ROUTES.PORTFOLIO} />
+        <div className="sky-surface p-12 text-center">
+          <div className="mb-8 text-left">
+            <BackButton fallbackPath={ROUTES.PORTFOLIO} />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            ポートフォリオが見つかりませんでした。
+            <br />
+            お探しのページは存在しないか、削除された可能性があります。
+          </h1>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 text-center py-40">
-          ポートフォリオが見つかりませんでした。
-          <br />
-          お探しのページは存在しないか、削除された可能性があります。
-        </h1>
       </PageShell>
     );
   }
 
   return (
     <PageShell>
-      <div className="mb-8">
-        <BackButton fallbackPath={ROUTES.PORTFOLIO} />
-      </div>
+      {/* 長文を読ませるページなので、可読性を優先してサーフェス（背景）をつける。
+          戻るボタンも同じ面に含める従来のデザインに合わせる */}
+      <article className="sky-surface p-8 sm:p-12">
+        <div className="mb-8">
+          <BackButton fallbackPath={ROUTES.PORTFOLIO} />
+        </div>
 
-      <article>
         {/* タイトル */}
         <h1 className="text-4xl font-bold mb-4 text-gray-900">
           {portfolioData.title}

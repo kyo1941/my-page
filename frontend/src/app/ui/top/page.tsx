@@ -9,23 +9,42 @@ export default async function Home() {
   const blogs = await fetchBlogListWithLimit(3);
   return (
     <PageShell>
-      <section className="border-b border-gray-200 mt-12 pb-12 text-center">
+      {/* 初回画面: 挨拶＋プロフィール（アイコン/Zenn）で 1 画面を占め、
+          スクロールするまで以降のセクションは見えないようにする。
+          ここはカードに入れず空に直接浮かべる。 */}
+      <section className="relative flex min-h-[calc(100dvh-6rem)] flex-col justify-center gap-10 sm:gap-14">
         <WelcomeSection />
-      </section>
-
-      <section className="border-b border-gray-200 mt-16 pb-16">
         <ProfileSection />
+
+        {/* 下にコンテンツがあることを示す控えめなスクロール誘導 */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center">
+          <svg
+            className="h-6 w-6 text-sky-700/50 motion-safe:animate-bounce"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
       </section>
 
-      <section className="border-b border-gray-200 mt-16 pb-16">
-        <BlogListSection blogs={blogs} />
-      </section>
+      {/* サーフェスなし。コンテンツを背景の空に直接置く。
+          以前サーフェスの p-8 sm:p-12 が担っていた横幅の絞り込みは
+          見た目の幅を変えないよう px-8 sm:px-12 として残す */}
+      <div className="px-8 sm:px-12">
+        <div className="space-y-24 sm:space-y-32">
+          <BlogListSection blogs={blogs} />
 
-      {/* TODO: 成果物も簡単な見出しを作成しておく。詳しい内容は専用のページに遷移させる。 */}
+          {/* TODO: 成果物も簡単な見出しを作成しておく。詳しい内容は専用のページに遷移させる。 */}
 
-      <section className="mt-16 pb-16">
-        <ContactForm />
-      </section>
+          <ContactForm />
+        </div>
+      </div>
     </PageShell>
   );
 }
