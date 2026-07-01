@@ -44,7 +44,7 @@ export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
               <p className="font-mono text-[0.7rem] uppercase tracking-widest text-sky-700/80">
                 最新記事
               </p>
-              <h4 className="mt-2 text-2xl font-bold leading-snug text-gray-900">
+              <h4 className="mt-2 line-clamp-2 text-2xl font-bold leading-snug text-gray-900">
                 {featured.title}
               </h4>
               <p className="mt-2 font-mono text-xs tracking-wider text-gray-500">
