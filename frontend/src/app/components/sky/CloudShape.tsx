@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { cloudEllipses } from "./skyGeometry";
 
 type CloudShapeProps = {
@@ -11,9 +12,10 @@ type CloudShapeProps = {
  * 上面は白、下面はわずかに青灰色。seed で形のばらつきと衝突回避 ID を決める。
  */
 export default function CloudShape({ opacity, blur, seed }: CloudShapeProps) {
-  // フィルタ/グラデーション ID はインスタンス間で衝突しないよう seed から導出する
-  const fid = `cloud-f-${seed}`;
-  const gid = `cloud-g-${seed}`;
+  // フィルタ/グラデーション ID はインスタンス間で衝突しないよう useId から導出する
+  const uid = useId();
+  const fid = `cloud-f-${uid}`;
+  const gid = `cloud-g-${uid}`;
   return (
     <div style={{ opacity, filter: blur ? `blur(${blur}px)` : undefined }}>
       <svg
