@@ -42,6 +42,15 @@ export default function ContactForm() {
   return <ContactFormContents siteKey={siteKey} />;
 }
 
+const labelClassName =
+  "text-on-sky-subtle block text-sm font-medium text-gray-700 mb-2";
+
+function fieldClassName(hasError: boolean) {
+  return `w-full px-3 py-2 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+    hasError ? "border-red-500" : "border-gray-300"
+  }`;
+}
+
 function ContactFormContents({ siteKey }: { siteKey: string }) {
   const { form, validation, turnstile, submit, handlers } = useContactFormTop();
 
@@ -53,10 +62,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
 
       <form onSubmit={handlers.handleSubmit} className="space-y-6" noValidate>
         <div>
-          <label
-            htmlFor="email"
-            className="text-on-sky-subtle block text-sm font-medium text-gray-700 mb-2"
-          >
+          <label htmlFor="email" className={labelClassName}>
             メールアドレス
           </label>
           <input
@@ -65,11 +71,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             required
             value={form.email}
             onChange={(e) => form.setEmail(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              validation.validationErrors.email
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
+            className={fieldClassName(!!validation.validationErrors.email)}
             placeholder="your-email@example.com"
           />
           {validation.validationErrors.email && (
@@ -80,10 +82,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
         </div>
 
         <div>
-          <label
-            htmlFor="subject"
-            className="text-on-sky-subtle block text-sm font-medium text-gray-700 mb-2"
-          >
+          <label htmlFor="subject" className={labelClassName}>
             件名
           </label>
           <input
@@ -92,11 +91,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             required
             value={form.subject}
             onChange={(e) => form.setSubject(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              validation.validationErrors.subject
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
+            className={fieldClassName(!!validation.validationErrors.subject)}
             placeholder="お問い合わせの件名"
           />
           {validation.validationErrors.subject && (
@@ -107,10 +102,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
         </div>
 
         <div>
-          <label
-            htmlFor="message"
-            className="text-on-sky-subtle block text-sm font-medium text-gray-700 mb-2"
-          >
+          <label htmlFor="message" className={labelClassName}>
             メッセージ
           </label>
           <textarea
@@ -119,11 +111,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             rows={6}
             value={form.message}
             onChange={(e) => form.setMessage(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              validation.validationErrors.message
-                ? "border-red-500"
-                : "border-gray-300"
-            }`}
+            className={fieldClassName(!!validation.validationErrors.message)}
             placeholder="お問い合わせ内容をご記入ください"
           />
           {validation.validationErrors.message && (
