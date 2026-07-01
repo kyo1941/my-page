@@ -14,14 +14,14 @@ export default function TagSearchSection() {
     <div>
       <div className="mt-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">
+          <h2 className="text-on-sky-subtle text-xl font-semibold text-gray-900">
             タグで絞り込み
           </h2>
           {selectedTags.length > 0 && (
             <button
               type="button"
               onClick={handleClearTags}
-              className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+              className="text-on-sky-subtle text-sm text-gray-700 hover:text-gray-900 transition-colors"
             >
               クリア
             </button>
@@ -32,10 +32,10 @@ export default function TagSearchSection() {
             <button
               key={tag}
               onClick={() => toggleTag(tag)}
-              className={`px-4 py-2 rounded-full border transition-colors duration-300 ${
+              className={`px-4 py-2 rounded-full border shadow-sm transition-colors duration-300 ${
                 selectedTags.includes(tag)
                   ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-gray-200 text-gray-800 border-gray-300 hover:bg-gray-200 opacity-75"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
               }`}
             >
               {tag}

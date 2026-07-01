@@ -7,8 +7,8 @@ export default function ProfileDetailSection() {
 
   return (
     <div>
-      <div className="prose max-w-none prose-lg">
-        <ul className="text-gray-700 leading-relaxed mb-6">
+      <div className="text-on-sky prose max-w-none prose-lg">
+        <ul className="text-gray-800 leading-relaxed mb-6">
           <li className="my-1">{profile.birthplace}</li>
           <li className="my-1">
             {profile.birthday} 生まれ（{profile.age}歳）
@@ -19,7 +19,7 @@ export default function ProfileDetailSection() {
           <p
             key={i}
             className={
-              i === profile.description.length - 1 ? "my-6" : undefined
+              i === profile.description.length - 1 ? "mt-6" : undefined
             }
           >
             {desc}

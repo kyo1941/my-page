@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ROUTES, EXTERNAL_LINKS } from "@/app/routes";
 
-export default function ProfileSection() {
+export default function ProfileTeaser() {
   return (
     <div>
       <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
@@ -15,7 +15,7 @@ export default function ProfileSection() {
           priority
         />
         <div className="flex-1 text-left">
-          <p className="py-4 text-gray-900">
+          <p className="text-on-sky py-4 text-gray-900">
             こんにちは、kyo1941です。
             <br />
             Androidエンジニアをやっています。音楽を聴いたり、麻婆豆腐を作ったりしています。

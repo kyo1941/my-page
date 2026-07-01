@@ -1,0 +1,52 @@
+<svg width="200" height="110" viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="airship-clip">
+      <path d="M14 47 C14 30 36 16 80 16 C120 16 152 24 166 47 C152 70 120 78 80 78 C36 78 14 64 14 47 Z" />
+    </clipPath>
+    <linearGradient id="airship-hl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.6" />
+      <stop offset="0.45" stop-color="#ffffff" stop-opacity="0.08" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="airship-sh" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000000" stop-opacity="0" />
+      <stop offset="0.55" stop-color="#000000" stop-opacity="0" />
+      <stop offset="1" stop-color="#000000" stop-opacity="0.32" />
+    </linearGradient>
+  </defs>
+
+  <!-- 尾翼。船体より先に描いて根元を隠し、尾部から生えて見えるようにする。色は currentColor -->
+  <path d="M107 30 L127 6 L149 6 L149 30 Z" fill="currentColor" />
+  <path d="M107 30 L127 6 L149 6 L149 30 Z" fill="rgba(0,0,0,0.18)" />
+  <path d="M107 64 L127 88 L149 88 L149 64 Z" fill="currentColor" />
+  <path d="M107 64 L127 88 L149 88 L149 64 Z" fill="rgba(0,0,0,0.24)" />
+
+  <!-- 船体（紡錘形） -->
+  <path d="M14 47 C14 30 36 16 80 16 C120 16 152 24 166 47 C152 70 120 78 80 78 C36 78 14 64 14 47 Z" fill="currentColor" />
+
+  <!-- 陰影・継ぎ目（船体内にクリップ） -->
+  <g clip-path="url(#airship-clip)">
+    <rect width="200" height="110" fill="url(#airship-hl)" />
+    <rect width="200" height="110" fill="url(#airship-sh)" />
+    <path d="M58 16 C52 30 52 64 58 78" stroke="#000000" stroke-opacity="0.12" stroke-width="1.1" fill="none" />
+    <path d="M95 15 C90 30 90 64 95 79" stroke="#000000" stroke-opacity="0.12" stroke-width="1.1" fill="none" />
+    <path d="M132 17 C128 31 128 63 132 77" stroke="#000000" stroke-opacity="0.12" stroke-width="1.1" fill="none" />
+    <path d="M14 47 C27 33 27 61 14 47 Z" fill="rgba(0,0,0,0.1)" />
+    <path d="M18 47 L162 47" stroke="#ffffff" stroke-opacity="0.16" stroke-width="1" fill="none" />
+  </g>
+
+  <!-- 係留先端 -->
+  <circle cx="14" cy="47" r="2.3" fill="rgba(0,0,0,0.32)" />
+
+  <!-- 吊り索 -->
+  <line x1="73" y1="76" x2="76" y2="82" stroke="#39414f" stroke-width="1" />
+  <line x1="97" y1="77" x2="94" y2="82" stroke="#39414f" stroke-width="1" />
+
+  <!-- ゴンドラ（客室）と窓 -->
+  <rect x="69" y="80" width="33" height="11" rx="5" fill="#39414f" />
+  <rect x="69" y="80" width="33" height="4" rx="2" fill="rgba(0,0,0,0.25)" />
+  <rect x="74" y="84.5" width="4" height="3.5" rx="1.2" fill="#bcd6f0" />
+  <rect x="81" y="84.5" width="4" height="3.5" rx="1.2" fill="#bcd6f0" />
+  <rect x="88" y="84.5" width="4" height="3.5" rx="1.2" fill="#bcd6f0" />
+  <rect x="95" y="84.5" width="4" height="3.5" rx="1.2" fill="#bcd6f0" />
+</svg>
