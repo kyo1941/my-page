@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
+const greetingSegments = ["Hello,", " I'm kyo1941."];
+
 export default function Greeting() {
   const [displayText, setDisplayText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
@@ -13,7 +15,6 @@ export default function Greeting() {
      */
     setDisplayText("");
 
-    const texts = ["Hello,", " I'm kyo1941."];
     const abortController = new AbortController();
 
     const typeText = async () => {
@@ -31,7 +32,7 @@ export default function Greeting() {
         });
 
       try {
-        for (const segment of texts) {
+        for (const segment of greetingSegments) {
           for (const char of segment) {
             setDisplayText((prev) => prev + char);
             await wait(120, abortController.signal);
@@ -57,8 +58,11 @@ export default function Greeting() {
   return (
     <div className="flex flex-col justify-center items-center text-center">
       <h1 className="text-on-sky text-4xl sm:text-6xl font-mono font-bold text-gray-900 tracking-tight">
-        {displayText}
-        <span className="inline-block w-[0.08em] h-[1em] bg-blue-600 ml-1 align-middle animate-blink" />
+        <span className="sr-only">{greetingSegments.join("")}</span>
+        <span aria-hidden="true">
+          {displayText}
+          <span className="inline-block w-[0.08em] h-[1em] bg-blue-600 ml-1 align-middle animate-blink" />
+        </span>
       </h1>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
