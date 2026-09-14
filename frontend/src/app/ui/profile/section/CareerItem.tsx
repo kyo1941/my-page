@@ -35,7 +35,7 @@ export default function CareerItem({
       {/* 内部の company リンクやタスク内リンクは stopPropagation して衝突を避ける */}
       <div
         onClick={toggle}
-        className="group relative sky-tile ml-4 cursor-pointer px-6 pt-5 pb-6 transition-transform duration-200 hover:-translate-y-0.5"
+        className="group relative sky-tile ml-4 cursor-pointer px-6 pt-5 pb-8 transition-transform duration-200 hover:-translate-y-0.5"
       >
         <div className="flex items-center mb-2">
           <h3 className="text-2xl font-semibold text-gray-900">
@@ -114,7 +114,6 @@ export default function CareerItem({
           )}
         </div>
 
-        {/* ホバー/フォーカス時だけ見せる開閉ヒント。下向き=開く、上向き=閉じる */}
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -122,10 +121,10 @@ export default function CareerItem({
           }}
           aria-expanded={isOpen}
           aria-label={isOpen ? "詳細を閉じる" : "詳細を開く"}
-          className="absolute inset-x-0 bottom-2 flex justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-visible:opacity-100 focus:outline-none"
+          className="absolute inset-x-0 bottom-2 flex justify-center"
         >
           <ChevronIcon
-            className={`h-5 w-5 text-sky-700/50 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+            className={`h-5 w-5 text-sky-700/30 transition duration-200 group-hover:text-sky-700/50 ${isOpen ? "rotate-180" : ""}`}
           />
         </button>
       </div>
