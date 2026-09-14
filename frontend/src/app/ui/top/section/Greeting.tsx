@@ -56,7 +56,10 @@ export default function Greeting() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center text-center">
+    <div
+      lang="en"
+      className="flex flex-col justify-center items-center text-center"
+    >
       <h1 className="text-on-sky text-4xl sm:text-6xl font-mono font-bold text-gray-900 tracking-tight">
         <span className="sr-only">{greetingSegments.join("")}</span>
         <span aria-hidden="true">
