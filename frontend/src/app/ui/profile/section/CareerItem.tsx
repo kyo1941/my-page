@@ -59,60 +59,60 @@ export default function CareerItem({
           {period} | {position}
         </p>
 
-        {isOpen ? (
-          <div>
-            <ul className="list-disc list-outside pl-5 text-gray-700">
-              {tasks.map((task, taskIndex) => (
-                <li key={taskIndex} className="mt-3 pl-1">
-                  {task.content}
-                  {task.details && task.details.length > 0 && (
-                    <ul className="list-[circle] list-outside pl-5 mt-1 text-gray-700">
-                      {task.details.map((sub, subIndex) => (
-                        <li key={subIndex} className="mt-2 pl-1">
-                          {sub.startsWith("https://") ||
-                          sub.startsWith("http://") ? (
-                            <a
-                              href={sub}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="text-blue-600 hover:underline break-all"
-                            >
-                              {sub}
-                            </a>
-                          ) : (
-                            sub
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-            {technologies.length > 0 && (
-              <div className="mt-3.5 flex flex-wrap gap-2">
-                {technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-full"
+        <div className={isOpen ? undefined : "max-h-12 overflow-hidden"}>
+          <ul
+            className={`list-disc list-outside pl-5 text-gray-700 ${isOpen ? "" : "fade-preview"}`}
+          >
+            {tasks.map((task, taskIndex) => (
+              <li
+                key={taskIndex}
+                className={
+                  isOpen ? "mt-3 pl-1" : taskIndex === 0 ? "pl-1" : "hidden"
+                }
+              >
+                {task.content}
+                {task.details && task.details.length > 0 && (
+                  <ul
+                    className={`list-[circle] list-outside pl-5 mt-1 text-gray-700 ${isOpen ? "" : "hidden"}`}
                   >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        ) : (
-          tasks.length > 0 && (
-            // まだ続きがあることを示すフェードアウトプレビュー
-            <div className="max-h-12 overflow-hidden">
-              <ul className="fade-preview list-disc list-outside pl-5 text-gray-700">
-                <li className="pl-1">{tasks[0].content}</li>
-              </ul>
+                    {task.details.map((sub, subIndex) => (
+                      <li key={subIndex} className="mt-2 pl-1">
+                        {sub.startsWith("https://") ||
+                        sub.startsWith("http://") ? (
+                          <a
+                            href={sub}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-blue-600 hover:underline break-all"
+                          >
+                            {sub}
+                          </a>
+                        ) : (
+                          sub
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+          {technologies.length > 0 && (
+            <div
+              className={`mt-3.5 flex-wrap gap-2 ${isOpen ? "flex" : "hidden"}`}
+            >
+              {technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-full"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
-          )
-        )}
+          )}
+        </div>
 
         {/* ホバー/フォーカス時だけ見せる開閉ヒント。下向き=開く、上向き=閉じる */}
         <button
