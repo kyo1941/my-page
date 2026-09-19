@@ -27,6 +27,7 @@ pre code:not(.hljs) {
   --background: #ffffff;
   --foreground: #171717;
   --surface: #ffffff;
+  --tile: #ffffff;
   --border: #e5e7eb;
   --light-gray: #f5f5f5;
   --gray: #4b5563;
@@ -46,6 +47,7 @@ pre code:not(.hljs) {
     --background: oklch(13% 0.028 261.692);
     --foreground: #ededed;
     --surface: oklch(18% 0.03 262);
+    --tile: oklch(21% 0.034 264.665);
     --border: oklch(27.8% 0.033 256.848);
     --light-gray: oklch(21% 0.034 264.665);
     --gray: oklch(70.7% 0.022 261.325);
@@ -76,6 +78,7 @@ pre code:not(.hljs) {
   --color-light-gray: var(--light-gray);
   --color-gray: var(--gray);
   --color-surface: var(--surface);
+  --color-tile: var(--tile);
   --color-link-color: var(--link-color);
   --color-link-color-hover: var(--link-color-hover);
   --color-accent: var(--accent);
@@ -211,7 +214,7 @@ pre code:not(.hljs) {
       0 8px 20px -10px rgba(30, 64, 120, 0.34),
       inset 0 0 0 1px rgba(255, 255, 255, 0.8);
     @variant dark {
-      background: var(--light-gray);
+      background: var(--tile);
       box-shadow:
         0 8px 20px -10px rgba(0, 0, 0, 0.6),
         inset 0 0 0 1px rgba(255, 255, 255, 0.06);
@@ -229,7 +232,7 @@ pre code:not(.hljs) {
       transform 0.3s ease,
       box-shadow 0.3s ease;
     @variant dark {
-      background: var(--light-gray);
+      background: var(--tile);
       box-shadow:
         0 10px 24px -14px rgba(0, 0, 0, 0.7),
         inset 0 0 0 1px rgba(255, 255, 255, 0.06);
