@@ -26,7 +26,7 @@ export default function SkyBackground() {
 
   return (
     <div
-      className="sky-animated pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      className="sky-animated pointer-events-none fixed inset-0 -z-10 overflow-hidden dark:hidden"
       aria-hidden="true"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-sky-300 via-sky-100 to-white" />
