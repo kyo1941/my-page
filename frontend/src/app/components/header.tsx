@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ROUTES } from "@/app/routes";
+import ThemeToggle from "./ThemeToggle";
 
 const baseNavLink = `
   relative
@@ -79,31 +80,34 @@ export default function Header() {
           >
             kyo1941
           </Link>
-          <nav className="hidden md:flex">
-            <ul className="flex gap-8 text-base font-semibold">
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  <Link
-                    href={item.link}
-                    className={`no-underline ${isActivePath(pathname, item.link) ? activeUnderline : animatedUnderline}`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          {/* Hamburger button (open only) */}
-          <button
-            className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8"
-            onClick={() => setIsOpen(true)}
-            aria-label="メニューを開く"
-            aria-expanded={isOpen}
-          >
-            <span className="block h-0.5 w-full bg-gray-900" />
-            <span className="block h-0.5 w-full bg-gray-900" />
-            <span className="block h-0.5 w-full bg-gray-900" />
-          </button>
+          <div className="flex items-center gap-4 md:gap-8">
+            <nav className="hidden md:flex">
+              <ul className="flex gap-8 text-base font-semibold">
+                {navItems.map((item) => (
+                  <li key={item.id}>
+                    <Link
+                      href={item.link}
+                      className={`no-underline ${isActivePath(pathname, item.link) ? activeUnderline : animatedUnderline}`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <ThemeToggle />
+            {/* Hamburger button (open only) */}
+            <button
+              className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8"
+              onClick={() => setIsOpen(true)}
+              aria-label="メニューを開く"
+              aria-expanded={isOpen}
+            >
+              <span className="block h-0.5 w-full bg-gray-900" />
+              <span className="block h-0.5 w-full bg-gray-900" />
+              <span className="block h-0.5 w-full bg-gray-900" />
+            </button>
+          </div>
         </div>
       </header>
 
