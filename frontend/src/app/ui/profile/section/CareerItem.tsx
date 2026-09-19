@@ -29,7 +29,7 @@ export default function CareerItem({
             block: "center",
           })
         }
-        className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-10 cursor-pointer transition-all duration-200 hover:bg-white hover:ring-black"
+        className="absolute flex w-3 h-3 bg-black rounded-full -left-1.5 ring-2 ring-white translate-y-10 cursor-pointer transition-all duration-200 hover:bg-white hover:ring-black dark:bg-white dark:ring-background dark:hover:bg-background dark:hover:ring-white"
       />
 
       {/* 内部の company リンクやタスク内リンクは stopPropagation して衝突を避ける */}
@@ -44,13 +44,13 @@ export default function CareerItem({
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="hover:text-blue-700 hover:underline"
+              className="hover:text-link-color-hover hover:underline"
             >
               {company}
             </a>
           </h3>
           {isCurrent && (
-            <span className="bg-blue-100 text-blue-800 text-sm font-medium ml-3 px-2.5 py-0.5 rounded-full">
+            <span className="bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200 text-sm font-medium ml-3 px-2.5 py-0.5 rounded-full">
               Now
             </span>
           )}
@@ -84,7 +84,7 @@ export default function CareerItem({
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-blue-600 hover:underline break-all"
+                            className="text-link-color hover:underline break-all"
                           >
                             {sub}
                           </a>
@@ -124,7 +124,7 @@ export default function CareerItem({
           className="absolute inset-x-0 bottom-2 flex justify-center"
         >
           <ChevronIcon
-            className={`h-5 w-5 text-sky-700/30 transition duration-200 group-hover:text-sky-700/50 ${isOpen ? "rotate-180" : ""}`}
+            className={`h-5 w-5 text-accent/30 transition duration-200 group-hover:text-accent/50 ${isOpen ? "rotate-180" : ""}`}
           />
         </button>
       </div>
