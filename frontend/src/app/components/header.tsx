@@ -72,7 +72,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 w-full border-b border-white/40 bg-white/35 backdrop-blur-lg shadow-[0_4px_20px_-8px_rgba(30,64,120,0.25)] font-sans z-30">
+      <header className="sticky top-0 w-full border-b border-surface/40 bg-surface/35 backdrop-blur-lg shadow-[0_4px_20px_-8px_rgba(30,64,120,0.25)] font-sans z-30">
         <div className="max-w-4xl w-full mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href={ROUTES.HOME}
@@ -121,7 +121,7 @@ export default function Header() {
 
       {/* Side drawer */}
       <div
-        className={`md:hidden fixed top-0 right-0 h-full w-64 bg-white/55 backdrop-blur-md shadow-xl z-50 transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`md:hidden fixed top-0 right-0 h-full w-64 bg-surface/55 backdrop-blur-md shadow-xl z-50 transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Close button */}
         <div className="flex justify-end px-4 py-4">
