@@ -53,7 +53,7 @@ export function MarkdownDetailPage({
 
         <div className="text-gray-600 mb-8">{data.date}</div>
 
-        <div className="prose prose-lg max-w-none">
+        <div className="prose prose-lg max-w-none dark:prose-invert">
           <MarkdownRenderer content={data.content} ogpData={ogpData} />
         </div>
       </article>

@@ -1,15 +1,11 @@
 "use client";
 
 import { FiMoon, FiSun } from "react-icons/fi";
-import { CHOSEN_THEME_STORAGE_KEY, type Theme } from "@/app/utils/chosenTheme";
-
-function displayedTheme(): Theme {
-  const chosen = document.documentElement.dataset.theme;
-  if (chosen === "light" || chosen === "dark") return chosen;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
+import {
+  CHOSEN_THEME_STORAGE_KEY,
+  displayedTheme,
+  type Theme,
+} from "@/app/utils/chosenTheme";
 
 export default function ThemeToggle() {
   const toggleTheme = () => {

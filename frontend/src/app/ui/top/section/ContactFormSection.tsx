@@ -2,6 +2,7 @@
 
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useContactFormTop } from "@/app/hooks/top/useContactFormTop";
+import { useDisplayedTheme } from "@/app/hooks/useDisplayedTheme";
 
 export default function ContactForm() {
   // サイトキーを事前チェックする
@@ -53,6 +54,7 @@ function fieldClassName(hasError: boolean) {
 
 function ContactFormContents({ siteKey }: { siteKey: string }) {
   const { form, validation, turnstile, submit, handlers } = useContactFormTop();
+  const theme = useDisplayedTheme();
 
   return (
     <div>
@@ -128,6 +130,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             onSuccess={turnstile.handleTurnstileSuccess}
             onError={turnstile.handleTurnstileError}
             onExpire={turnstile.handleTurnstileExpire}
+            options={{ theme: theme ?? "auto" }}
           />
         </div>
         {turnstile.turnstileError && (
