@@ -8,13 +8,54 @@ pre code:not(.hljs) {
 }
 @plugin '@tailwindcss/typography';
 
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(
+      :root:not([data-theme="light"]),
+      :root:not([data-theme="light"]) *
+    ) {
+      @slot;
+    }
+  }
+}
+
 :root {
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
   --border: #e5e7eb;
   --light-gray: #f5f5f5;
   --gray: #4b5563;
   --link-color: #2563eb;
+}
+
+/* 
+ * 手動の切り替えは保存せず、開くたびにOS設定へ戻す仕様のため、初期表示はOS設定だけで決め、切り替え時はdata-themeでOS設定を上書きする。
+ * CSSではこの2つの条件を1つのセレクタにまとめられないので、同じ値を2箇所に置いている。
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --border: #262626;
+    --light-gray: #171717;
+    --gray: #a3a3a3;
+    --link-color: #60a5fa;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --border: #262626;
+  --light-gray: #171717;
+  --gray: #a3a3a3;
+  --link-color: #60a5fa;
 }
 
 @theme inline {
@@ -94,13 +135,6 @@ pre code:not(.hljs) {
   .sky-animated .sky-fly,
   .sky-animated .sky-bob {
     animation: none !important;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
   }
 }
 
@@ -204,6 +238,7 @@ pre code:not(.hljs) {
 
 html {
   scrollbar-gutter: stable;
+  background: var(--background);
 }
 
 body {
