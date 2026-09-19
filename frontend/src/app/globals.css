@@ -32,6 +32,9 @@ pre code:not(.hljs) {
   --gray: #4b5563;
   --link-color: var(--color-blue-600);
   --link-color-hover: var(--color-blue-700);
+  --accent: var(--color-sky-700);
+  --accent-hover: var(--color-sky-900);
+  --accent-tint: var(--color-sky-100);
 
   /*
    * 既存画面のライトの見た目を変えずにダークへ対応させるため、
@@ -48,6 +51,9 @@ pre code:not(.hljs) {
     --gray: oklch(70.7% 0.022 261.325);
     --link-color: var(--color-blue-400);
     --link-color-hover: var(--color-blue-300);
+    --accent: var(--color-sky-300);
+    --accent-hover: var(--color-sky-100);
+    --accent-tint: var(--color-sky-900);
 
     --color-gray-50: oklch(21% 0.034 264.665);
     --color-gray-100: oklch(27.8% 0.033 256.848);
@@ -72,6 +78,9 @@ pre code:not(.hljs) {
   --color-surface: var(--surface);
   --color-link-color: var(--link-color);
   --color-link-color-hover: var(--link-color-hover);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-tint: var(--accent-tint);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

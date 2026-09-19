@@ -23,7 +23,7 @@ export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
         </h3>
         <Link
           href={ROUTES.BLOG}
-          className="text-on-sky-subtle font-mono text-sm text-sky-700 transition-colors hover:text-sky-900"
+          className="text-on-sky-subtle font-mono text-sm text-accent transition-colors hover:text-accent-hover"
         >
           一覧へ →
         </Link>
@@ -39,9 +39,9 @@ export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
             href={`${ROUTES.BLOG}/${featured.slug}`}
             className={`${cardBase} ${featuredSpan(rest.length)} flex min-h-64 flex-col justify-end p-8`}
           >
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-sky-100/70 to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-accent-tint/70 to-transparent" />
             <div className="relative">
-              <p className="font-mono text-[0.7rem] uppercase tracking-widest text-sky-700/80">
+              <p className="font-mono text-[0.7rem] uppercase tracking-widest text-accent/80">
                 最新記事
               </p>
               <h4 className="mt-2 line-clamp-2 text-2xl font-bold leading-snug text-gray-900">
@@ -53,7 +53,7 @@ export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
               <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-gray-700">
                 {featured.description}
               </p>
-              <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-sky-700">
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent">
                 続きを読む
                 <span className="transition-transform duration-300 group-hover/card:translate-x-1">
                   ✈
@@ -77,7 +77,7 @@ export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
               <p className="mt-2 line-clamp-2 flex-grow text-sm text-gray-700">
                 {blog.description}
               </p>
-              <span className="mt-3 self-end text-sm text-sky-700 transition-transform duration-300 group-hover/card:translate-x-1">
+              <span className="mt-3 self-end text-sm text-accent transition-transform duration-300 group-hover/card:translate-x-1">
                 ✈
               </span>
             </Link>

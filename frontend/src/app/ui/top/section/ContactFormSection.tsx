@@ -27,7 +27,7 @@ export default function ContactForm() {
           <h2 className="text-on-sky-subtle text-3xl font-bold mb-14 text-gray-900">
             お問い合わせ
           </h2>
-          <div className="bg-white p-4 border-2 border-red-500 text-red-500">
+          <div className="bg-surface p-4 border-2 border-red-500 text-red-500 dark:text-red-400">
             <p className="font-bold text-lg">開発者向けエラー:</p>
             <p>
               NEXT_PUBLIC_TURNSTILE_SITE_KEY が設定されていません。.env.local
@@ -47,7 +47,7 @@ const labelClassName =
   "text-on-sky-subtle block text-sm font-medium text-gray-700 mb-2";
 
 function fieldClassName(hasError: boolean) {
-  return `w-full px-3 py-2 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+  return `w-full px-3 py-2 border rounded-md bg-surface shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
     hasError ? "border-red-500" : "border-gray-300"
   }`;
 }
@@ -77,7 +77,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             placeholder="your-email@example.com"
           />
           {validation.validationErrors.email && (
-            <p className="mt-1 text-sm text-red-600">
+            <p className="mt-1 text-sm text-red-600 dark:text-red-400">
               {validation.validationErrors.email}
             </p>
           )}
@@ -97,7 +97,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             placeholder="お問い合わせの件名"
           />
           {validation.validationErrors.subject && (
-            <p className="mt-1 text-sm text-red-600">
+            <p className="mt-1 text-sm text-red-600 dark:text-red-400">
               {validation.validationErrors.subject}
             </p>
           )}
@@ -117,7 +117,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             placeholder="お問い合わせ内容をご記入ください"
           />
           {validation.validationErrors.message && (
-            <p className="mt-1 text-sm text-red-600">
+            <p className="mt-1 text-sm text-red-600 dark:text-red-400">
               {validation.validationErrors.message}
             </p>
           )}
@@ -134,17 +134,17 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
           />
         </div>
         {turnstile.turnstileError && (
-          <p className="mt-2 text-sm text-red-600 text-center">
+          <p className="mt-2 text-sm text-red-600 dark:text-red-400 text-center">
             {turnstile.turnstileError}
           </p>
         )}
 
         {submit.submitStatus === "success" && submit.showStatus && (
-          <div className="flex items-start justify-between p-4 bg-green-100 border border-green-400 text-green-700 rounded-md w-fit mx-auto max-w-full">
+          <div className="flex items-start justify-between p-4 bg-green-100 border border-green-400 text-green-700 dark:bg-green-950/60 dark:border-green-700 dark:text-green-300 rounded-md w-fit mx-auto max-w-full">
             <p>メッセージが正常に送信されました。ありがとうございます！</p>
             <button
               type="button"
-              className="ml-4 -mt-3 text-3xl text-green-700 hover:text-green-900"
+              className="ml-4 -mt-3 text-3xl text-green-700 hover:text-green-900 dark:text-green-300 dark:hover:text-green-100"
               onClick={() => submit.setShowStatus(false)}
               aria-label="閉じる"
             >
@@ -154,11 +154,11 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
         )}
 
         {submit.submitStatus === "error" && submit.showStatus && (
-          <div className="flex items-start justify-between p-4 bg-red-100 border border-red-400 text-red-700 rounded-md w-fit mx-auto max-w-full">
+          <div className="flex items-start justify-between p-4 bg-red-100 border border-red-400 text-red-700 dark:bg-red-950/60 dark:border-red-700 dark:text-red-300 rounded-md w-fit mx-auto max-w-full">
             <p>送信中にエラーが発生しました。もう一度お試しください。</p>
             <button
               type="button"
-              className="ml-4 -mt-3 text-3xl text-red-700 hover:text-red-900"
+              className="ml-4 -mt-3 text-3xl text-red-700 hover:text-red-900 dark:text-red-300 dark:hover:text-red-100"
               onClick={() => submit.setShowStatus(false)}
               aria-label="閉じる"
             >
@@ -174,7 +174,7 @@ function ContactFormContents({ siteKey }: { siteKey: string }) {
             className={`px-8 py-3 rounded-md font-medium text-white transition-colors ${
               submit.isSubmitting
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                : "bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-background"
             }`}
           >
             {submit.isSubmitting ? "送信中..." : "メッセージを送信"}

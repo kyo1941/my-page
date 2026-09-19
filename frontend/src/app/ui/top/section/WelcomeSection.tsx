@@ -9,7 +9,7 @@ export default function WelcomeSection() {
       <ProfileTeaser />
 
       <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center">
-        <ChevronIcon className="h-6 w-6 text-sky-700/50 motion-safe:animate-bounce" />
+        <ChevronIcon className="h-6 w-6 text-accent/50 motion-safe:animate-bounce" />
       </div>
     </section>
   );
