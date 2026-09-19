@@ -61,7 +61,7 @@ export function AdminDocForm({
     <div className="container mx-auto p-8">
       <h1 className="mb-6 text-3xl font-bold">{heading}</h1>
       {restoreMessage && (
-        <p className="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+        <p className="mb-4 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700 dark:border-green-800 dark:bg-green-950/60 dark:text-green-300">
           {restoreMessage}
         </p>
       )}

@@ -38,7 +38,7 @@ export default function AdminTagOrderPage() {
         axis="y"
         values={orderedTags}
         onReorder={setOrderedTags}
-        className="mb-6 overflow-hidden rounded border bg-white shadow"
+        className="mb-6 overflow-hidden rounded border bg-surface shadow"
       >
         {orderedTags.map((tag, i) => (
           <Reorder.Item
