@@ -98,7 +98,7 @@ export default function AdminTagTab({
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full overflow-hidden rounded-lg bg-white shadow-md">
+        <table className="min-w-full overflow-hidden rounded-lg bg-surface shadow-md">
           <thead className="bg-gray-200 text-gray-700">
             <tr>
               <th className="px-4 py-3 text-left">順番</th>
@@ -109,7 +109,7 @@ export default function AdminTagTab({
                   <button
                     type="button"
                     onClick={() => router.push("/admin/tags/order")}
-                    className="ml-auto text-sm font-semibold text-blue-500 hover:text-blue-700"
+                    className="ml-auto text-sm font-semibold text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                   >
                     順番を変更
                   </button>
@@ -145,7 +145,7 @@ export default function AdminTagTab({
                     <>
                       <button
                         onClick={() => handleEditSave(tag.id)}
-                        className="mr-2 text-blue-500 hover:text-blue-700"
+                        className="mr-2 text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                         disabled={isLoading}
                       >
                         保存
@@ -161,13 +161,13 @@ export default function AdminTagTab({
                     <>
                       <button
                         onClick={() => handleEditStart(tag)}
-                        className="mr-2 text-blue-500 hover:text-blue-700"
+                        className="mr-2 text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                       >
                         編集
                       </button>
                       <button
                         onClick={() => onDelete(tag.id)}
-                        className="ml-2 text-red-500 hover:text-red-700"
+                        className="ml-2 text-red-500 hover:text-red-700 dark:hover:text-red-400"
                         disabled={isLoading}
                       >
                         削除

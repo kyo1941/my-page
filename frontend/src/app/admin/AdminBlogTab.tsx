@@ -19,7 +19,7 @@ export default function AdminBlogTab({ blogs, isLoading, onDelete }: Props) {
         </Link>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full overflow-hidden rounded-lg bg-white shadow-md">
+        <table className="min-w-full overflow-hidden rounded-lg bg-surface shadow-md">
           <thead className="bg-gray-200 text-gray-700">
             <tr>
               <th className="px-4 py-3 text-left">Title</th>
@@ -44,13 +44,13 @@ export default function AdminBlogTab({ blogs, isLoading, onDelete }: Props) {
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/blog/edit/${blog.slug}`}
-                    className="mr-2 text-blue-500 hover:text-blue-700"
+                    className="mr-2 text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                   >
                     編集
                   </Link>
                   <button
                     onClick={() => onDelete(blog.slug)}
-                    className="ml-2 text-red-500 hover:text-red-700"
+                    className="ml-2 text-red-500 hover:text-red-700 dark:hover:text-red-400"
                     disabled={isLoading}
                   >
                     削除

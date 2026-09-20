@@ -21,7 +21,7 @@ export default function BackButton({ fallbackPath }: BackButtonProps) {
     <button
       type="button"
       onClick={handleBack}
-      className="text-base text-blue-600 hover:text-blue-700 hover:underline"
+      className="text-base text-link-color hover:text-link-color-hover hover:underline"
     >
       &lt; 戻る
     </button>

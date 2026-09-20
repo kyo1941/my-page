@@ -25,15 +25,15 @@ export function CodeBlock({ language, children }: Props) {
   }, [copied]);
 
   return (
-    <div className="my-4 rounded-md overflow-hidden border border-gray-700">
-      <div className="flex items-center justify-between px-4 py-1.5 bg-[#161b22] border-b border-gray-700">
-        <span className="text-xs text-gray-400 font-mono">
+    <div className="my-4 rounded-md overflow-hidden border border-code-frame">
+      <div className="flex items-center justify-between px-4 py-1.5 bg-[#161b22] border-b border-code-frame">
+        <span className="text-xs text-code-caption font-mono">
           {language ?? ""}
         </span>
         <button
           type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-100 transition-colors cursor-pointer select-none"
+          className="flex items-center gap-1 text-xs text-code-caption hover:text-code-caption-hover transition-colors cursor-pointer select-none"
         >
           {copied ? (
             <>

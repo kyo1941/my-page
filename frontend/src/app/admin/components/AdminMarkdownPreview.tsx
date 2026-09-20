@@ -14,8 +14,8 @@ export function AdminMarkdownPreview({ content }: AdminMarkdownPreviewProps) {
   return (
     <div>
       <h2 className="mb-4 text-xl font-bold">プレビュー</h2>
-      <aside className="self-start rounded border bg-white p-6 shadow lg:sticky lg:top-8 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
-        <div className="prose max-w-none">
+      <aside className="self-start rounded border bg-surface p-6 shadow lg:sticky lg:top-8 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
+        <div className="prose max-w-none dark:prose-invert">
           {hasContent ? (
             <MarkdownRenderer content={content} ogpData={ogpData} />
           ) : (

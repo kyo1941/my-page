@@ -30,13 +30,13 @@ export default function PortfolioListSection({
                   sizes="(min-width: 768px) 33vw, 100vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 hidden bg-gradient-to-r from-transparent via-white/20 to-white/80 md:block" />
+                <div className="absolute inset-0 hidden bg-gradient-to-r from-transparent via-tile/20 to-tile/80 md:block" />
               </div>
             )}
             <div
               className={`${portfolio.coverImage ? "md:w-2/3" : "md:w-full"} flex w-full flex-col p-6`}
             >
-              <h4 className="mb-2 text-xl font-semibold text-gray-900 transition-colors group-hover/card:text-sky-700">
+              <h4 className="mb-2 text-xl font-semibold text-gray-900 transition-colors group-hover/card:text-accent">
                 {portfolio.title}
               </h4>
               <p className="mb-4 font-mono text-xs tracking-wider text-gray-500">
@@ -45,7 +45,7 @@ export default function PortfolioListSection({
               <p className="mb-4 flex-grow text-base text-gray-700">
                 {portfolio.description}
               </p>
-              <span className="mt-auto inline-flex items-center gap-2 self-end text-sm font-medium text-sky-700">
+              <span className="mt-auto inline-flex items-center gap-2 self-end text-sm font-medium text-accent">
                 詳細を見る
                 <span
                   aria-hidden="true"

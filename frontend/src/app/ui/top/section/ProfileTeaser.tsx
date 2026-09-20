@@ -24,7 +24,7 @@ export default function ProfileTeaser() {
           <div>
             <Link
               href={ROUTES.PROFILE}
-              className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
+              className="text-sm text-link-color hover:text-link-color-hover hover:underline"
             >
               詳しくはこちら
             </Link>
@@ -37,7 +37,7 @@ export default function ProfileTeaser() {
               className="inline-block hover:opacity-70 transition-opacity"
             >
               <Image
-                className="object-cover"
+                className="object-cover dark:invert"
                 src="/github-icon.svg"
                 alt="github icon"
                 width={32}
@@ -52,7 +52,7 @@ export default function ProfileTeaser() {
               className="inline-block hover:opacity-70 transition-opacity"
             >
               <Image
-                className="object-cover"
+                className="object-cover dark:invert"
                 src="/zenn-icon.svg"
                 alt="zenn icon"
                 width={32}
