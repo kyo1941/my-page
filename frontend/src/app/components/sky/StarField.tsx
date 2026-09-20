@@ -1,13 +1,19 @@
-import { stars } from "./skyConfig";
+import { STAR_COUNTS, stars } from "./skyConfig";
+
+function widthClass(index: number): string {
+  if (index < STAR_COUNTS.narrow) return "";
+  if (index < STAR_COUNTS.medium) return "hidden md:block";
+  return "hidden lg:block";
+}
 
 /** テーマ共通の空に、ダークモード時だけ控えめな星明かりを重ねる。 */
 export default function StarField() {
   return (
     <div className="sky-stars absolute inset-0" aria-hidden="true">
-      {stars.map((star) => (
+      {stars.map((star, index) => (
         <span
           key={`${star.left}-${star.top}`}
-          className={`sky-star ${star.crossed ? "sky-star-cross" : ""}`}
+          className={`sky-star ${widthClass(index)}`}
           style={{
             left: star.left,
             top: star.top,

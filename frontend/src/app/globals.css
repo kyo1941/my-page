@@ -204,27 +204,6 @@ pre code:not(.hljs) {
   animation: sky-twinkle ease-in-out infinite;
 }
 
-.sky-star-cross::before,
-.sky-star-cross::after {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  content: "";
-  border-radius: 9999px;
-  background: rgba(235, 245, 255, 0.75);
-  transform: translate(-50%, -50%);
-}
-
-.sky-star-cross::before {
-  width: 1px;
-  height: 6px;
-}
-
-.sky-star-cross::after {
-  width: 6px;
-  height: 1px;
-}
-
 .sky-celestial-light {
   background: var(--sky-celestial-light);
 }
