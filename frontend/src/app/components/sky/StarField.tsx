@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { STAR_COUNTS, stars } from "./skyConfig";
 
 function widthClass(index: number): string {
@@ -14,15 +15,17 @@ export default function StarField() {
         <span
           key={`${star.left}-${star.top}`}
           className={`sky-star ${widthClass(index)}`}
-          style={{
-            left: star.left,
-            top: star.top,
-            width: star.size,
-            height: star.size,
-            opacity: star.opacity,
-            animationDuration: `${star.twinkleDuration}s`,
-            animationDelay: `${star.delay}s`,
-          }}
+          style={
+            {
+              left: star.left,
+              top: star.top,
+              width: star.size,
+              height: star.size,
+              "--sky-star-opacity": star.opacity,
+              animationDuration: `${star.twinkleDuration}s`,
+              animationDelay: `${star.delay}s`,
+            } as CSSProperties
+          }
         />
       ))}
     </div>

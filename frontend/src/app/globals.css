@@ -162,11 +162,11 @@ pre code:not(.hljs) {
 @keyframes sky-twinkle {
   0%,
   100% {
-    opacity: 0.35;
+    opacity: calc(var(--sky-star-opacity) * 0.35);
     transform: scale(0.8);
   }
   50% {
-    opacity: 1;
+    opacity: var(--sky-star-opacity);
     transform: scale(1.2);
   }
 }
@@ -199,6 +199,7 @@ pre code:not(.hljs) {
 .sky-star {
   position: absolute;
   border-radius: 9999px;
+  opacity: var(--sky-star-opacity);
   background: #f5f9ff;
   box-shadow: 0 0 5px rgba(207, 228, 255, 0.8);
   animation: sky-twinkle ease-in-out infinite;
