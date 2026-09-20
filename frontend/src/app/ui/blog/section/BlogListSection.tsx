@@ -37,7 +37,7 @@ export default function BlogListSection({
                   {blog.description}
                 </p>
               </div>
-              <span className="mt-4 inline-flex items-center gap-2 self-start text-sm font-medium text-sky-700">
+              <span className="mt-4 inline-flex items-center gap-2 self-start text-sm font-medium text-accent">
                 続きを読む
                 <span className="transition-transform duration-300 group-hover/card:translate-x-1">
                   ✈

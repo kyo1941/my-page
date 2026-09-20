@@ -8,13 +8,67 @@ pre code:not(.hljs) {
 }
 @plugin '@tailwindcss/typography';
 
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(
+      :root:not([data-theme="light"]),
+      :root:not([data-theme="light"]) *
+    ) {
+      @slot;
+    }
+  }
+}
+
 :root {
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
+  --surface: #ffffff;
+  --tile: #ffffff;
   --border: #e5e7eb;
   --light-gray: #f5f5f5;
   --gray: #4b5563;
-  --link-color: #2563eb;
+  --link-color: var(--color-blue-600);
+  --link-color-hover: var(--color-blue-700);
+  --accent: var(--color-sky-700);
+  --accent-hover: var(--color-sky-900);
+  --accent-tint: var(--color-sky-100);
+
+  /*
+   * 既存画面のライトの見た目を変えずにダークへ対応させるため、
+   * ダークではgrayの段階を明暗反転させて、gray-900を明るい文字色として読ませている。
+   * 地の明暗に関係なく暗い色でいてほしい部品は、grayではなく固定の色を使うこと。
+   */
+  @variant dark {
+    color-scheme: dark;
+    --background: oklch(13% 0.028 261.692);
+    --foreground: #ededed;
+    --surface: oklch(18% 0.03 262);
+    --tile: oklch(21% 0.034 264.665);
+    --border: oklch(27.8% 0.033 256.848);
+    --light-gray: oklch(21% 0.034 264.665);
+    --gray: oklch(70.7% 0.022 261.325);
+    --link-color: var(--color-blue-400);
+    --link-color-hover: var(--color-blue-300);
+    --accent: var(--color-sky-300);
+    --accent-hover: var(--color-sky-100);
+    --accent-tint: var(--color-sky-900);
+
+    --color-gray-50: oklch(21% 0.034 264.665);
+    --color-gray-100: oklch(27.8% 0.033 256.848);
+    --color-gray-200: oklch(37.3% 0.034 259.733);
+    --color-gray-300: oklch(44.6% 0.03 256.802);
+    --color-gray-400: oklch(55.1% 0.027 264.364);
+    --color-gray-500: oklch(70.7% 0.022 261.325);
+    --color-gray-600: oklch(87.2% 0.01 258.338);
+    --color-gray-700: oklch(92.8% 0.006 264.531);
+    --color-gray-800: oklch(96.7% 0.003 264.542);
+    --color-gray-900: oklch(98.5% 0.002 247.839);
+    --color-gray-950: #ffffff;
+  }
 }
 
 @theme inline {
@@ -23,13 +77,22 @@ pre code:not(.hljs) {
   --color-border: var(--border);
   --color-light-gray: var(--light-gray);
   --color-gray: var(--gray);
+  --color-surface: var(--surface);
+  --color-tile: var(--tile);
   --color-link-color: var(--link-color);
+  --color-link-color-hover: var(--link-color-hover);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-tint: var(--accent-tint);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @theme {
   --animate-blink: blink 0.8s infinite;
+  --color-code-frame: oklch(37.3% 0.034 259.733);
+  --color-code-caption: oklch(70.7% 0.022 261.325);
+  --color-code-caption-hover: oklch(96.7% 0.003 264.542);
 }
 
 @keyframes blink {
@@ -97,13 +160,6 @@ pre code:not(.hljs) {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 .prose details.toggle {
   border-left: 2px solid var(--border);
   padding-left: 1rem;
@@ -143,6 +199,10 @@ pre code:not(.hljs) {
     border-radius: 2rem;
     background: rgba(255, 255, 255, 0.78);
     border: 1px solid rgba(186, 214, 255, 0.4);
+    @variant dark {
+      background: color-mix(in oklab, var(--surface) 78%, transparent);
+      border-color: var(--border);
+    }
   }
 
   /* 静的なアイテムカード（クリック不可）。クリック可能カードより明確に弱い影にとどめ、
@@ -153,6 +213,12 @@ pre code:not(.hljs) {
     box-shadow:
       0 8px 20px -10px rgba(30, 64, 120, 0.34),
       inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    @variant dark {
+      background: var(--tile);
+      box-shadow:
+        0 8px 20px -10px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
   }
 
   /* クリック可能なアイテムカード。落ち影と浮き上がるホバーでクリックできることを示す。 */
@@ -165,12 +231,23 @@ pre code:not(.hljs) {
     transition:
       transform 0.3s ease,
       box-shadow 0.3s ease;
+    @variant dark {
+      background: var(--tile);
+      box-shadow:
+        0 10px 24px -14px rgba(0, 0, 0, 0.7),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
   }
   .sky-tile-link:hover {
     transform: translateY(-0.35rem);
     box-shadow:
       0 22px 44px -16px rgba(30, 64, 120, 0.5),
       inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+    @variant dark {
+      box-shadow:
+        0 22px 44px -16px rgba(0, 0, 0, 0.8),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
   }
 
   /* 折りたたみプレビューの下半分を透明にじませ、続きがあることを示す */
@@ -185,11 +262,17 @@ pre code:not(.hljs) {
       0 1px 3px rgba(255, 255, 255, 0.9),
       0 2px 10px rgba(255, 255, 255, 0.85),
       0 6px 22px rgba(186, 214, 255, 0.4);
+    @variant dark {
+      text-shadow: none;
+    }
   }
 
   /* 見出し用。太字で元々視認性が高いため、ごく薄い縁取りにとどめる */
   .text-on-sky-subtle {
     text-shadow: 0 3px 6px rgba(255, 255, 255, 0.45);
+    @variant dark {
+      text-shadow: none;
+    }
   }
 }
 
@@ -204,6 +287,7 @@ pre code:not(.hljs) {
 
 html {
   scrollbar-gutter: stable;
+  background: var(--background);
 }
 
 body {

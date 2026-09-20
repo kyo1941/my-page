@@ -35,7 +35,7 @@ export default function TagSearchSection() {
               className={`px-4 py-2 rounded-full border shadow-sm transition-colors duration-300 ${
                 selectedTags.includes(tag)
                   ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                  : "bg-surface text-gray-700 border-gray-300 hover:bg-gray-50"
               }`}
             >
               {tag}

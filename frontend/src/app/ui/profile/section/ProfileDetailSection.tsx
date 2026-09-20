@@ -7,7 +7,7 @@ export default function ProfileDetailSection() {
 
   return (
     <div>
-      <div className="text-on-sky prose max-w-none prose-lg">
+      <div className="text-on-sky prose max-w-none prose-lg dark:prose-invert">
         <ul className="text-gray-800 leading-relaxed mb-6">
           <li className="my-1">{profile.birthplace}</li>
           <li className="my-1">
