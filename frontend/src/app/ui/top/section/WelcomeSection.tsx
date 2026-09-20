@@ -1,6 +1,6 @@
+import { FiChevronDown } from "react-icons/fi";
 import Greeting from "./Greeting";
 import ProfileTeaser from "./ProfileTeaser";
-import ChevronIcon from "@/app/components/ChevronIcon";
 
 export default function WelcomeSection() {
   return (
@@ -9,7 +9,10 @@ export default function WelcomeSection() {
       <ProfileTeaser />
 
       <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center">
-        <ChevronIcon className="h-6 w-6 text-accent/50 motion-safe:animate-bounce" />
+        <FiChevronDown
+          aria-hidden
+          className="h-6 w-6 text-accent/50 motion-safe:animate-bounce"
+        />
       </div>
     </section>
   );
