@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FiMenu, FiX } from "react-icons/fi";
 import { ROUTES } from "@/app/routes";
 import ThemeToggle from "./ThemeToggle";
 
@@ -98,14 +99,12 @@ export default function Header() {
             <ThemeToggle />
             {/* Hamburger button (open only) */}
             <button
-              className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8"
+              className="md:hidden flex items-center justify-center w-8 h-8 text-gray-900"
               onClick={() => setIsOpen(true)}
               aria-label="メニューを開く"
               aria-expanded={isOpen}
             >
-              <span className="block h-0.5 w-full bg-gray-900" />
-              <span className="block h-0.5 w-full bg-gray-900" />
-              <span className="block h-0.5 w-full bg-gray-900" />
+              <FiMenu className="h-6 w-6" />
             </button>
           </div>
         </div>
@@ -128,11 +127,9 @@ export default function Header() {
           <button
             onClick={closeMenu}
             aria-label="メニューを閉じる"
-            className="flex flex-col justify-center gap-1.5 w-8 h-8"
+            className="flex items-center justify-center w-8 h-8 text-gray-900"
           >
-            <span className="block h-0.5 w-full bg-gray-900 rotate-45 translate-y-2" />
-            <span className="block h-0.5 w-full bg-gray-900 opacity-0" />
-            <span className="block h-0.5 w-full bg-gray-900 -rotate-45 -translate-y-2" />
+            <FiX className="h-6 w-6" />
           </button>
         </div>
         <ul className="flex flex-col">
