@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
 import { Blog } from "@/app/repository/blogRepository";
 import { ROUTES } from "@/app/routes";
 
@@ -23,9 +24,10 @@ export default function BlogListSection({ blogs }: { blogs: Blog[] }) {
         </h3>
         <Link
           href={ROUTES.BLOG}
-          className="text-on-sky-subtle font-mono text-sm text-accent transition-colors hover:text-accent-hover"
+          className="text-on-sky-subtle inline-flex items-center gap-1 font-mono text-sm text-accent transition-colors hover:text-accent-hover"
         >
-          一覧へ →
+          一覧へ
+          <FiArrowRight aria-hidden className="h-4 w-4" />
         </Link>
       </div>
 

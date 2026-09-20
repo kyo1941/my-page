@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { FaGithub } from "react-icons/fa";
+import { SiZenn } from "react-icons/si";
 import { ROUTES, EXTERNAL_LINKS } from "@/app/routes";
 
 export default function ProfileTeaser() {
@@ -34,30 +36,21 @@ export default function ProfileTeaser() {
               href={EXTERNAL_LINKS.GITHUB}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="GitHub"
               className="inline-block hover:opacity-70 transition-opacity"
             >
-              <Image
-                className="object-cover dark:invert"
-                src="/github-icon.svg"
-                alt="github icon"
-                width={32}
-                height={32}
-              />
+              <FaGithub aria-hidden className="h-8 w-8 text-gray-900" />
             </Link>
 
             <Link
               href={EXTERNAL_LINKS.ZENN}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Zenn"
               className="inline-block hover:opacity-70 transition-opacity"
             >
-              <Image
-                className="object-cover dark:invert"
-                src="/zenn-icon.svg"
-                alt="zenn icon"
-                width={32}
-                height={32}
-              />
+              {/* Zennの絵は箱いっぱいに描かれているため、同じ寸法だとGitHubより大きく見える */}
+              <SiZenn aria-hidden className="h-7 w-7 text-gray-900" />
             </Link>
           </div>
         </div>

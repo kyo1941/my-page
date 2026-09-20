@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { FiChevronLeft } from "react-icons/fi";
 
 type BackButtonProps = {
   fallbackPath: string;
@@ -21,9 +22,10 @@ export default function BackButton({ fallbackPath }: BackButtonProps) {
     <button
       type="button"
       onClick={handleBack}
-      className="text-base text-link-color hover:text-link-color-hover hover:underline"
+      className="inline-flex items-center text-base text-link-color hover:text-link-color-hover hover:underline"
     >
-      &lt; 戻る
+      <FiChevronLeft aria-hidden className="h-4 w-4" />
+      戻る
     </button>
   );
 }

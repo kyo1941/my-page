@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { FiChevronDown } from "react-icons/fi";
 import { Career } from "@/app/data/careerData";
-import ChevronIcon from "@/app/components/ChevronIcon";
 
 type Props = Career & { isCurrent: boolean };
 
@@ -123,7 +123,8 @@ export default function CareerItem({
           aria-label={isOpen ? "詳細を閉じる" : "詳細を開く"}
           className="absolute inset-x-0 bottom-2 flex justify-center"
         >
-          <ChevronIcon
+          <FiChevronDown
+            aria-hidden
             className={`h-5 w-5 text-accent/30 transition duration-200 group-hover:text-accent/50 ${isOpen ? "rotate-180" : ""}`}
           />
         </button>
