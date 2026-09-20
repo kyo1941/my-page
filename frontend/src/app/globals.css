@@ -36,6 +36,18 @@ pre code:not(.hljs) {
   --accent: var(--color-sky-700);
   --accent-hover: var(--color-sky-900);
   --accent-tint: var(--color-sky-100);
+  --sky-top: var(--color-sky-300);
+  --sky-middle: var(--color-sky-100);
+  --sky-bottom: #ffffff;
+  --sky-cloud-highlight: #ffffff;
+  --sky-cloud-body: #ffffff;
+  --sky-cloud-shadow: #dbe4f1;
+  --sky-haze: rgba(255, 255, 255, 0.2);
+  --sky-celestial-light: rgba(255, 255, 255, 0.5);
+  --sky-celestial-core: rgba(254, 249, 195, 0.8);
+  --airship-window-color: #bcd6f0;
+  --airship-beacon-color: #dbeafe;
+  --airship-lights-filter: none;
 
   /*
    * 既存画面のライトの見た目を変えずにダークへ対応させるため、
@@ -56,6 +68,19 @@ pre code:not(.hljs) {
     --accent: var(--color-sky-300);
     --accent-hover: var(--color-sky-100);
     --accent-tint: var(--color-sky-900);
+    --sky-top: #050b18;
+    --sky-middle: #0b203a;
+    --sky-bottom: #18334d;
+    --sky-cloud-highlight: #73869a;
+    --sky-cloud-body: #536a82;
+    --sky-cloud-shadow: #31465d;
+    --sky-haze: rgba(5, 11, 24, 0.2);
+    --sky-celestial-light: rgba(168, 198, 240, 0.24);
+    --sky-celestial-core: rgba(210, 226, 255, 0.42);
+    --airship-window-color: #ffd978;
+    --airship-beacon-color: #ff9d66;
+    --airship-lights-filter: drop-shadow(0 0 3px #ffe49a)
+      drop-shadow(0 0 7px rgba(255, 196, 90, 0.85));
 
     --color-gray-50: oklch(21% 0.034 264.665);
     --color-gray-100: oklch(27.8% 0.033 256.848);
@@ -105,7 +130,7 @@ pre code:not(.hljs) {
   }
 }
 
-/* === 青空背景アニメーション === */
+/* === 空の背景アニメーション === */
 @keyframes sky-drift {
   from {
     transform: translateX(-30vw);
@@ -134,6 +159,68 @@ pre code:not(.hljs) {
   }
 }
 
+@keyframes sky-twinkle {
+  0%,
+  100% {
+    opacity: calc(var(--sky-star-opacity) * 0.35);
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: var(--sky-star-opacity);
+    transform: scale(1.2);
+  }
+}
+
+.sky-gradient {
+  background: linear-gradient(
+    to bottom,
+    var(--sky-top),
+    var(--sky-middle) 50%,
+    var(--sky-bottom)
+  );
+}
+
+.sky-haze {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--sky-haze) 25%, transparent) 50%,
+    var(--sky-haze)
+  );
+}
+
+.sky-stars {
+  display: none;
+  @variant dark {
+    display: block;
+  }
+}
+
+.sky-star {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: var(--sky-star-opacity);
+  background: #f5f9ff;
+  box-shadow: 0 0 5px rgba(207, 228, 255, 0.8);
+  animation: sky-twinkle ease-in-out infinite;
+}
+
+.sky-celestial-light {
+  background: var(--sky-celestial-light);
+}
+
+.sky-celestial-core {
+  background: var(--sky-celestial-core);
+}
+
+.airship-art {
+  filter: drop-shadow(0 8px 11px rgba(30, 64, 120, 0.2));
+  @variant dark {
+    filter: drop-shadow(0 9px 13px rgba(0, 0, 0, 0.42)) brightness(0.78)
+      saturate(0.82);
+  }
+}
+
 .sky-drift {
   animation-name: sky-drift;
   animation-timing-function: linear;
@@ -155,7 +242,8 @@ pre code:not(.hljs) {
 @media (prefers-reduced-motion: reduce) {
   .sky-animated .sky-drift,
   .sky-animated .sky-fly,
-  .sky-animated .sky-bob {
+  .sky-animated .sky-bob,
+  .sky-animated .sky-star {
     animation: none !important;
   }
 }
@@ -256,14 +344,16 @@ pre code:not(.hljs) {
     -webkit-mask-image: linear-gradient(to bottom, #000 25%, transparent 80%);
   }
 
-  /* 青空に直接置く文字の可読性を上げるグロー影 */
+  /* 空に直接置く文字の可読性を上げるグロー影 */
   .text-on-sky {
     text-shadow:
       0 1px 3px rgba(255, 255, 255, 0.9),
       0 2px 10px rgba(255, 255, 255, 0.85),
       0 6px 22px rgba(186, 214, 255, 0.4);
     @variant dark {
-      text-shadow: none;
+      text-shadow:
+        0 1px 3px rgba(4, 10, 22, 0.9),
+        0 4px 14px rgba(4, 10, 22, 0.6);
     }
   }
 
@@ -271,7 +361,7 @@ pre code:not(.hljs) {
   .text-on-sky-subtle {
     text-shadow: 0 3px 6px rgba(255, 255, 255, 0.45);
     @variant dark {
-      text-shadow: none;
+      text-shadow: 0 3px 8px rgba(4, 10, 22, 0.65);
     }
   }
 }
@@ -291,7 +381,7 @@ html {
 }
 
 body {
-  /* 背景は固定の青空 (SkyBackground) を見せるため透過する */
+  /* 背景は固定の空 (SkyBackground) を見せるため透過する */
   background: transparent;
   color: var(--foreground);
   font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;

@@ -31,6 +31,71 @@ export type AirshipConfig = {
   dir: Direction;
 };
 
+export type StarConfig = {
+  left: string;
+  top: string;
+  size: number;
+  opacity: number;
+  twinkleDuration: number;
+  delay: number;
+};
+
+/**
+ * 画面幅ごとの星の数。同じ数でも画面が狭いほど密に見えるため、広い画面から順に足していく。
+ * 添字がそのまま表示する幅の段階になるよう、昇順で並べる。
+ */
+export const STAR_COUNTS = { narrow: 7, medium: 10, wide: 16 } as const;
+
+/** 星の配置。サーバーとクライアントで同じ結果になる必要があるため、実行ごとに変わる乱数ではなく固定シードの擬似乱数から決める。*/
+function seededRandom(seed: number): () => number {
+  let state = seed;
+  return () => {
+    state = (state * 1664525 + 1013904223) % 4294967296;
+    return state / 4294967296;
+  };
+}
+
+function round(value: number, digits: number): number {
+  const factor = 10 ** digits;
+  return Math.round(value * factor) / factor;
+}
+
+function shuffledRows(size: number, random: () => number): number[] {
+  const rows = Array.from({ length: size }, (_, row) => row);
+  for (let i = size - 1; i > 0; i -= 1) {
+    const j = Math.floor(random() * (i + 1));
+    [rows[i], rows[j]] = [rows[j], rows[i]];
+  }
+  return rows;
+}
+
+/**
+ * 星は数が少ないので、素の乱数に任せると空の一角に寄ってしまう。
+ * 幅の段階ごとに空を格子に区切り、1区画に1つずつ置いてから位置を揺らす。
+ */
+function buildStars(): StarConfig[] {
+  const random = seededRandom(19411161);
+  const additions = [
+    STAR_COUNTS.narrow,
+    STAR_COUNTS.medium - STAR_COUNTS.narrow,
+    STAR_COUNTS.wide - STAR_COUNTS.medium,
+  ];
+
+  return additions.flatMap((size) => {
+    const rows = shuffledRows(size, random);
+    return Array.from({ length: size }, (_, column) => ({
+      left: `${round(3 + ((column + random()) / size) * 94, 2)}%`,
+      top: `${round(4 + ((rows[column] + random()) / size) * 80, 2)}%`,
+      size: 1 + Math.round(random() * 2),
+      opacity: round(0.45 + random() * 0.45, 2),
+      twinkleDuration: round(4.2 + random() * 3.6, 2),
+      delay: -round(random() * 7, 2),
+    }));
+  });
+}
+
+export const stars: StarConfig[] = buildStars();
+
 export const airships: AirshipConfig[] = [
   {
     top: "13%",
