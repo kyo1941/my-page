@@ -45,8 +45,11 @@
   <!-- ゴンドラ（客室）と窓 -->
   <rect x="69" y="80" width="33" height="11" rx="5" fill="#39414f" />
   <rect x="69" y="80" width="33" height="4" rx="2" fill="rgba(0,0,0,0.25)" />
-  <rect x="74" y="84.5" width="4" height="3.5" rx="1.2" fill="#bcd6f0" />
-  <rect x="81" y="84.5" width="4" height="3.5" rx="1.2" fill="#bcd6f0" />
-  <rect x="88" y="84.5" width="4" height="3.5" rx="1.2" fill="#bcd6f0" />
-  <rect x="95" y="84.5" width="4" height="3.5" rx="1.2" fill="#bcd6f0" />
+  <g style="filter: var(--airship-lights-filter)">
+    <rect x="74" y="84.5" width="4" height="3.5" rx="1.2" fill="var(--airship-window-color)" />
+    <rect x="81" y="84.5" width="4" height="3.5" rx="1.2" fill="var(--airship-window-color)" />
+    <rect x="88" y="84.5" width="4" height="3.5" rx="1.2" fill="var(--airship-window-color)" />
+    <rect x="95" y="84.5" width="4" height="3.5" rx="1.2" fill="var(--airship-window-color)" />
+    <circle cx="104" cy="85.5" r="1.8" fill="var(--airship-beacon-color)" />
+  </g>
 </svg>

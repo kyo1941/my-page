@@ -9,7 +9,8 @@ type CloudShapeProps = {
 
 /**
  * 楕円集合を土台に、フラクタルノイズで輪郭を歪めてもこもこした積雲らしい雲を作る。
- * 上面は白、下面はわずかに青灰色。seed で形のばらつきと衝突回避 ID を決める。
+ * 配色は空のテーマ変数から受け取り、形状と動きは昼夜で共有する。
+ * seed で形のばらつきと衝突回避 ID を決める。
  */
 export default function CloudShape({ opacity, blur, seed }: CloudShapeProps) {
   // フィルタ/グラデーション ID はインスタンス間で衝突しないよう useId から導出する
@@ -28,9 +29,9 @@ export default function CloudShape({ opacity, blur, seed }: CloudShapeProps) {
       >
         <defs>
           <linearGradient id={gid} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#ffffff" />
-            <stop offset="0.66" stopColor="#ffffff" />
-            <stop offset="1" stopColor="#dbe4f1" />
+            <stop offset="0" stopColor="var(--sky-cloud-highlight)" />
+            <stop offset="0.66" stopColor="var(--sky-cloud-body)" />
+            <stop offset="1" stopColor="var(--sky-cloud-shadow)" />
           </linearGradient>
           <filter id={fid} x="-25%" y="-25%" width="150%" height="150%">
             <feTurbulence
