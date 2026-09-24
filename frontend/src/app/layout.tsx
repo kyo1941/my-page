@@ -15,12 +15,17 @@ const geistMono = Geist_Mono({
 });
 
 const SITE_NAME = "kyo1941.com";
+const SITE_DESCRIPTION =
+  "kyo1941の個人サイト。日々の出来事や開発に関する情報を発信しています。";
 
 export const metadata: Metadata = {
-  description:
-    "kyo1941の個人サイト。日々の出来事や開発に関する情報を発信しています。",
+  description: SITE_DESCRIPTION,
   openGraph: {
     title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
